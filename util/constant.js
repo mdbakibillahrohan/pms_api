@@ -26,4 +26,15 @@ module.exports = {
     COURSE: "course",
     NEWS:'news'
   },
+
+  MESSAGE: {
+    SERVER_ERROR: {
+      CONTENT: "Internal server error",
+      STATUS_CODE: 500
+    },
+    SUCCESS_GET: {
+      CONTENT: "Successfully getting data from server",
+      STATUS_CODE: 200,
+    }
+  }
 };

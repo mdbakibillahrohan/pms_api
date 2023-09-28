@@ -25,7 +25,7 @@ const getData = async (dbConfig, query, parameter) => {
   } catch (error) {
     console.dir(error);
   } finally {
-    if (pool.connected()) {
+    if (pool.connected) {
       pool.close();
     }
   }
@@ -48,7 +48,7 @@ const insertData = async (dbConfig, query, parameter) => {
   } catch (error) {
     console.dir(error);
   } finally {
-    if (pool.connected()) {
+    if (pool.connected) {
       pool.close();
     }
   }
@@ -71,7 +71,7 @@ const executeStoreProcedure = async (dbConfig, procedureName, parameter) => {
   } catch (error) {
     console.dir(error);
   } finally {
-    if (pool.connected()) {
+    if (pool.connected) {
       pool.close();
     }
   }
