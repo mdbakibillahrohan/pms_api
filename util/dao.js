@@ -8,7 +8,7 @@ const mssql = require("mssql");
  * @returns
  */
 
-const getData = async (dbConfig, query, parameter) => {
+const getData = async (dbConfig, query, parameter = []) => {
   const pool = new mssql.ConnectionPool(dbConfig);
   try {
     await pool.connect();
@@ -31,7 +31,7 @@ const getData = async (dbConfig, query, parameter) => {
   }
 };
 
-const insertData = async (dbConfig, query, parameter) => {
+const insertData = async (dbConfig, query, parameter = []) => {
   const pool = new mssql.ConnectionPool(dbConfig);
   try {
     await pool.connect();
@@ -54,7 +54,7 @@ const insertData = async (dbConfig, query, parameter) => {
   }
 };
 
-const executeStoreProcedure = async (dbConfig, procedureName, parameter) => {
+const executeStoreProcedure = async (dbConfig, procedureName, parameter = []) => {
   const pool = new mssql.ConnectionPool(dbConfig);
   try {
     await pool.connect();
@@ -76,7 +76,6 @@ const executeStoreProcedure = async (dbConfig, procedureName, parameter) => {
     }
   }
 };
-
 
 const dbConnectionChecker = async(dbConfig)=>{
     const pool = new mssql.ConnectionPool(dbConfig);

@@ -1,6 +1,7 @@
 module.exports = {
   API: {
     API_CONTEXT: "/pms/api/v1/",
+    
     LOGIN: "login",
     REGISTER: "register",
     USERINFO:'userinfo',
@@ -18,19 +19,25 @@ module.exports = {
     DASHBOARD_RUNNING_STYLE_DETAILS:'dashboard/runningStyleDetails',
 
     APPROVAL_GET:'approval/get',
+    CREATE_CHALLAN: 'approval/create-challan'
   },
   TABLE: {
     USERS: "users",
     STUDENT: "students",
     TEACHER: "teacher",
     COURSE: "course",
-    NEWS:'news'
+    NEWS:'news',
+    NEW_SEWING_CHALLAN: 'NewSewingChallan'
   },
 
   MESSAGE: {
     SERVER_ERROR: {
       CONTENT: "Internal server error",
       STATUS_CODE: 500
+    },
+    UNAUTHORIZED: {
+      CONTENT: "Unauthorized token",
+      STATUS_CODE: 401
     },
     SUCCESS_GET: {
       CONTENT: "Successfully getting data from server",

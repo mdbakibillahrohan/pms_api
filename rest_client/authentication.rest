@@ -1,0 +1,14 @@
+@API_URL = http://localhost:3000/pms/api 
+# @API_URL = http://192.168.1.160:3000/api
+
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbl9pZCI6ImFkbWluIiwicm9sZSI6ImFkbWluIiwiY29tcGFueV9vaWQiOiJDLURFTU8iLCJ0aW1lIjoiZnVuY3Rpb24gaG9va3MoKSB7XG4gICAgICAgIHJldHVybiBob29rQ2FsbGJhY2suYXBwbHkobnVsbCwgYXJndW1lbnRzKTtcbiAgICB9ZGE0YjkxMDMtZTZiMC00MDkyLWFkZWQtZWYwMzg0MzAyZDU4IiwiaWF0IjoxNjkxMzAyNzAwLCJleHAiOjE2OTEzODkxMDB9._ANL4DzuO1D-emwSzf2gmQLWjuY-myjCllRwRsAElps
+
+POST {{API_URL}}/v1/login 
+Content-Type: application/json 
+Accept: application/json 
+
+{
+    "username":"ccl1a-s4",
+    "password":"it@123"
+}
+
