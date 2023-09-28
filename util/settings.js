@@ -23,7 +23,6 @@ const dbConfig2 = {
     }
 };
 
-
 module.exports = {
 	dbConfig,
 	dbConfig2
