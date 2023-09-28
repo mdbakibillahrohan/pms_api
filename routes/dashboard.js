@@ -1,20 +1,18 @@
 const express = require("express");
 const dashboardRouter = express.Router();
 const { API } = require("../util/constant");
-const authMiddleware = require("../middlewares/auth_middleware");
-const {GetMyLeaveStatusController}=require('../controllers/UserDashboard/getMyLeaveStatus')
-const GetTotalProduction=require('../controllers/Dashboard/getTotalProduction');
-const GetTotalTarget=require('../controllers/Dashboard/getTotalTarget');
-const GetAvgDhuController=require('../controllers/Dashboard/getAvgDhu');
-const GetTotalEfficiency=require('../controllers/Dashboard/getTotalEfficiency');
-const GetLineRankListsController=require('../controllers/Dashboard/getLineRankLists');
-const GetTargetProductionController=require('../controllers/Dashboard/getTargetProduction');
-const GetAllDefectsController=require('../controllers/Dashboard/getAllDefects');
-const GetTopFiveDefectsController=require('../controllers/Dashboard/getTopFiveDefects');
-const GetLineWiseDhuController=require('../controllers/Dashboard/getLineWiseDhu');
-const GetLineWiseHourlyProductionController=require('../controllers/Dashboard/getLineWiseHourlyProduction');
-const GetHourlyProductionController=require('../controllers/Dashboard/getHourlyProduction');
-const GetRunningStyleDetailsController=require('../controllers/Dashboard/getRunningStyleDetails');
+const GetTotalProduction=require('../controllers/dashboard/getTotalProduction');
+const GetTotalTarget=require('../controllers/dashboard/getTotalTarget');
+const GetAvgDhuController=require('../controllers/dashboard/getAvgDhu');
+const GetTotalEfficiency=require('../controllers/dashboard/getTotalEfficiency');
+const GetLineRankListsController=require('../controllers/dashboard/getLineRankLists');
+const GetTargetProductionController=require('../controllers/dashboard/getTargetProduction');
+const GetAllDefectsController=require('../controllers/dashboard/getAllDefects');
+const GetTopFiveDefectsController=require('../controllers/dashboard/getTopFiveDefects');
+const GetLineWiseDhuController=require('../controllers/dashboard/getLineWiseDhu');
+const GetLineWiseHourlyProductionController=require('../controllers/dashboard/getLineWiseHourlyProduction');
+const GetHourlyProductionController=require('../controllers/dashboard/getHourlyProduction');
+const GetRunningStyleDetailsController=require('../controllers/dashboard/getRunningStyleDetails');
 
 dashboardRouter.get(
     API.API_CONTEXT + API.DASHBOARD_TOTAL_PRODUCTION,

@@ -77,4 +77,20 @@ const executeStoreProcedure = async (dbConfig, procedureName, parameter) => {
   }
 };
 
-module.exports = { getData, insertData, executeStoreProcedure };
+
+const dbConnectionChecker = async(dbConfig)=>{
+    const pool = new mssql.ConnectionPool(dbConfig);
+    try{
+        await pool.connect().then(()=>{
+            console.log(`\x1b[32m Successfully connected ${dbConfig.database} database \x1b[0m`);
+        });
+    }catch(error){
+        console.log(`\x1b[91m Failed to connect with ${dbConfig.database} database \x1b[0m`);
+    }finally{
+        if(pool.connected){
+            pool.close();
+        }
+    }
+}
+
+module.exports = { getData, insertData, executeStoreProcedure, dbConnectionChecker };
