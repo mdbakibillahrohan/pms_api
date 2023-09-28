@@ -27,4 +27,4 @@ const ConvertPassString=(passwordd)=>{
     //console.log(base64String)
     return base64String;
 }
-module.exports.ConvertPassString=ConvertPassString
+module.exports = ConvertPassString

@@ -20,13 +20,13 @@ const expressListRoutes = require("express-list-routes");
 
 app.use(body_parser.json());
 app.use(cors())
-app.use((req, res, next)=>{
+app.use((req, _, next)=>{
   req.io = io;
   next();
 },router);
 
 server.listen(port,async () => {
-  expressListRoutes(router, { prefix: "", spacer: 15, color: true, logger: console.log});
+  expressListRoutes(router, { prefix: "", spacer: 15, color: true, logger: console.info});
   await dbConnectionChecker(dbConfig);
   await dbConnectionChecker(dbConfig2);
   console.log(`\x1b[33m Server running on http://localhost:${port} \x1b[0m`);
