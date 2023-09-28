@@ -10,7 +10,7 @@ const schema = Joi.object({
 const controller = async (req, res) => {
   try {
     const data = await loginServices(req.body);
-    if (data !== null) {
+    if (data.token !== null) {
       return res.status(MESSAGE.SUCCESS_GET.STATUS_CODE).json({
         message: "Successfully login",
         data,
