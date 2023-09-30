@@ -3,7 +3,6 @@ const _ = require('lodash');
 const {MESSAGE} = require('../../util/constant');
 const createChallanServices = require('../../services/challan_approval_services/create_challan_services');
 
-
 const schema = Joi.object({
     user_id: Joi.number().required(),
     challan_id: Joi.number().required(),
@@ -12,9 +11,14 @@ const schema = Joi.object({
 
 const controller = async(req, res)=>{
     try{
+        const {user_id, challan_type} = req.body;
         const challanData = await createChallanServices(req.body);
-        const sendData = _.clone(challanData, {user_id})
-        req.io.emit("challan_created", sendData);
+        const sendData = _.clone(challanData);
+        sendData.UserId = user_id;
+        sendData.For = "RDC";
+        sendData.Next = "Approved By";
+        sendData.ChallanType = challan_type;
+        req.io.emit("notify_challan", sendData);
         return res.status(MESSAGE.SUCCESS_GET.STATUS_CODE).json({message:"Success"});
     }catch(error){
         console.log(error);

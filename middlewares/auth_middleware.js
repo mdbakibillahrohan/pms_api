@@ -7,6 +7,8 @@ const authenticationMiddleware = (req, res, next) => {
     const jwtSecret = process.env.JWT_SECRET;
     if (token) {
       if (jwt.verify(token, jwtSecret)) {
+        const userInfo = jwt.decode(token, jwtSecret);
+        req.userInfo = userInfo;
         return next();
       }
       return res

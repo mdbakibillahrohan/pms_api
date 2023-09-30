@@ -23,6 +23,8 @@ const dbConfig2 = {
     }
 };
 
+const approvalSequence = [];
+
 module.exports = {
 	dbConfig,
 	dbConfig2

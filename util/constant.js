@@ -18,8 +18,9 @@ module.exports = {
     DASHBOARD_HOURLY_PRODUCTION:'dashboard/hourlyProduction',
     DASHBOARD_RUNNING_STYLE_DETAILS:'dashboard/runningStyleDetails',
 
-    APPROVAL_GET:'approval/get',
-    CREATE_CHALLAN: 'approval/create-challan'
+    CREATE_CHALLAN: 'approval/create-challan',
+    APPROVE_CHALLAN: 'approval/approve-challan',
+    GET_CHALLAN_LIST: 'approval/approved-challan-list'
   },
   TABLE: {
     USERS: "users",
@@ -27,7 +28,10 @@ module.exports = {
     TEACHER: "teacher",
     COURSE: "course",
     NEWS:'news',
-    NEW_SEWING_CHALLAN: 'NewSewingChallan'
+
+    NEW_SEWING_CHALLAN: 'NewSewingChallan',
+    NEW_WASH_CHALLAN: 'NewWashChallanMaster',
+
   },
 
   MESSAGE: {

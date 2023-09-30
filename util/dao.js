@@ -31,7 +31,7 @@ const getData = async (dbConfig, query, parameter = []) => {
   }
 };
 
-const insertData = async (dbConfig, query, parameter = []) => {
+const executeQuery = async (dbConfig, query, parameter = []) => {
   const pool = new mssql.ConnectionPool(dbConfig);
   try {
     await pool.connect();
@@ -39,10 +39,10 @@ const insertData = async (dbConfig, query, parameter = []) => {
     parameter.forEach((element) => {
       request.input(element.name, element.value);
     });
-    const result = request.query(query);
+    const result = await request.query(query);
     if (result !== null) {
-      if ((await result).rowsAffected[0] > 0) {
-        return (await result).recordset;
+      if (result.rowsAffected[0] > 0) {
+        return true;
       }
     }
   } catch (error) {
@@ -92,4 +92,4 @@ const dbConnectionChecker = async(dbConfig)=>{
     }
 }
 
-module.exports = { getData, insertData, executeStoreProcedure, dbConnectionChecker };
+module.exports = { getData, executeQuery, executeStoreProcedure, dbConnectionChecker };
