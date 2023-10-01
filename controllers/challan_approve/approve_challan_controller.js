@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const {MESSAGE} = require('../../util/constant');
+const {MESSAGE, SOCKET} = require('../../util/constant');
 const challanApproveServices = require('../../services/challan_approval_services/approve_challan_services');
 
 const schema = Joi.object({
@@ -16,8 +16,8 @@ const controller = async(req, res)=>{
         if(data.message!=="Success"){
             return res.status(MESSAGE.SUCCESS_GET.STATUS_CODE).json({message:data.message});
         }
-        req.io.emit("notify_challan", data.data);
-        return res.status(MESSAGE.SUCCESS_GET.STATUS_CODE).json({message:"Success"});
+        req.io.emit(SOCKET.NOTIFY_CHALLAN, data.data);
+        return res.status(MESSAGE.SUCCESS_GET.STATUS_CODE).json({message:data.message});
     }catch(error){
         console.log(error);
         return res.status(MESSAGE.SERVER_ERROR.STATUS_CODE).send(MESSAGE.SERVER_ERROR.CONTENT);

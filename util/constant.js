@@ -47,5 +47,9 @@ module.exports = {
       CONTENT: "Successfully getting data from server",
       STATUS_CODE: 200,
     }
+  },
+
+  SOCKET: {
+    NOTIFY_CHALLAN: "notify-challan"
   }
 };
