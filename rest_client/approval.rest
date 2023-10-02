@@ -39,3 +39,27 @@ Authorization: Bearer {{TOKEN}}
     "next": "ApprovedBy",
     "challan_type": "sewing"
 }
+
+
+###
+POST {{API_URL}}/approval/approve-challan-list
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+    "list_type": "waiting",
+    "challan_type": "wash",
+    "approver_stack": "RDC"
+}
+
+###
+POST {{API_URL}}/approval/challan-summary
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+    "challan_id":89,
+    "challan_type": "sewing"
+}

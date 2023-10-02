@@ -1,0 +1,11 @@
+
+@API_URL = http://localhost:3000/pms/api/v1 
+###
+GET {{API_URL}}/dashboard/totalProduction?UnitId=7&&filterDate=2023-10-01
+Content-Type: application/json 
+Accept: application/json
+
+{
+    "username":"ccl1a-s4",
+    "password":"123"
+}

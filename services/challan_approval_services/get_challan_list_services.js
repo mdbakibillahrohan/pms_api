@@ -5,7 +5,7 @@ const { dbConfig } = require("../../util/settings");
 const getChallanListServices = async (payload) => {
     const { challan_type } = payload;
     let data = null;
-    const count = getCount(payload);
+    const count = await getCount(payload);
     if (challan_type === "sewing") {
         data = await getSewingChallanList(payload);
     } else {
@@ -68,7 +68,7 @@ const getWashChallanList = async (payload) => {
     from ${TABLE.NEW_WASH_CHALLAN} nwcm 
     inner join Unit ufr on ufr.UnitId = nwcm.FromUnitId
     inner join Unit uto on uto.UnitId = nwcm.ToUnitId
-    where 1 = 1 and ${partialQuery} and and nwcm.ChallanDate is not null`;
+    where 1 = 1 and ${partialQuery} and nwcm.ChallanDate is not null`;
 
     if (search_text) {
         query += ` and nwcm.ChallanNo like @SearchText`;
@@ -151,7 +151,7 @@ const getCount = async(payload) => {
         }
     } else {
         query = `select count(nwcm.WCMId) count from ${TABLE.NEW_WASH_CHALLAN} nwcm
-        where 1 = 1 and ${partialQuery} and and nwcm.ChallanDate is not null`;
+        where 1 = 1 and ${partialQuery} and nwcm.ChallanDate is not null`;
 
         if (search_text) {
             query += ` and nwcm.ChallanNo like @SearchText`;

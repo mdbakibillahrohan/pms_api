@@ -20,8 +20,10 @@ module.exports = {
 
     CREATE_CHALLAN: 'approval/create-challan',
     APPROVE_CHALLAN: 'approval/approve-challan',
-    GET_CHALLAN_LIST: 'approval/approved-challan-list'
+    GET_CHALLAN_LIST: 'approval/approve-challan-list',
+    GET_CHALLAN_SUMMARY: 'approval/challan-summary'
   },
+  
   TABLE: {
     USERS: "users",
     STUDENT: "students",
@@ -30,8 +32,17 @@ module.exports = {
     NEWS:'news',
 
     NEW_SEWING_CHALLAN: 'NewSewingChallan',
+    NEW_SEWING_CHALLAN_DETAILS: 'NewSewingChallanDetails',
+    NEW_SEWING_CHALLAN_SUMMARY: 'NewSewingChallanSummary',
     NEW_WASH_CHALLAN: 'NewWashChallanMaster',
+    NEW_WASH_CHALLAN_DETAILS: 'NewWashChallanDetails',
+    NEW_WASH_CHALLAN_SUMMARY: 'NewWashChallanSummary',
 
+    CP_STYLE: "CP_Style"
+  },
+
+  VIEW: {
+    BUYER: 'View_Buyer'
   },
 
   MESSAGE: {

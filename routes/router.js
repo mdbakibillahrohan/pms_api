@@ -2,9 +2,9 @@ const express = require("express");
 const appRouter = express.Router();
 const authenticationRouter = require("./authentication_routes");
 const dashboardRouter=require('./dashboard');
-const approval_router = require("./approval_routes");
+const approvalRouter = require("./approval_routes");
 
 appRouter.use(authenticationRouter);
 appRouter.use(dashboardRouter);
-appRouter.use(approval_router);
+appRouter.use(approvalRouter);
 module.exports = appRouter;
