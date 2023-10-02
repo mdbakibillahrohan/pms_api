@@ -10,7 +10,7 @@ const { controller: challanSummaryController, schema: challanSummarySchema } = r
 
 
 const approvalRouter = Router();
-approvalRouter.post(API.API_CONTEXT + API.CREATE_CHALLAN, validator(createChallanSchema), authenticationMiddleware, createChallanController);
+approvalRouter.post(API.API_CONTEXT + API.CREATE_CHALLAN, validator(createChallanSchema), createChallanController);
 approvalRouter.post(API.API_CONTEXT + API.APPROVE_CHALLAN, validator(approveSchema), authenticationMiddleware, approveController);
 approvalRouter.post(API.API_CONTEXT + API.GET_CHALLAN_LIST, validator(challanListSchema), authenticationMiddleware, challanListController);
 approvalRouter.post(API.API_CONTEXT + API.GET_CHALLAN_SUMMARY, validator(challanSummarySchema), authenticationMiddleware, challanSummaryController);

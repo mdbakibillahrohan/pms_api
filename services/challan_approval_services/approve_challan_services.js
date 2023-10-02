@@ -127,7 +127,6 @@ const approveWashChallan = async(payload)=>{
     return data;
 }
 
-
 const getChallanInformation = async(payload)=>{
     const {challan_id, challan_type} = payload;
     let query = null;

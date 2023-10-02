@@ -22,6 +22,7 @@ const expressListRoutes = require("express-list-routes");
 app.use(body_parser.json());
 app.use(cors())
 app.use((req, _, next)=>{
+  console.log("Request");
   req.io = io;
   next();
 },router);
