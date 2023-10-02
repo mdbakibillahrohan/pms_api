@@ -34,10 +34,10 @@ Accept: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    "challan_id":86,
+    "challan_id":89,
     "approver_id": 87,
-    "approver_stack": "CheckedBy",
-    "next": "CheckedBy",
+    "approver_stack": "RDC",
+    "next": "ApprovedBy",
     "challan_type": "sewing"
 }
 
