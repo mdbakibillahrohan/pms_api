@@ -18,7 +18,7 @@ const getChallanListServices = async (payload) => {
 };
 
 const getSewingChallanList = async (payload) => {
-    const { search_text, limit, offset } = payload;
+    const { search_text, limit, offset, userInfo } = payload;
     const partialQuery = getPartialQuery(payload);
 
     let parameters = [];
@@ -27,7 +27,7 @@ const getSewingChallanList = async (payload) => {
     from ${TABLE.NEW_SEWING_CHALLAN} nsc 
     inner join Unit ufr on ufr.UnitId = nsc.FromUnitId
     inner join Unit uto on uto.UnitId = nsc.ToUnitId
-    where 1 = 1 and ${partialQuery} and nsc.ChallanDate is not null`;
+    where 1 = 1 and ${partialQuery} and nsc.ChallanDate is not null and nsc.FromUnitId = ${userInfo.UnitId}`;
 
     if (search_text) {
         query += ` and ChallanNo like @SearchText`;
@@ -68,7 +68,7 @@ const getWashChallanList = async (payload) => {
     from ${TABLE.NEW_WASH_CHALLAN} nwcm 
     inner join Unit ufr on ufr.UnitId = nwcm.FromUnitId
     inner join Unit uto on uto.UnitId = nwcm.ToUnitId
-    where 1 = 1 and ${partialQuery} and nwcm.ChallanDate is not null`;
+    where 1 = 1 and ${partialQuery} and nwcm.ChallanDate is not null and nwcm.FromUnitId = ${userInfo.UnitId}`;
 
     if (search_text) {
         query += ` and nwcm.ChallanNo like @SearchText`;
@@ -132,7 +132,7 @@ const getPartialQuery = (payload) => {
 };
 
 const getCount = async(payload) => {
-    const { challan_type } = payload;
+    const { challan_type, userInfo } = payload;
     let query = null;
     let parameters = [];
     const { search_text } = payload;
@@ -140,7 +140,7 @@ const getCount = async(payload) => {
 
     if (challan_type === "sewing") {
         query = `select count(nsc.SCId) count from ${TABLE.NEW_SEWING_CHALLAN} nsc
-        where 1 = 1 and ${partialQuery} and nsc.ChallanDate is not null`;
+        where 1 = 1 and ${partialQuery} and nsc.ChallanDate is not null and nsc.FromUnitId = ${userInfo.UnitId}`;
 
         if (search_text) {
             query += ` and nsc.ChallanNo like @SearchText`;
@@ -151,7 +151,7 @@ const getCount = async(payload) => {
         }
     } else {
         query = `select count(nwcm.WCMId) count from ${TABLE.NEW_WASH_CHALLAN} nwcm
-        where 1 = 1 and ${partialQuery} and nwcm.ChallanDate is not null`;
+        where 1 = 1 and ${partialQuery} and nwcm.ChallanDate is not null and nwcm.FromUnitId = ${userInfo.UnitId}`;
 
         if (search_text) {
             query += ` and nwcm.ChallanNo like @SearchText`;

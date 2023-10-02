@@ -21,12 +21,12 @@ const getChallanSummary = async(payload)=>{
 const getSewingChallanSummary = async(payload)=>{
     const {challan_id} = payload;
     const query = `select nsc.ChallanNo, cs.StyleNo, nscs.GmtQty, vb.Buyer_name 
-                from ${TABLE.NEW_SEWING_CHALLAN_SUMMARY} nscs
-                inner join ${TABLE.NEW_SEWING_CHALLAN} nsc on nscs.SCId = nsc.SCId
-                inner join ${TABLE.CP_STYLE} cs on cs.Id = nscs.StyleId
-                inner join ${VIEW.BUYER} vb on vb.Buyer_id = cs.Buyer_id
-                where nscs.SCId = ${challan_id}
-                group by nsc.ChallanNo, cs.StyleNo, nscs.GmtQty,  vb.Buyer_name`;
+                    from ${TABLE.NEW_SEWING_CHALLAN_SUMMARY} nscs
+                    inner join ${TABLE.NEW_SEWING_CHALLAN} nsc on nscs.SCId = nsc.SCId
+                    inner join ${TABLE.CP_STYLE} cs on cs.Id = nscs.StyleId
+                    inner join ${VIEW.BUYER} vb on vb.Buyer_id = cs.Buyer_id
+                    where nscs.SCId = ${challan_id}
+                    group by nsc.ChallanNo, cs.StyleNo, nscs.GmtQty,  vb.Buyer_name`;
     const data = await getData(dbConfig, query);
     return data;
 }
