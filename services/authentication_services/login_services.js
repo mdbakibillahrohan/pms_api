@@ -15,7 +15,7 @@ const loginServices = async(payload)=>{
         const usertype = getUserType(TypeName);
         token = generateJwtToken(userInfo);
         userData = {
-            TypeName, IsWashing, IsSewing, FullName, UnitId, UserType: usertype, token
+            IsWashing, IsSewing, FullName, UnitId, UserType: usertype, token
         }
     }
     return userData;

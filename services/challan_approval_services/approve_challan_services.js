@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { TABLE } = require('../../util/constant');
 const {getData, executeQuery} = require('../../util/dao');
 const {dbConfig} = require('../../util/settings');
@@ -5,7 +6,7 @@ const {dbConfig} = require('../../util/settings');
 const challanApproveServices = async(payload)=>{
     const {challan_type, challan_id, approver_stack, next} = payload;
     let sendData = {};
-    const data = {
+    let data = {
         ChallanType: challan_type,
         ChallanId: challan_id,
         ApproverStack: approver_stack,
@@ -25,16 +26,20 @@ const challanApproveServices = async(payload)=>{
     }
 
     if(challan_type==='sewing'){
-        const data = await approveSewingChallan(payload);
-        if(data){
+        const sewingChallanData = await approveSewingChallan(payload);
+        if(sewingChallanData){
             sendData.message = "Success";
+            const challanInfo = await getChallanInformation(payload);
+            data = _.extend(data, challanInfo);
         }else{
             sendData.message = "Something went wrong";
         }
     }else{
-        const data = await approveWashChallan(payload);
-        if(data){
+        const washChallandata = await approveWashChallan(payload);
+        if(washChallandata){
             sendData.message = "Success";
+            const challanInfo = await getChallanInformation(payload);
+            data = _.extend(data, challanInfo);
         }else{
             sendData.message = "Something went wrong";
         }
@@ -120,6 +125,28 @@ const approveWashChallan = async(payload)=>{
     const query = `update ${TABLE.NEW_WASH_CHALLAN} set ${partialQuery}  where WCMId = ${challan_id}`;
     const data = await executeQuery(dbConfig, query);
     return data;
+}
+
+
+const getChallanInformation = async(payload)=>{
+    const {challan_id, challan_type} = payload;
+    let query = null;
+    if(challan_type=="sewing"){
+        query = `select ui.FullName, nsc.SCId ChallanId, nsc.ChallanNo, u.UnitName 
+        ToUnitName, TotalGmtQty, ChallanDate from ${TABLE.NEW_SEWING_CHALLAN} nsc
+        inner join Unit u on u.UnitId = nsc.ToUnitId
+        inner join UserInfo ui on ui.UserId = nsc.CreatedBy
+        where nsc.SCId = ${challan_id}`;
+    }else{
+        query = `select ui.FullName, nwcm.WCMId ChallanId, nwcm.ChallanNo, 
+        u.UnitName ToUnitName, TotalGmtQty, 
+        ChallanDate from ${TABLE.NEW_WASH_CHALLAN} nwcm
+        inner join Unit u on u.UnitId = nwcm.ToUnitId
+        inner join UserInfo ui on ui.UserId = nwcm.CreatedBy
+        where nwcm.WCMId = ${challan_id}`;
+    }
+    const data = await getData(dbConfig, query);
+    return data?data[0]:null;
 }
 
 module.exports = challanApproveServices;

@@ -59,6 +59,10 @@ module.exports = {
     SUCCESS_GET: {
       CONTENT: "Successfully getting data from server",
       STATUS_CODE: 200,
+    },
+    BAD_REQUEST: {
+      CONTENT: "Bad request",
+      STATUS_CODE: 400
     }
   },
 

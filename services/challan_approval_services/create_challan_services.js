@@ -20,13 +20,13 @@ const getChallanInformation = async(payload)=>{
     }else{
         query = `select ui.FullName, nwcm.WCMId ChallanId, nwcm.ChallanNo, 
         u.UnitName ToUnitName, TotalGmtQty, 
-        ChallanDate from NewWashChallanMaster nwcm
+        ChallanDate from ${TABLE.NEW_WASH_CHALLAN} nwcm
         inner join Unit u on u.UnitId = nwcm.ToUnitId
         inner join UserInfo ui on ui.UserId = nwcm.CreatedBy
         where nwcm.WCMId = ${challan_id}`;
     }
     const data = await getData(dbConfig, query);
-    return data[0];
+    return data?data[0]:null;
 }
 
 module.exports = createChallanServices;

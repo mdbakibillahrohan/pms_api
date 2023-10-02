@@ -6,7 +6,7 @@ const schema = Joi.object({
     challan_id:Joi.number().required(),
     approver_id: Joi.number().required(),
     approver_stack: Joi.string().valid("RDC", "ApprovedBy", "CheckedBy").required(),
-    next: Joi.string().valid("RDC", "ApprovedBy", "CheckedBy").required(),
+    next: Joi.string().valid("RDC", "ApprovedBy", "CheckedBy").optional(),
     challan_type: Joi.string().valid("sewing", "wash").required()
 });
 

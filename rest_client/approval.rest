@@ -23,7 +23,8 @@ Authorization: Bearer {{TOKEN}}
 {
     "user_id": 3270,
     "challan_id": 87,
-    "challan_type": "sewing"
+    "challan_type": "sewing",
+    "unit_id":7
 }
 
 ###
@@ -33,10 +34,10 @@ Accept: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    "challan_id":85,
+    "challan_id":86,
     "approver_id": 87,
-    "approver_stack": "RDC",
-    "next": "ApprovedBy",
+    "approver_stack": "CheckedBy",
+    "next": "CheckedBy",
     "challan_type": "sewing"
 }
 
