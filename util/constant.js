@@ -31,6 +31,8 @@ module.exports = {
     COURSE: "course",
     NEWS:'news',
 
+    USER_INFO: "UserInfo",
+
     NEW_SEWING_CHALLAN: 'NewSewingChallan',
     NEW_SEWING_CHALLAN_DETAILS: 'NewSewingChallanDetails',
     NEW_SEWING_CHALLAN_SUMMARY: 'NewSewingChallanSummary',

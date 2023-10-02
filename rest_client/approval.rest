@@ -49,7 +49,7 @@ Authorization: Bearer {{TOKEN}}
 
 {
     "list_type": "waiting",
-    "challan_type": "wash",
+    "challan_type": "sewing",
     "approver_stack": "RDC"
 }
 

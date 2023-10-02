@@ -3,20 +3,28 @@ const _ = require('lodash');
 const ConvertPassString = require("../../util/convertPass");
 const { getData } = require("../../util/dao");
 const { dbConfig } = require("../../util/settings");
+const { TABLE } = require('../../util/constant');
 
 const loginServices = async(payload)=>{
     let token = null;
+    let userData = null;
     const userInfo = await getUserInfo(payload);
     const isUserValid = checkValidity(userInfo, payload);
     if(isUserValid){
+        const {TypeName, IsWashing, IsSewing, FullName, UnitId} = userInfo;
+        const usertype = getUserType(TypeName);
         token = generateJwtToken(userInfo);
+        userData = {
+            TypeName, IsWashing, IsSewing, FullName, UnitId, UserType: usertype, token
+        }
     }
-    return {token};
+    return userData;
 }
 
 const getUserInfo = async(payload)=>{
-    const query = `select EmpId, UserName, UserType, CompanyId, 
-    branch_code UnitId, FullName, LineId, UsrPass from UserInfo 
+    const query = `select EmpId, UserName, ut.TypeName, CompanyId, 
+    branch_code UnitId, FullName, LineId, UsrPass, IsSewing, IsWashing from ${TABLE.USER_INFO} ui
+    inner join UserType ut on ut.TypeId = ui.UserType
     where UserName = @UserName`;
     const parameters = [
         {
@@ -25,7 +33,7 @@ const getUserInfo = async(payload)=>{
         }
     ];
     const userInfoData = await getData(dbConfig, query, parameters);
-    return userInfoData[0];
+    return userInfoData?userInfoData[0]:null;
 }
 
 const checkValidity = (userInfo, payload)=>{
@@ -42,5 +50,17 @@ const generateJwtToken = (info)=>{
     const infoForToken = _.omit(info, 'UsrPass');
     const token = jwt.sign(infoForToken, secret);
     return token;
+}
+
+const getUserType = (userType)=>{
+    let sendUserType = null;
+    if(userType.includes('RDC')){
+        sendUserType = 'RDC'
+    }else if(userType.includes('ApprovedBy')){
+        sendUserType = 'ApprovedBy'
+    }else if(userType.includes('CheckedBy')){
+        sendUserType = 'CheckedBy'
+    }
+    return sendUserType;
 }
 module.exports = loginServices;
