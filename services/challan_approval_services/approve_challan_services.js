@@ -5,6 +5,8 @@ const {dbConfig} = require('../../util/settings');
 
 const challanApproveServices = async(payload)=>{
     const {challan_type, challan_id, approver_stack, next} = payload;
+    const {UserId} = payload.userInfo;
+    payload.approver_id = UserId;
     let sendData = {};
     let data = {
         ChallanType: challan_type,

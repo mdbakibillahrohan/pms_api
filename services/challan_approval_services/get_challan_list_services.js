@@ -4,6 +4,8 @@ const { dbConfig } = require("../../util/settings");
 
 const getChallanListServices = async (payload) => {
     const { challan_type } = payload;
+    const {UserId} = payload.userInfo;
+    payload.approver_id = UserId;
     let data = null;
     const count = await getCount(payload);
     if (challan_type === "sewing") {
@@ -100,7 +102,7 @@ const getWashChallanList = async (payload) => {
 };
 
 const getPartialQuery = (payload) => {
-    const { list_type, approver_stack } = payload;
+    const { list_type, approver_stack, approver_id } = payload;
     let partialQuery = null;
 
     if (list_type === "waiting") {

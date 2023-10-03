@@ -1,7 +1,7 @@
 @API_URL = http://localhost:3000/pms/api/v1 
 # @API_URL = http://192.168.1.160:3000/api
 
-@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbXBJZCI6ImNjbDFhLXM0IiwiVXNlck5hbWUiOiJjY2wxYS1zNCIsIlVzZXJUeXBlIjozLCJDb21wYW55SWQiOjEyLCJVbml0SWQiOiI3IiwiRnVsbE5hbWUiOiJDQ0wxQV9MSU5FLTEyIiwiTGluZUlkIjozMCwiaWF0IjoxNjk1ODk1ODY5fQ.MitJ3peOZvK3LYxgWobeG_QbaqbYNBppR26buiZwO64
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjMyNzYsIkVtcElkIjoiY2NsMWEtYXBwcm92ZXItMSIsIlVzZXJOYW1lIjoiY2NsMWEtYXBwcm92ZXItMSIsIlR5cGVOYW1lIjoiU2V3aW5nQXBwcm92ZWRCeSIsIkNvbXBhbnlJZCI6MTIsIlVuaXRJZCI6IjciLCJGdWxsTmFtZSI6ImNjbDFhLWFwcHJvdmVyLTEiLCJMaW5lSWQiOm51bGwsIklzU2V3aW5nIjp0cnVlLCJJc1dhc2hpbmciOm51bGwsImlhdCI6MTY5NjMwODExMn0.CdVUokYqzisuRZfiWrJ0Q-munU1fVIfCRImH2RSt3h0
 
 ###
 POST {{API_URL}}/approval/create-challan
@@ -24,7 +24,6 @@ Authorization: Bearer {{TOKEN}}
 
 {
     "challan_id":89,
-    "approver_id": 87,
     "approver_stack": "RDC",
     "next": "ApprovedBy",
     "challan_type": "sewing"
@@ -38,7 +37,7 @@ Accept: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    "list_type": "waiting",
+    "list_type": "approved",
     "challan_type": "sewing",
     "approver_stack": "RDC"
 }

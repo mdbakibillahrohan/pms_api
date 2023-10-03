@@ -22,7 +22,7 @@ const loginServices = async(payload)=>{
 }
 
 const getUserInfo = async(payload)=>{
-    const query = `select EmpId, UserName, ut.TypeName, CompanyId, 
+    const query = `select UserId, EmpId, UserName, ut.TypeName, CompanyId, 
     branch_code UnitId, FullName, LineId, UsrPass, IsSewing, IsWashing from ${TABLE.USER_INFO} ui
     inner join UserType ut on ut.TypeId = ui.UserType
     where UserName = @UserName`;
