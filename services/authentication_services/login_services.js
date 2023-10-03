@@ -11,11 +11,11 @@ const loginServices = async(payload)=>{
     const userInfo = await getUserInfo(payload);
     const isUserValid = checkValidity(userInfo, payload);
     if(isUserValid){
-        const {TypeName, IsWashing, IsSewing, FullName, UnitId} = userInfo;
+        const {TypeName, IsWashing, IsSewing, FullName, UnitId, UserId} = userInfo;
         const usertype = getUserType(TypeName);
         token = generateJwtToken(userInfo);
         userData = {
-            IsWashing, IsSewing, FullName, UnitId, UserType: usertype, token
+            IsWashing, IsSewing, FullName, UnitId, UserId, UserType: usertype, token
         }
     }
     return userData;
