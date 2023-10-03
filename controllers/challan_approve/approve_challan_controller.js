@@ -13,6 +13,7 @@ const controller = async(req, res)=>{
     try{
         req.body.userInfo = req.userInfo;
         const data = await challanApproveServices(req.body);
+        data.data.UserId = req.userInfo.UserId;
         if(data.message!=="Success"){
             return res.status(MESSAGE.SUCCESS_GET.STATUS_CODE).json({message:data.message});
         }
