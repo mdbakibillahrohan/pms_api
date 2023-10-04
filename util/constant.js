@@ -53,7 +53,7 @@ module.exports = {
       STATUS_CODE: 500
     },
     UNAUTHORIZED: {
-      CONTENT: "Unauthorized token",
+      CONTENT: "Unauthorized",
       STATUS_CODE: 401
     },
     SUCCESS_GET: {

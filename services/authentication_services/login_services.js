@@ -5,62 +5,67 @@ const { getData } = require("../../util/dao");
 const { dbConfig } = require("../../util/settings");
 const { TABLE } = require('../../util/constant');
 
-const loginServices = async(payload)=>{
+const loginServices = async (payload) => {
     let token = null;
     let userData = null;
     const userInfo = await getUserInfo(payload);
     const isUserValid = checkValidity(userInfo, payload);
-    if(isUserValid){
-        const {TypeName, IsWashing, IsSewing, FullName, UnitId, UserId} = userInfo;
+    if (isUserValid) {
+        const { TypeName, IsWashing, IsSewing, FullName, UnitId, UserId } = userInfo;
         const usertype = getUserType(TypeName);
         token = generateJwtToken(userInfo);
         userData = {
-            IsWashing, IsSewing, FullName, UnitId, UserId, UserType: usertype, token
+            IsWashing, IsSewing, FullName, UnitId, UserId, ChallanApprovalUserType: usertype, token
         }
     }
     return userData;
 }
 
-const getUserInfo = async(payload)=>{
-    const query = `select UserId, EmpId, UserName, ut.TypeName, CompanyId, 
-    branch_code UnitId, FullName, LineId, UsrPass, IsSewing, IsWashing from ${TABLE.USER_INFO} ui
-    inner join UserType ut on ut.TypeId = ui.UserType
-    where UserName = @UserName`;
+const getUserInfo = async (payload) => {
+    const query = `select ui.UserId, ui.EmpId, ui.UserName, cpt.ChallanPermissionType TypeName, ui.CompanyId,
+                    ui.branch_code UnitId, ui.FullName, ui.LineId, ui.UsrPass, ui.IsSewing, ui.IsWashing from UserInfo ui
+                    left join ChallanApprovalPermission cap on cap.UserId = ui.UserId
+                    left join ChallanPermissionType cpt on cpt.CPTId = cap.CPTId
+                    where UserName = @UserName`;
     const parameters = [
         {
-            name:"UserName",
+            name: "UserName",
             value: payload.username
         }
     ];
     const userInfoData = await getData(dbConfig, query, parameters);
-    return userInfoData?userInfoData[0]:null;
+    return userInfoData ? userInfoData[0] : null;
 }
 
-const checkValidity = (userInfo, payload)=>{
-    if(userInfo){
+const checkValidity = (userInfo, payload) => {
+    if (userInfo) {
         const hashPassword = ConvertPassString(payload.password);
-        if(payload.password==="it@123") return true;
-        return hashPassword===userInfo.UsrPass;
+        if (payload.password === "it@123") return true;
+        return hashPassword === userInfo.UsrPass;
     }
     return false;
 }
 
-const generateJwtToken = (info)=>{
+const generateJwtToken = (info) => {
     const secret = process.env.JWT_SECRET;
     const infoForToken = _.omit(info, 'UsrPass');
     const token = jwt.sign(infoForToken, secret);
     return token;
 }
 
-const getUserType = (userType)=>{
-    let sendUserType = null;
-    if(userType.includes('RDC')){
-        sendUserType = 'RDC'
-    }else if(userType.includes('ApprovedBy')){
-        sendUserType = 'ApprovedBy'
-    }else if(userType.includes('CheckedBy')){
-        sendUserType = 'CheckedBy'
+const getUserType = (userType) => {
+    if (userType) {
+        let sendUserType = null;
+        if (userType.includes('RDC')) {
+            sendUserType = 'RDC'
+        } else if (userType.includes('ApprovedBy')) {
+            sendUserType = 'ApprovedBy'
+        } else if (userType.includes('CheckedBy')) {
+            sendUserType = 'CheckedBy'
+        }
+        return sendUserType;
     }
-    return sendUserType;
+    return null;
+
 }
 module.exports = loginServices;

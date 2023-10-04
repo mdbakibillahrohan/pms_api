@@ -4,7 +4,8 @@ const getChallanSummaryServices = require("../../services/challan_approval_servi
 
 const schema = Joi.object({
   challan_id: Joi.number().required(),
-  challan_type: Joi.string().valid("sewing", "wash").required()
+  challan_type: Joi.string().valid("sewing", "wash").required(),
+  approver_stack: Joi.string().valid("RDC", "ApprovedBy", "CheckedBy").required()
 });
 
 const controller = async (req, res) => {
