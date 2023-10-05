@@ -1,14 +1,14 @@
 @API_URL = http://localhost:3000/pms/api 
 # @API_URL = http://192.168.1.160:3000/api
 
-@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjMyNzYsIkVtcElkIjoiY2NsMWEtYXBwcm92ZXItMSIsIlVzZXJOYW1lIjoiY2NsMWEtYXBwcm92ZXItMSIsIlR5cGVOYW1lIjoiU2V3aW5nQXBwcm92ZWRCeSIsIkNvbXBhbnlJZCI6MTIsIlVuaXRJZCI6IjciLCJGdWxsTmFtZSI6ImNjbDFhLWFwcHJvdmVyLTEiLCJMaW5lSWQiOm51bGwsIklzU2V3aW5nIjp0cnVlLCJJc1dhc2hpbmciOm51bGwsImlhdCI6MTY5NjQwOTc4N30.M4eD2wga8SjS7Nq_lUJOyqcG9OHQtUZIBGyB0AY3Kb8
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjMyNzYsIkVtcElkIjoiY2NsMWEtYXBwcm92ZXItMSIsIlVzZXJOYW1lIjoiY2NsMWEtYXBwcm92ZXItMSIsIlR5cGVOYW1lIjoiU2V3aW5nQXBwcm92ZWRCeSIsIkNvbXBhbnlJZCI6MTIsIlVuaXRJZCI6IjciLCJGdWxsTmFtZSI6ImNjbDFhLWFwcHJvdmVyLTEiLCJMaW5lSWQiOm51bGwsIklzU2V3aW5nIjp0cnVlLCJJc1dhc2hpbmciOm51bGwsImlhdCI6MTY5NjQ3ODk2OH0.Gsapsvuvt6LJsPyAQeEF2zZvpRqUpfjoMesAa0sJ-UQ
 
 POST {{API_URL}}/v1/login 
 Content-Type: application/json 
 Accept: application/json 
 
 {
-    "username":"CCL1A-F9",
+    "username":"ccl1a-checker-1",
     "password":"it@123"
 }
 

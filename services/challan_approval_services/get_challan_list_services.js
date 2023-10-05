@@ -25,7 +25,7 @@ const getSewingChallanList = async (payload) => {
 
     let parameters = [];
     let query = `select nsc.SCId ChallanId, nsc.ChallanNo, nsc.ChallanDate, nsc.TotalGmtQty, 
-    ufr.UnitFullName FromUnit, uto.UnitFullName ToUnit 
+    ufr.UnitName FromUnit, uto.UnitName ToUnit 
     from ${TABLE.NEW_SEWING_CHALLAN} nsc 
     inner join Unit ufr on ufr.UnitId = nsc.FromUnitId
     inner join Unit uto on uto.UnitId = nsc.ToUnitId
@@ -66,7 +66,7 @@ const getWashChallanList = async (payload) => {
 
     let parameters = [];
     let query = `select nwcm.WCMId ChallanId, nwcm.ChallanNo, nwcm.ChallanDate, nwcm.TotalGmtQty, 
-    ufr.UnitFullName FromUnit, uto.UnitFullName ToUnit 
+    ufr.UnitName FromUnit, uto.UnitName ToUnit 
     from ${TABLE.NEW_WASH_CHALLAN} nwcm 
     inner join Unit ufr on ufr.UnitId = nwcm.FromUnitId
     inner join Unit uto on uto.UnitId = nwcm.ToUnitId
@@ -111,10 +111,10 @@ const getPartialQuery = (payload) => {
                 partialQuery = `RDCUserId = 0`;
                 break;
             case "ApprovedBy":
-                partialQuery = `ApprovedByUserId = 0`;
+                partialQuery = `RDCUserId != 0 and ApprovedByUserId = 0`;
                 break;
             case "CheckedBy":
-                partialQuery = `CheckedByUserId = 0`;
+                partialQuery = `RDCUserId != 0 and ApprovedByUserId != 0 and CheckedByUserId = 0`;
                 break;
         }
     } else {
