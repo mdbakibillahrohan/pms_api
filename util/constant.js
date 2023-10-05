@@ -20,8 +20,9 @@ module.exports = {
 
     CREATE_CHALLAN: 'approval/create-challan',
     APPROVE_CHALLAN: 'approval/approve-challan',
+    REJECT_CHALLAN: 'approval/reject-challan',
     GET_CHALLAN_LIST: 'approval/approve-challan-list',
-    GET_CHALLAN_SUMMARY: 'approval/challan-summary'
+    GET_CHALLAN_SUMMARY: 'approval/challan-summary',
   },
   
   TABLE: {
@@ -39,6 +40,9 @@ module.exports = {
     NEW_WASH_CHALLAN: 'NewWashChallanMaster',
     NEW_WASH_CHALLAN_DETAILS: 'NewWashChallanDetails',
     NEW_WASH_CHALLAN_SUMMARY: 'NewWashChallanSummary',
+
+    SEWING_CHALLAN_REJECT_HISTORY: 'SewingChallanRejectHistory',
+    WASH_CHALLAN_REJECT_HISTORY: 'WashChallanRejectHistory',
 
     CP_STYLE: "CP_Style"
   },
