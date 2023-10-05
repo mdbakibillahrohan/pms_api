@@ -22,7 +22,7 @@ Accept: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    "challan_id":86,
+    "challan_id":85,
     "approver_stack": "CheckedBy",
     "next": "ApprovedBy",
     "challan_type": "sewing"
@@ -47,7 +47,7 @@ Accept: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    "challan_id":86,
+    "challan_id":85,
     "challan_type": "sewing",
     "approver_stack":"CheckedBy"
 }

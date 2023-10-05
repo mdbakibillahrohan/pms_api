@@ -30,6 +30,7 @@ const challanApproveServices = async(payload)=>{
     if(challan_type==='sewing'){
         const sewingChallanData = await approveSewingChallan(payload);
         if(sewingChallanData){
+            await insertChallanApprovalHistory(payload);
             sendData.message = "Success";
             const challanInfo = await getChallanInformation(payload);
             data = _.extend(data, challanInfo);
@@ -39,6 +40,7 @@ const challanApproveServices = async(payload)=>{
     }else{
         const washChallandata = await approveWashChallan(payload);
         if(washChallandata){
+            await insertChallanApprovalHistory(payload);
             sendData.message = "Success";
             const challanInfo = await getChallanInformation(payload);
             data = _.extend(data, challanInfo);
@@ -148,6 +150,20 @@ const getChallanInformation = async(payload)=>{
     }
     const data = await getData(dbConfig, query);
     return data?data[0]:null;
+}
+
+const insertChallanApprovalHistory = async(payload)=>{
+    const {userInfo, challan_id, challan_type} = payload;
+    let query = null;
+    if(challan_type==="sewing"){
+        query = `insert into SewingChallanApprovalHistory(UserId, SCId)
+                    values(${userInfo.UserId}, ${challan_id})`;
+    }else{
+        query = `insert into WashChallanApprovalHistory(UserId, SCId)
+                    values(${userInfo.UserId}, ${challan_id})`;
+    }
+    const data = await executeQuery(dbConfig, query);
+    return data;
 }
 
 module.exports = challanApproveServices;
