@@ -5,7 +5,7 @@ const {dbConfig} = require('../../util/settings');
 
 const challanApproveServices = async(payload)=>{
     const {challan_type, challan_id, approver_stack, next} = payload;
-    const {UserId} = payload.userInfo;
+    const {UserId, IsSewing, IsWashing} = payload.userInfo;
     payload.approver_id = UserId;
     let sendData = {};
     let data = {
@@ -18,6 +18,12 @@ const challanApproveServices = async(payload)=>{
         data.Next = "ApprovedBy";
     }else if(next==="ApprovedBy"){
         data.Next = "CheckedBy"
+    }else if(next==="CheckedBy"){
+        if(IsSewing){
+            data.Next = "WashChecking";
+        }else if(IsWashing){
+            data.Next = "FinishingChecking";
+        }
     }
 
     const isAlreadyApproved = await checkIfAlreadyApprovedOrNot(payload);
@@ -136,13 +142,13 @@ const getChallanInformation = async(payload)=>{
     let query = null;
     if(challan_type=="sewing"){
         query = `select ui.FullName, nsc.SCId ChallanId, nsc.ChallanNo, u.UnitName 
-        ToUnitName, TotalGmtQty, FromUnitId, ChallanDate from ${TABLE.NEW_SEWING_CHALLAN} nsc
+        ToUnitName, nsc.ToUnitId, TotalGmtQty, FromUnitId, ChallanDate from ${TABLE.NEW_SEWING_CHALLAN} nsc
         inner join Unit u on u.UnitId = nsc.ToUnitId
         inner join UserInfo ui on ui.UserId = nsc.CreatedBy
         where nsc.SCId = ${challan_id}`;
     }else{
         query = `select ui.FullName, nwcm.WCMId ChallanId, nwcm.ChallanNo, 
-        u.UnitName ToUnitName, FromUnitId, TotalGmtQty, 
+        u.UnitName ToUnitName, nwcm.ToUnitId, FromUnitId, TotalGmtQty, 
         ChallanDate from ${TABLE.NEW_WASH_CHALLAN} nwcm
         inner join Unit u on u.UnitId = nwcm.ToUnitId
         inner join UserInfo ui on ui.UserId = nwcm.CreatedBy

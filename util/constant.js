@@ -23,6 +23,8 @@ module.exports = {
     REJECT_CHALLAN: 'approval/reject-challan',
     GET_CHALLAN_LIST: 'approval/approve-challan-list',
     GET_CHALLAN_SUMMARY: 'approval/challan-summary',
+
+    CHALLAN_CHECKING: 'check/checking'
   },
   
   TABLE: {
@@ -43,6 +45,8 @@ module.exports = {
 
     SEWING_CHALLAN_REJECT_HISTORY: 'SewingChallanRejectHistory',
     WASH_CHALLAN_REJECT_HISTORY: 'WashChallanRejectHistory',
+    WASH_CHECKING: 'WashChecking',
+    FINISHING_CHECKING: 'FinishingChecking',
 
     CP_STYLE: "CP_Style"
   },

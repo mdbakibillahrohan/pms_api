@@ -2,7 +2,9 @@
 require("dotenv").config();
 const ip = require('ip')
 const express = require("express");
-const cors = require('cors')
+const cors = require('cors');
+const morgan = require('morgan');
+const expressListRoutes = require("express-list-routes");
 const {dbConnectionChecker} = require('./util/dao');
 const {dbConfig, dbConfig2} = require('./util/settings');
 const app = express();
@@ -14,13 +16,12 @@ const io = require('socket.io')(server,{
     methods: ["GET", "POST"]
   }
 });
-
+app.use(morgan('dev'));
 const body_parser = require("body-parser");
 const port = process.env.PORT || 3000;
-const expressListRoutes = require("express-list-routes");
 
 app.use(body_parser.json());
-app.use(cors())
+app.use(cors());
 app.use((req, _, next)=>{
   req.io = io;
   next();
