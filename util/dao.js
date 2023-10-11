@@ -21,6 +21,7 @@ const getData = async (dbConfig, query, parameter = []) => {
       if (result.rowsAffected[0] > 0) {
         return result.recordset;
       }
+      return result.recordset;
     }
   } catch (error) {
     console.dir(error);

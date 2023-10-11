@@ -24,7 +24,8 @@ module.exports = {
     GET_CHALLAN_LIST: 'approval/approve-challan-list',
     GET_CHALLAN_SUMMARY: 'approval/challan-summary',
 
-    CHALLAN_CHECKING: 'check/checking'
+    CHALLAN_CHECKING: 'check/checking',
+    CHALLAN_CHEKING_LIST: 'check/checking-list'
   },
   
   TABLE: {
