@@ -25,5 +25,16 @@ Authorization: Bearer {{TOKEN}}
     "list_type":"waiting"
 }
 
+###
+POST {{API_URL}}/check/summary
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+    "checking_type": "WashChecking",
+    "challan_id":98
+}
+
 
 

@@ -1,4 +1,4 @@
-const { TABLE } = require("../../util/constant");
+const { TABLE,VIEW } = require("../../util/constant");
 const { getData} = require("../../util/dao");
 const { dbConfig } = require("../../util/settings");
 
@@ -15,9 +15,10 @@ const getChallanSummary = async(payload)=>{
     }else{
         data = await getFinishingChallanSummary(payload);
     }
+    return data;
 }
 
-const getWashChallanSummary = async()=>{
+const getWashChallanSummary = async(payload)=>{
     const {challan_id} = payload;
     const query = `select nsc.ChallanNo, cs.StyleNo, nscs.GmtQty, vb.Buyer_name 
                     from ${TABLE.NEW_SEWING_CHALLAN_SUMMARY} nscs
@@ -30,7 +31,7 @@ const getWashChallanSummary = async()=>{
     return data;
 }
 
-const getFinishingChallanSummary = async()=>{
+const getFinishingChallanSummary = async(payload)=>{
     const {challan_id} = payload;
     const query = `select nwcm.ChallanNo, cs.StyleNo, nwcs.GmtQty, 
                     vb.Buyer_name from ${TABLE.NEW_WASH_CHALLAN_SUMMARY} nwcs
