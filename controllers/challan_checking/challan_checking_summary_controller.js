@@ -1,16 +1,16 @@
 const Joi = require('joi');
 const { MESSAGE } = require('../../util/constant');
-const challanCheckingListServices = require('../../services/challan_checking_services/challan_checking_list_services');
+const challanCheckingSummaryServices = require('../../services/challan_checking_services/challan_checking_summary_services');
 
 const schema = Joi.object({
     challan_id: Joi.number().required(),
-    checking_type: Joi.string().valid("wash", "finishing").required()
+    checking_type: Joi.string().valid("WashChecking", "FinishingChecking").required()
 });
 
 const controller = async (req, res) => {
     try {
         req.body.userInfo = req.userInfo;
-        const data = await challanCheckingListServices(req.body)
+        const data = await challanCheckingSummaryServices(req.body);
         if (data) {
             return res.status(MESSAGE.SUCCESS_GET.STATUS_CODE).json({ message: MESSAGE.SUCCESS_GET.CONTENT, status_code: MESSAGE.SUCCESS_GET.STATUS_CODE, data });
         }

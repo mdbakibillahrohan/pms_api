@@ -21,7 +21,7 @@ Accept: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    "checking_type": "WashChecking",
+    "checking_type": "FinishingChecking",
     "list_type":"waiting"
 }
 
