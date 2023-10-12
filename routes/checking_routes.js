@@ -12,6 +12,10 @@ const {
   controller: challanCheckingListController,
   schema: challanCheckingListSchema,
 } = require("../controllers/challan_checking/challan_checking_list_controller");
+const {
+  controller: challanCheckingSummaryController,
+  schema: challanCheckingSummarySchema,
+} = require("../controllers/challan_checking/challan_checking_summary_controller");
 
 const checkingRouter = Router();
 checkingRouter.post(
@@ -27,6 +31,13 @@ checkingRouter.post(
   authenticationMiddleware,
   checkingAuthorizationMiddleware,
   challanCheckingListController
+);
+checkingRouter.post(
+  API.API_CONTEXT + API.CHALLAN_CHEKING_SUMMARY,
+  validator(challanCheckingSummarySchema),
+  authenticationMiddleware,
+  checkingAuthorizationMiddleware,
+  challanCheckingSummaryController
 );
 
 module.exports = checkingRouter;

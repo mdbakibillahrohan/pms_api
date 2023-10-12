@@ -3,8 +3,8 @@ const { MESSAGE } = require('../../util/constant');
 const challanCheckingListServices = require('../../services/challan_checking_services/challan_checking_list_services');
 
 const schema = Joi.object({
-    list_type: Joi.string().valid("waiting", "passed").required(),
-    checking_type: Joi.string().valid("WashChecking", "FinishingChecking").required()
+    challan_id: Joi.number().required(),
+    checking_type: Joi.string().valid("wash", "finishing").required()
 });
 
 const controller = async (req, res) => {

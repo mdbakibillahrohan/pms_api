@@ -11,7 +11,7 @@ Authorization: Bearer {{TOKEN}}
 
 {
     "challan_id": "86",
-    "checking_type": "wash"
+    "checking_type": "WashChecking"
 }
 
 ###
@@ -21,7 +21,7 @@ Accept: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    "checking_type": "wash",
+    "checking_type": "WashChecking",
     "list_type":"waiting"
 }
 

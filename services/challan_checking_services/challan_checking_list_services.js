@@ -11,7 +11,7 @@ const challanCheckingListServices = async(payload)=>{
 const getList = async(payload)=>{
     const {checking_type} = payload;
     let data = null;
-    if(checking_type==="wash"){
+    if(checking_type==="WashChecking"){
         data = await getWashList(payload);
     }else{
         data = await getFinishingList(payload);
@@ -77,7 +77,7 @@ const getCount = async(payload)=>{
     const {checking_type, list_type, userInfo} = payload;
     let data = null;
     let query = null;
-    if(checking_type==="wash"){
+    if(checking_type==="WashChecking"){
         if(list_type==="waiting"){
             query = `select count(nsc.SCId) count  
                         from ${TABLE.NEW_SEWING_CHALLAN} nsc 

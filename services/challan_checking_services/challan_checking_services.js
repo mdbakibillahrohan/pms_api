@@ -21,12 +21,12 @@ const challanCheckingServices = async(payload)=>{
 const challanChecking = async(payload)=>{
     const {checking_type, challan_id, userInfo} = payload;
     const {UserId} = userInfo;
-    if(checking_type==="wash"){
+    if(checking_type==="WashChecking"){
         const washChallan = await checkingWashChallan(challan_id, UserId);
         if(washChallan){
             return true;
         }
-    }else if(checking_type==="finishing"){
+    }else{
         const finishingChallan = await checkingFinishingChallan(challan_id, UserId);
         if(finishingChallan){
             return true;
@@ -99,7 +99,7 @@ const checkIsAlreadyApprovedOrNotFound = async(payload)=>{
 
     //Checking availability
     let availabilityQuery = null;
-    if(checking_type==="wash"){
+    if(checking_type==="WashChecking"){
         availabilityQuery = `select count(SCId) count from ${TABLE.NEW_SEWING_CHALLAN} where SCId = ${challan_id}`;
     }else{
         availabilityQuery = `select count(WCMId) count from ${TABLE.NEW_WASH_CHALLAN} where WCMId = ${challan_id}`;
@@ -114,7 +114,7 @@ const checkIsAlreadyApprovedOrNotFound = async(payload)=>{
 
     //Checking alrady checked or not
     let isAlradyCheckedOrNotQuery = null;
-    if(checking_type==="wash"){
+    if(checking_type==="WashChecking"){
         isAlradyCheckedOrNotQuery = `select count(WCId) count from ${TABLE.WASH_CHECKING} where SCId = ${challan_id}`;
     }else{
         isAlradyCheckedOrNotQuery = `select count(FCId) count from ${TABLE.FINISHING_CHECKING} where WCMId = ${challan_id}`;
