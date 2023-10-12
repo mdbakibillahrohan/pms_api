@@ -5,7 +5,7 @@ const challanApproveServices = require('../../services/challan_approval_services
 const schema = Joi.object({
     challan_id:Joi.number().required(),
     approver_stack: Joi.string().valid("RDC", "ApprovedBy", "CheckedBy").required(),
-    next: Joi.string().valid("RDC", "ApprovedBy", "CheckedBy").optional(),
+    next: Joi.string().valid("RDC", "ApprovedBy", "CheckedBy", "WashChecking", "FinishingChecking").optional(),
     challan_type: Joi.string().valid("sewing", "wash").required()
 });
 

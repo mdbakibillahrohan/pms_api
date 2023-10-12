@@ -8,7 +8,7 @@ const challanCheckingSummaryServices = async(payload)=>{
 }
 
 const getChallanSummary = async(payload)=>{
-    const {checking_type, challan_id} = payload;
+    const {checking_type} = payload;
     let data = null;
     if(checking_type==="WashChecking"){
         data = await getWashChallanSummary(payload);

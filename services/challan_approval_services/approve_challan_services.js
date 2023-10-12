@@ -17,7 +17,7 @@ const challanApproveServices = async(payload)=>{
     if(next==="RDC"){
         data.Next = "ApprovedBy";
     }else if(next==="ApprovedBy"){
-        data.Next = "CheckedBy"
+        data.Next = "CheckedBy";
     }else if(next==="CheckedBy"){
         if(IsSewing){
             data.Next = "WashChecking";
