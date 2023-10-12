@@ -22,7 +22,7 @@ Authorization: Bearer {{TOKEN}}
 
 {
     "checking_type": "wash",
-    "list_type":"passed"
+    "list_type":"waiting"
 }
 
 

@@ -1,10 +1,11 @@
 const { TABLE } = require("../../util/constant");
-const {executeQuery, getData} = require("../../util/dao");
+const { getData} = require("../../util/dao");
 const { dbConfig } = require("../../util/settings");
 
 const challanCheckingListServices = async(payload)=>{
     const data = await getList(payload);
-    return data;
+    const count = await getCount(payload);
+    return {count, data};
 }
 
 const getList = async(payload)=>{
@@ -72,7 +73,42 @@ const getFinishingList = async(payload)=>{
     return data;
 }
 
-
+const getCount = async(payload)=>{
+    const {checking_type, list_type, userInfo} = payload;
+    let data = null;
+    let query = null;
+    if(checking_type==="wash"){
+        if(list_type==="waiting"){
+            query = `select count(nsc.SCId) count  
+                        from ${TABLE.NEW_SEWING_CHALLAN} nsc 
+                        where 1 = 1 and nsc.ChallanDate is not null and nsc.ToUnitId = ${userInfo.UnitId} and nsc.IsWashChecked = 0 and nsc.RDCUserId != 0 and nsc.ApprovedByUserId != 0 and nsc.CheckedByUserId !=0`;
+        }else{
+            query = `select count(nsc.SCId) count  
+                        from NewSewingChallan nsc
+                        inner join WashChecking wc on wc.SCId = nsc.SCId
+                        where 1 = 1 and nsc.ChallanDate is not null and nsc.ToUnitId = ${userInfo.UnitId} 
+                        and nsc.IsWashChecked = 1 and nsc.RDCUserId != 0 and nsc.ApprovedByUserId != 0 
+                        and nsc.CheckedByUserId !=0 and wc.UserId = ${userInfo.UserId}`;
+        }
+    }else{
+        if(list_type==="waiting"){
+            query = `select count(wcm.WCMId) count 
+                        from NewWashChallanMaster wcm 
+                        where 1 = 1 and wcm.ChallanDate is not null and wcm.ToUnitId = ${userInfo.UnitId} 
+                        and wcm.IsFinishingChecked = 0 and wcm.RDCUserId != 0 and wcm.ApprovedByUserId != 0 
+                        and wcm.CheckedByUserId !=0`
+        }else{
+            query = `select count(wcm.WCMId) count 
+                        from NewWashChallanMaster wcm 
+                        inner join FinishingChecking fc on fc.WCMId = wcm.WCMId
+                        where 1 = 1 and wcm.ChallanDate is not null and wcm.ToUnitId = ${userInfo.UnitId} 
+                        and wcm.IsFinishingChecked = 1 and wcm.RDCUserId != 0 and wcm.ApprovedByUserId != 0 
+                        and wcm.CheckedByUserId !=0 and fc.UserId = ${userInfo.UserId}`
+        }
+    }
+    data = await getData(dbConfig, query);
+    return data[0].count;
+}
 
 module.exports = challanCheckingListServices;
 
