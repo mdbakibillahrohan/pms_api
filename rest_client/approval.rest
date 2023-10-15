@@ -1,8 +1,8 @@
 @API_URL = http://localhost:3000/pms/api/v1 
 # @API_URL = http://192.168.1.160:3000/api
 
-#@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjMyNzUsIkVtcElkIjoiY2NsMWEtcmRjLTEiLCJVc2VyTmFtZSI6ImNjbDFhLXJkYy0xIiwiVHlwZU5hbWUiOiJTZXdpbmdSREMiLCJDb21wYW55SWQiOjEyLCJVbml0SWQiOiI3IiwiRnVsbE5hbWUiOiJjY2wxYS1yZGMtMSIsIkxpbmVJZCI6bnVsbCwiSXNTZXdpbmciOnRydWUsIklzV2FzaGluZyI6bnVsbCwiSXNGaW5pc2hpbmciOm51bGwsIlVzZXJUeXBlIjoiUkRDIiwiaWF0IjoxNjk3MDIzMzk3fQ.VUxk4X0UrHKTkNeQn8_dGhDXDmbbCboYwJeisDWSAbU
-@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjMyNzUsIkVtcElkIjoiY2NsMWEtcmRjLTEiLCJVc2VyTmFtZSI6ImNjbDFhLXJkYy0xIiwiVHlwZU5hbWUiOiJTZXdpbmdSREMiLCJDb21wYW55SWQiOjEyLCJVbml0SWQiOiI3IiwiRnVsbE5hbWUiOiJjY2wxYS1yZGMtMSIsIkxpbmVJZCI6bnVsbCwiSXNTZXdpbmciOnRydWUsIklzV2FzaGluZyI6bnVsbCwiSXNGaW5pc2hpbmciOm51bGwsIlVzZXJUeXBlIjoiQXBwcm92ZWRCeSIsImlhdCI6MTY5NzAyMzM5N30.UV7Ci-c92e4MLJESMiN3NArrpzWBJZNtXeqno3v-UuI
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjMyNzYsIkVtcElkIjoiY2NsMWEtYXBwcm92ZXItMSIsIlVzZXJOYW1lIjoiY2NsMWEtYXBwcm92ZXItMSIsIlVuaXROYW1lIjoiQ0NMIFVuaXQgMUEgKFRJR0wpIiwiVHlwZU5hbWUiOiJTZXdpbmdBcHByb3ZlZEJ5IiwiQ29tcGFueUlkIjoxMiwiVW5pdElkIjoiNyIsIkZ1bGxOYW1lIjoiY2NsMWEtYXBwcm92ZXItMSIsIkxpbmVJZCI6bnVsbCwiSXNTZXdpbmciOnRydWUsIklzV2FzaGluZyI6bnVsbCwiSXNGaW5pc2hpbmciOm51bGwsIlVzZXJUeXBlIjoiQXBwcm92ZWRCeSIsImlhdCI6MTY5NzM0NzE3OX0.bUc3o-dLj-MRP1rJ9skHGdXWw4gNHKCc-MUWTKOYGNs
+
 ###
 POST {{API_URL}}/approval/create-challan
 Content-Type: application/json
@@ -37,8 +37,9 @@ Authorization: Bearer {{TOKEN}}
 
 {
     "challan_id":104,
-    "approver_stack":"RDC",
-    "challan_type": "sewing"
+    "challan_type": "sewing",
+    "approver_stack": "ApprovedBy",
+    "remarks":"demo remarks"
 }
 
 ###

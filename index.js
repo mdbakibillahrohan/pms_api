@@ -1,6 +1,6 @@
 "use strict"
 require("dotenv").config();
-const ip = require('ip')
+const ip = require('ip');
 const express = require("express");
 const cors = require('cors');
 const morgan = require('morgan');
@@ -9,7 +9,7 @@ const {dbConfig, dbConfig2} = require('./util/settings');
 const app = express();
 const server = require('http').createServer(app);
 const router = require("./routes/router");
-const chalk = require("chalk")
+const chalk = require("chalk");
 const io = require('socket.io')(server,{
   cors: {
     origin: "*",
@@ -30,11 +30,12 @@ app.use((req, _, next)=>{
 
 server.listen(port,async () => {
   const endpoints = getEndpoints(router);
-  console.log(chalk.yellow("Method") + '            ' + "Path");
+  console.log("Method" + '            ' + "Path");
+  console.log("------" + '            ' + "-----");
   endpoints.forEach((endpoint) => {
     const cleanedPath = endpoint.path.slice(12);
     const spaces = getSpaceForPrintingPath(endpoint.method, 15);
-    console.log(chalk.green(endpoint.method.toUpperCase()) + spaces + chalk.blueBright(cleanedPath));
+    console.log(chalk.green(endpoint.method.toUpperCase()) + spaces + chalk.yellowBright(cleanedPath));
   });
   await dbConnectionChecker(dbConfig);
   await dbConnectionChecker(dbConfig2);
