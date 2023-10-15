@@ -4,12 +4,12 @@ const ip = require('ip')
 const express = require("express");
 const cors = require('cors');
 const morgan = require('morgan');
-const expressListRoutes = require("express-list-routes");
 const {dbConnectionChecker} = require('./util/dao');
 const {dbConfig, dbConfig2} = require('./util/settings');
 const app = express();
 const server = require('http').createServer(app);
 const router = require("./routes/router");
+const chalk = require("chalk")
 const io = require('socket.io')(server,{
   cors: {
     origin: "*",
@@ -18,6 +18,7 @@ const io = require('socket.io')(server,{
 });
 app.use(morgan('dev'));
 const body_parser = require("body-parser");
+const { getEndpoints, getSpaceForPrintingPath } = require("./util/helper");
 const port = process.env.PORT || 3000;
 
 app.use(body_parser.json());
@@ -28,7 +29,13 @@ app.use((req, _, next)=>{
 },router);
 
 server.listen(port,async () => {
-  expressListRoutes(router, { prefix: "", spacer: 15, color: true, logger: console.info});
+  const endpoints = getEndpoints(router);
+  console.log(chalk.yellow("Method") + '            ' + "Path");
+  endpoints.forEach((endpoint) => {
+    const cleanedPath = endpoint.path.slice(12);
+    const spaces = getSpaceForPrintingPath(endpoint.method, 15);
+    console.log(chalk.green(endpoint.method.toUpperCase()) + spaces + chalk.blueBright(cleanedPath));
+  });
   await dbConnectionChecker(dbConfig);
   await dbConnectionChecker(dbConfig2);
   const ipAddress = ip.address();
