@@ -146,7 +146,9 @@ const getCount = async(payload) => {
 
     if (challan_type === "sewing") {
         query = `select count(nsc.SCId) count from ${TABLE.NEW_SEWING_CHALLAN} nsc
-        where 1 = 1 and ${partialQuery} and nsc.ChallanDate is not null and nsc.FromUnitId = ${userInfo.UnitId}`;
+        where 1 = 1 and ${partialQuery} and nsc.ChallanDate is not null 
+        and nsc.IsReject = 0
+        and nsc.FromUnitId = ${userInfo.UnitId}`;
 
         if (search_text) {
             query += ` and nsc.ChallanNo like @SearchText`;
@@ -157,7 +159,9 @@ const getCount = async(payload) => {
         }
     } else {
         query = `select count(nwcm.WCMId) count from ${TABLE.NEW_WASH_CHALLAN} nwcm
-        where 1 = 1 and ${partialQuery} and nwcm.ChallanDate is not null and nwcm.FromUnitId = ${userInfo.UnitId}`;
+        where 1 = 1 and ${partialQuery} and nwcm.ChallanDate is not null 
+        and nwcm.IsReject = 0
+        and nwcm.FromUnitId = ${userInfo.UnitId}`;
 
         if (search_text) {
             query += ` and nwcm.ChallanNo like @SearchText`;
