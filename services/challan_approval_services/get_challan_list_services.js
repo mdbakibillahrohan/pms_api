@@ -29,7 +29,9 @@ const getSewingChallanList = async (payload) => {
     from ${TABLE.NEW_SEWING_CHALLAN} nsc 
     inner join Unit ufr on ufr.UnitId = nsc.FromUnitId
     inner join Unit uto on uto.UnitId = nsc.ToUnitId
-    where 1 = 1 and ${partialQuery} and nsc.ChallanDate is not null and nsc.FromUnitId = ${userInfo.UnitId}`;
+    where 1 = 1 and ${partialQuery} and nsc.ChallanDate is not null
+    and nsc.IsReject = 0 
+    and nsc.FromUnitId = ${userInfo.UnitId}`;
 
     if (search_text) {
         query += ` and ChallanNo like @SearchText`;
@@ -70,7 +72,9 @@ const getWashChallanList = async (payload) => {
     from ${TABLE.NEW_WASH_CHALLAN} nwcm 
     inner join Unit ufr on ufr.UnitId = nwcm.FromUnitId
     inner join Unit uto on uto.UnitId = nwcm.ToUnitId
-    where 1 = 1 and ${partialQuery} and nwcm.ChallanDate is not null and nwcm.FromUnitId = ${userInfo.UnitId}`;
+    where 1 = 1 and ${partialQuery} and nwcm.ChallanDate is not null
+    and nwcm.IsReject = 0  
+    and nwcm.FromUnitId = ${userInfo.UnitId}`;
 
     if (search_text) {
         query += ` and nwcm.ChallanNo like @SearchText`;
