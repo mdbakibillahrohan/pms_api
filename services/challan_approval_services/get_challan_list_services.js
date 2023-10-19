@@ -63,7 +63,7 @@ const getSewingChallanList = async (payload) => {
 };
 
 const getWashChallanList = async (payload) => {
-    const { search_text, limit, offset } = payload;
+    const { search_text, limit, offset, userInfo } = payload;
     const partialQuery = getPartialQuery(payload);
 
     let parameters = [];

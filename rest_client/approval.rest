@@ -1,7 +1,8 @@
-@API_URL = http://localhost:3000/pms/api/v1 
-# @API_URL = http://192.168.1.160:3000/api
+#@API_URL = http://localhost:3000/pms/api/v1 
+@API_URL = http://202.22.203.92:3000/pms/api/v1 
+#@API_URL = http://192.168.1.160:3000/api
 
-@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjMyNzYsIkVtcElkIjoiY2NsMWEtYXBwcm92ZXItMSIsIlVzZXJOYW1lIjoiY2NsMWEtYXBwcm92ZXItMSIsIlVuaXROYW1lIjoiQ0NMIFVuaXQgMUEgKFRJR0wpIiwiVHlwZU5hbWUiOiJTZXdpbmdBcHByb3ZlZEJ5IiwiQ29tcGFueUlkIjoxMiwiVW5pdElkIjoiNyIsIkZ1bGxOYW1lIjoiY2NsMWEtYXBwcm92ZXItMSIsIkxpbmVJZCI6bnVsbCwiSXNTZXdpbmciOnRydWUsIklzV2FzaGluZyI6bnVsbCwiSXNGaW5pc2hpbmciOm51bGwsIlVzZXJUeXBlIjoiQXBwcm92ZWRCeSIsImlhdCI6MTY5NzM0NzE3OX0.bUc3o-dLj-MRP1rJ9skHGdXWw4gNHKCc-MUWTKOYGNs
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjMyNzgsIkVtcElkIjoiY3dsMS1yZGMtMSIsIlVzZXJOYW1lIjoiY3dsMS1yZGMtMSIsIlVuaXROYW1lIjoiQ1dMIFVuaXQgMDEiLCJUeXBlTmFtZSI6Ildhc2hSREMiLCJDb21wYW55SWQiOjE3LCJVbml0SWQiOiI4NyIsIkZ1bGxOYW1lIjoiY3dsMS1yZGMtMSIsIkxpbmVJZCI6bnVsbCwiSXNTZXdpbmciOm51bGwsIklzV2FzaGluZyI6dHJ1ZSwiSXNGaW5pc2hpbmciOm51bGwsIlVzZXJUeXBlIjoiUkRDIiwiaWF0IjoxNjk3NzA2Njc0fQ.qVh_X_-4mUXHYtabxJo9K2kgHdZ050q5KFFmhiFlPSI
 
 ###
 POST {{API_URL}}/approval/create-challan
@@ -50,8 +51,8 @@ Authorization: Bearer {{TOKEN}}
 
 {
     "list_type": "waiting",
-    "challan_type": "sewing",
-    "approver_stack": "ApprovedBy"
+    "challan_type": "wash",
+    "approver_stack": "RDC"
 }
 
 ###
