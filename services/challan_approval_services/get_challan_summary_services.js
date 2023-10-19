@@ -31,7 +31,7 @@ const getSewingChallanSummary = async(payload)=>{
     return data;
 }
 
-const getWashChallanSummary = async()=>{
+const getWashChallanSummary = async(payload)=>{
     const {challan_id} = payload;
     const query = `select nwcm.ChallanNo, cs.StyleNo, nwcs.GmtQty, 
                     vb.Buyer_name from ${TABLE.NEW_WASH_CHALLAN_SUMMARY} nwcs
