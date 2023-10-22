@@ -27,6 +27,9 @@ module.exports = {
     CHALLAN_CHECKING: 'check/checking',
     CHALLAN_CHEKING_LIST: 'check/checking-list',
     CHALLAN_CHEKING_SUMMARY: 'check/summary',
+
+    CHALLAN_USER_PERMISSION_LIST: 'permission/get-permission-list',
+    CHALLAN_USER_PERMISSION_MAKE: 'permission/make-permission',
   },
   
   TABLE: {

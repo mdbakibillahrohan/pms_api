@@ -20,7 +20,7 @@ app.use(morgan('dev'));
 const body_parser = require("body-parser");
 const { getEndpoints, getSpaceForPrintingPath } = require("./util/helper");
 const port = process.env.PORT || 3000;
-
+app.use(express.static("public"))
 app.use(body_parser.json());
 app.use(cors());
 app.use((req, _, next)=>{
@@ -28,6 +28,11 @@ app.use((req, _, next)=>{
   next();
 },router);
 
+app.use((err, req, res, next)=>{
+  if(err){
+    res.status(500).send(err.message);
+  }
+})
 server.listen(port,async () => {
   const endpoints = getEndpoints(router);
   console.log("Method" + '            ' + "Path");
