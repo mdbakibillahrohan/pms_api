@@ -20,7 +20,7 @@ app.use(morgan('dev'));
 const body_parser = require("body-parser");
 const { getEndpoints, getSpaceForPrintingPath } = require("./util/helper");
 const port = process.env.PORT || 3000;
-app.use(express.static("public"))
+app.use("/storage",express.static("public"))
 app.use(body_parser.json());
 app.use(cors());
 app.use((req, _, next)=>{
