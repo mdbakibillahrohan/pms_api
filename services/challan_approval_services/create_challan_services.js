@@ -18,7 +18,7 @@ const getChallanInformation = async(payload)=>{
         where nsc.SCId = ${challan_id}`;
     }else{
         query = `select ui.FullName, nwcm.WCMId ChallanId, nwcm.ChallanNo, 
-        u.UnitName, nwcm.ToUnitId, ToUnitName, TotalGmtQty, 
+        u.UnitName, nwcm.ToUnitId, u.UnitName ToUnitName, TotalGmtQty, 
         ChallanDate from ${TABLE.NEW_WASH_CHALLAN} nwcm
         inner join Unit u on u.UnitId = nwcm.ToUnitId
         inner join UserInfo ui on ui.UserId = nwcm.CreatedBy

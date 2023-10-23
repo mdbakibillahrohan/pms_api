@@ -12,8 +12,8 @@ Authorization: Bearer {{TOKEN}}
 
 {
     "user_id": 3270,
-    "challan_id": 87,
-    "challan_type": "sewing",
+    "challan_id": 5,
+    "challan_type": "wash",
     "unit_id":7
 }
 
