@@ -1,6 +1,6 @@
 
 const Joi = require('joi');
-const {MESSAGE, SOCKET} = require('../../util/constant');
+const {MESSAGE} = require('../../util/constant');
 const challanCheckingServices = require('../../services/challan_checking_services/challan_checking_services');
 
 const schema = Joi.object({
