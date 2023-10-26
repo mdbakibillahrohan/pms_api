@@ -26,7 +26,7 @@ const getWashDashboardData = async (payload)=>{
         unit_wise_received: unitWiseReceivedQty,
         unit_wise_delivery: unitWiseDeliveryQty,
         style_wise_receive_vs_style_wise_delivery: styleWiseReceiveVsStyleWiseDelivery,
-        weekly_receive_vs_deliver: weeklyReceiveVsDelivery
+        weekly_receive_vs_delivery: weeklyReceiveVsDelivery
     }
     return data;
 }
