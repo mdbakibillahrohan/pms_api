@@ -2,9 +2,8 @@ const Joi = require('joi');
 const { MESSAGE } = require('../../util/constant');
 const washDashboardServices = require('../../services/wash_dashboard_services/wash_dashboard_services');
 
-
 const schema = Joi.object({
-    date: Joi.date().iso()
+    date: Joi.date().iso().optional()
 });
 
 const controller = async (req, res) => {

@@ -14,6 +14,7 @@ const getWashDashboardData = async (payload)=>{
     const unitWiseReceivedQty = await getUnitWiseReceivedQty(payload);
     const unitWiseDeliveryQty = await getUnitWiseDeliveryQty(payload);
     const styleWiseReceiveVsStyleWiseDelivery = await getStyleWisReceiveVsStyleWiseDelivery(payload);
+    const weeklyReceiveVsDelivery = await getWeeklyReceiveVsDelivery(payload);
     const rejectionPercent = (totalRejectQty[0].TotalReject/totalProductionQty[0].TotalProduction) * 100;
     const wip = totalReceivedGmtQty[0].TotalReceived - totalDeliveryGmtQty[0].TotalDelivery;
     const data = {
@@ -24,7 +25,8 @@ const getWashDashboardData = async (payload)=>{
         rejection_percent: rejectionPercent,
         unit_wise_received: unitWiseReceivedQty,
         unit_wise_delivery: unitWiseDeliveryQty,
-        style_wise_receive_vs_style_wise_delivery: styleWiseReceiveVsStyleWiseDelivery
+        style_wise_receive_vs_style_wise_delivery: styleWiseReceiveVsStyleWiseDelivery,
+        weekly_receive_vs_deliver: weeklyReceiveVsDelivery
     }
     return data;
 }
@@ -97,7 +99,27 @@ const getStyleWisReceiveVsStyleWiseDelivery = async (payload)=>{
     return data; 
 }
 
-const getDate = (payload)=>{
+const getWeeklyReceiveVsDelivery = async (payload)=>{
+    const date = getDate(payload, true);
+    const query = `select nwcm.ChallanDate Date, count(wrd.ChildBarcode) WashReceive, 
+    count(distinct nwcd.ChildBarcode) WashChallan from HourlySewingProductionCount hsp
+    right join WashReceiveDetails wrd on wrd.ChildBarcode = hsp.ChildBarcode
+    right join NewWashChallanDetails nwcd on nwcd.ChildBarcode = hsp.ChildBarcode
+    left join NewWashChallanMaster nwcm on nwcm.WCMId = nwcd.WCMId
+    left join WashReceiveMaster wrm on wrm.WRMId = wrd.WRMId
+    where 1 = 1 
+    and nwcm.ChallanDate = wrm.ReceivedDate 
+    and nwcm.ChallanDate >= CAST(DATEADD(day,-7, GETDATE()) as date) 
+    and wrm.ReceivedDate >= CAST(DATEADD(day,-7, GETDATE()) as date)
+    group by nwcm.ChallanDate`;
+    const data = await getData(dbConfig, query);
+    return data;
+} 
+
+const getDate = (payload, isWeekly = false)=>{
+    if(isWeekly){
+        return "CAST(DATEADD(day,-7, GETDATE()) as date)";
+    }
     const {date} = payload;
     if(date){
         return `'${date}'`;
