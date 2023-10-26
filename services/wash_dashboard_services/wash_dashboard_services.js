@@ -6,7 +6,6 @@ const washDashboardServices = async(payload)=>{
     return data;
 }
 
-
 const getWashDashboardData = async (payload)=>{
     const totalReceivedGmtQty = await getTotalReceivedGmtQty(payload);
     const totalDeliveryGmtQty = await getTotalDeliveryGmtQty(payload);
@@ -32,7 +31,7 @@ const getWashDashboardData = async (payload)=>{
 
 const getTotalReceivedGmtQty = async (payload)=>{
     const date = getDate(payload);
-    const query = `select count(wrd.ChildBarcode) TotalReceived from WashReceiveMaster wrm
+    const query = `select count(wrd.ChildBarcode) TotalReceived from WashReceiveMaster wrm with(nolock)
     inner join WashReceiveDetails wrd on wrm.WRMId = wrd.WRMId
     where wrm.ReceivedDate = ${date}`;
     const data = await getData(dbConfig, query);
@@ -41,21 +40,21 @@ const getTotalReceivedGmtQty = async (payload)=>{
 
 const getTotalDeliveryGmtQty = async (payload)=>{
     const date = getDate(payload);
-    const query = `select isnull(sum(TotalGmtQty), 0) TotalDelivery from NewWashChallanMaster where ChallanDate = ${date} and IsReject = 0`;
+    const query = `select isnull(sum(TotalGmtQty), 0) TotalDelivery from NewWashChallanMaster with(nolock) where ChallanDate = ${date} and IsReject = 0`;
     const data = await getData(dbConfig, query);
     return data; 
 }
 
 const getTotalProductionQty = async (payload)=>{
     const date = getDate(payload);
-    const query = `select count(HWPId) TotalProduction from HourlyWashProductionCount where WashDate = ${date}`;
+    const query = `select count(HWPId) TotalProduction from HourlyWashProductionCount with(nolock) where WashDate = ${date}`;
     const data = await getData(dbConfig, query);
     return data; 
 }
 
 const getTotalRejectQty = async (payload)=>{
     const date = getDate(payload);
-    const query = `select COUNT(HWDId) TotalReject from HourlyWashDefectCount 
+    const query = `select COUNT(HWDId) TotalReject from HourlyWashDefectCount with(nolock) 
     where DefectId in (select DefectId from IE_Defects where FaultGroupId=3 and ColumnNo = 3) 
     and WashDate = ${date}`;
     const data = await getData(dbConfig, query);
@@ -64,10 +63,10 @@ const getTotalRejectQty = async (payload)=>{
 
 const getUnitWiseReceivedQty = async (payload)=>{
     const date = getDate(payload);
-    const query = `select u.UnitName, count(wrd.ChildBarcode)GmtQty from WashReceiveMaster wrm
-    inner join WashReceiveDetails wrd on wrm.WRMId = wrd.WRMId
-    inner join UserInfo ui on ui.UserId = wrd.CreatedBy
-    inner join Unit u on u.UnitId = ui.branch_code 
+    const query = `select u.UnitName, count(wrd.ChildBarcode)GmtQty from WashReceiveMaster wrm with(nolock)
+    inner join WashReceiveDetails wrd with(nolock) on wrm.WRMId = wrd.WRMId
+    inner join UserInfo ui with(nolock) on ui.UserId = wrd.CreatedBy
+    inner join Unit u with(nolock) on u.UnitId = ui.branch_code 
     where wrm.ReceivedDate = ${date}
     group by U.UnitName`;
     const data = await getData(dbConfig, query);
@@ -76,8 +75,8 @@ const getUnitWiseReceivedQty = async (payload)=>{
 
 const getUnitWiseDeliveryQty = async (payload)=>{
     const date = getDate(payload);
-    const query = `select u.UnitName, sum(nwcm.TotalGmtQty) GmtQty from NewWashChallanMaster nwcm 
-    inner join Unit u on u.UnitId = nwcm.FromUnitId 
+    const query = `select u.UnitName, sum(nwcm.TotalGmtQty) GmtQty from NewWashChallanMaster nwcm with(nolock)
+    inner join Unit u with(nolock) on u.UnitId = nwcm.FromUnitId 
     where nwcm.ChallanDate = ${date} and nwcm.IsReject = 0
     group by u.UnitName`;
     const data = await getData(dbConfig, query);
@@ -86,12 +85,12 @@ const getUnitWiseDeliveryQty = async (payload)=>{
 
 const getStyleWisReceiveVsStyleWiseDelivery = async (payload)=>{
     const date = getDate(payload);
-    const query = `select cs.StyleNo, count(wrd.ChildBarcode) ReceiveQty, count(nwcd.ChildBarcode) SendQty from CuttingBarcodeTag cbt
-	inner join CP_Style cs on cs.Id = cbt.StyleId
-	left join WashReceiveDetails wrd on wrd.ChildBarcode = cbt.ChildBarcode
-	inner join NewWashChallanDetails nwcd on nwcd.ChildBarcode = cbt.ChildBarcode
-	inner join NewWashChallanMaster nwcm on nwcm.WCMId = nwcd.WCMId
-	inner join WashReceiveMaster wrm on wrm.WRMId = wrd.WRMId
+    const query = `select cs.StyleNo, count(wrd.ChildBarcode) ReceiveQty, count(nwcd.ChildBarcode) SendQty from CuttingBarcodeTag cbt with(nolock)
+	inner join CP_Style cs with(nolock) on cs.Id = cbt.StyleId
+	left join WashReceiveDetails wrd with(nolock) on wrd.ChildBarcode = cbt.ChildBarcode
+	inner join NewWashChallanDetails nwcd with(nolock) on nwcd.ChildBarcode = cbt.ChildBarcode
+	left join NewWashChallanMaster nwcm with(nolock) on nwcm.WCMId = nwcd.WCMId
+	left join WashReceiveMaster wrm with(nolock) on wrm.WRMId = wrd.WRMId
 	where wrm.ReceivedDate = ${date} and nwcm.ChallanDate = cast(GETDATE() as date)
 	group by cs.StyleNo`;
     const data = await getData(dbConfig, query);
