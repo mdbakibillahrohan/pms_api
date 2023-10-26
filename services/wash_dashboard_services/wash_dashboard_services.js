@@ -102,11 +102,11 @@ const getStyleWisReceiveVsStyleWiseDelivery = async (payload)=>{
 const getWeeklyReceiveVsDelivery = async (payload)=>{
     const date = getDate(payload, true);
     const query = `select nwcm.ChallanDate Date, count(wrd.ChildBarcode) WashReceive, 
-    count(distinct nwcd.ChildBarcode) WashChallan from HourlySewingProductionCount hsp
-    right join WashReceiveDetails wrd on wrd.ChildBarcode = hsp.ChildBarcode
-    right join NewWashChallanDetails nwcd on nwcd.ChildBarcode = hsp.ChildBarcode
-    left join NewWashChallanMaster nwcm on nwcm.WCMId = nwcd.WCMId
-    left join WashReceiveMaster wrm on wrm.WRMId = wrd.WRMId
+    count(distinct nwcd.ChildBarcode) WashChallan from HourlySewingProductionCount hsp with(nolock)
+    right join WashReceiveDetails wrd with(nolock) on wrd.ChildBarcode = hsp.ChildBarcode
+    right join NewWashChallanDetails nwcd with(nolock) on nwcd.ChildBarcode = hsp.ChildBarcode
+    left join NewWashChallanMaster nwcm with(nolock) on nwcm.WCMId = nwcd.WCMId
+    left join WashReceiveMaster wrm with(nolock) on wrm.WRMId = wrd.WRMId
     where 1 = 1 
     and nwcm.ChallanDate = wrm.ReceivedDate 
     and nwcm.ChallanDate >= CAST(DATEADD(day,-7, GETDATE()) as date) 
