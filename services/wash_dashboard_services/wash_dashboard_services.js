@@ -41,7 +41,7 @@ const getTotalReceivedGmtQty = async (payload)=>{
 
 const getTotalDeliveryGmtQty = async (payload)=>{
     const date = getDate(payload);
-    const query = `select isnull(sum(TotalGmtQty), 0) as bigint TotalDelivery from NewWashChallanMaster where ChallanDate = ${date} and IsReject = 0`;
+    const query = `select isnull(sum(TotalGmtQty), 0) TotalDelivery from NewWashChallanMaster where ChallanDate = ${date} and IsReject = 0`;
     const data = await getData(dbConfig, query);
     return data; 
 }
