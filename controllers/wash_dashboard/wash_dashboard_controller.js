@@ -4,8 +4,7 @@ const washDashboardServices = require('../../services/wash_dashboard_services/wa
 
 
 const schema = Joi.object({
-    date: Joi.date().iso(),
-    age: Joi.number().required(),
+    date: Joi.date().iso()
 });
 
 const controller = async (req, res) => {
