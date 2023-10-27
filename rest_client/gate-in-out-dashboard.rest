@@ -11,7 +11,7 @@ Authorization: Bearer {{TOKEN}}
 
 {
     "gate_in_type":"out",
-    "challan_type":"sewing"
+    "challan_type":"wash"
 }
 
 
