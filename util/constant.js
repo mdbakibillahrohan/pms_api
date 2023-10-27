@@ -33,6 +33,8 @@ module.exports = {
 
 
     WASH_DASHBORD_DATA: 'wash-dashboard/all',
+    WASH_DASHBORD_DATA_WEEKLY_RECEIVE_VS_DELIVER: 'wash-dashboard/weekly-receive-vs-delivery',
+    WASH_DASHBORD_DATA_STYLE_WISE_RECEIVE_VS_DELIVERY: 'wash-dashboard/style-wise-receive-vs-delivery',
     GATE_IN_OUT_DASHBOARD: 'dashboard/gate-in-out'
   },
   

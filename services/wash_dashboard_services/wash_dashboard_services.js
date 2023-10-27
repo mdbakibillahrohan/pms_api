@@ -14,7 +14,6 @@ const getWashDashboardData = async (payload)=>{
     const unitWiseReceivedQty = await getUnitWiseReceivedQty(payload);
     const unitWiseDeliveryQty = await getUnitWiseDeliveryQty(payload);
     const styleWiseReceiveVsStyleWiseDelivery = await getStyleWisReceiveVsStyleWiseDelivery(payload);
-    const weeklyReceiveVsDelivery = await getWeeklyReceiveVsDelivery(payload);
     const rejectionPercent = (totalRejectQty[0].TotalReject/totalProductionQty[0].TotalProduction) * 100;
     const wip = totalReceivedGmtQty[0].TotalReceived - totalDeliveryGmtQty[0].TotalDelivery;
     const data = {
@@ -26,7 +25,6 @@ const getWashDashboardData = async (payload)=>{
         unit_wise_received: unitWiseReceivedQty,
         unit_wise_delivery: unitWiseDeliveryQty,
         style_wise_receive_vs_style_wise_delivery: styleWiseReceiveVsStyleWiseDelivery,
-        weekly_receive_vs_delivery: weeklyReceiveVsDelivery
     }
     return data;
 }
@@ -85,36 +83,9 @@ const getUnitWiseDeliveryQty = async (payload)=>{
     return data; 
 }
 
-const getStyleWisReceiveVsStyleWiseDelivery = async (payload)=>{
-    const date = getDate(payload);
-    const query = `select cs.StyleNo, count(wrd.ChildBarcode) ReceiveQty, count(nwcd.ChildBarcode) SendQty from CuttingBarcodeTag cbt with(nolock)
-	inner join CP_Style cs with(nolock) on cs.Id = cbt.StyleId
-	left join WashReceiveDetails wrd with(nolock) on wrd.ChildBarcode = cbt.ChildBarcode
-	inner join NewWashChallanDetails nwcd with(nolock) on nwcd.ChildBarcode = cbt.ChildBarcode
-	left join NewWashChallanMaster nwcm with(nolock) on nwcm.WCMId = nwcd.WCMId
-	left join WashReceiveMaster wrm with(nolock) on wrm.WRMId = wrd.WRMId
-	where wrm.ReceivedDate = ${date} and nwcm.ChallanDate = cast(GETDATE() as date)
-	group by cs.StyleNo`;
-    const data = await getData(dbConfig, query);
-    return data; 
-}
 
-const getWeeklyReceiveVsDelivery = async (payload)=>{
-    const date = getDate(payload, true);
-    const query = `select nwcm.ChallanDate Date, count(wrd.ChildBarcode) WashReceive, 
-    count(distinct nwcd.ChildBarcode) WashChallan from HourlySewingProductionCount hsp with(nolock)
-    right join WashReceiveDetails wrd with(nolock) on wrd.ChildBarcode = hsp.ChildBarcode
-    right join NewWashChallanDetails nwcd with(nolock) on nwcd.ChildBarcode = hsp.ChildBarcode
-    left join NewWashChallanMaster nwcm with(nolock) on nwcm.WCMId = nwcd.WCMId
-    left join WashReceiveMaster wrm with(nolock) on wrm.WRMId = wrd.WRMId
-    where 1 = 1 
-    and nwcm.ChallanDate = wrm.ReceivedDate 
-    and nwcm.ChallanDate >= CAST(DATEADD(day,-7, GETDATE()) as date) 
-    and wrm.ReceivedDate >= CAST(DATEADD(day,-7, GETDATE()) as date)
-    group by nwcm.ChallanDate`;
-    const data = await getData(dbConfig, query);
-    return data;
-} 
+
+
 
 const getDate = (payload, isWeekly = false)=>{
     if(isWeekly){
