@@ -7,6 +7,7 @@ const challanCheckingRouter = require('./checking_routes');
 const uploadFilesRouter = require('./upload_files_routes');
 const permissionRouter = require("./permission_routes");
 const washDashboardRouter = require("./wash_dashboard_routes");
+const gateInOutDashboardRouter = require("./gate_in_out_dashboard_routes");
 
 appRouter.use(authenticationRouter);
 appRouter.use(dashboardRouter);
@@ -15,4 +16,5 @@ appRouter.use(challanCheckingRouter);
 appRouter.use(uploadFilesRouter);
 appRouter.use(permissionRouter);
 appRouter.use(washDashboardRouter);
+appRouter.use(gateInOutDashboardRouter);
 module.exports = appRouter;

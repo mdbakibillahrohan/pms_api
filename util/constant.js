@@ -32,7 +32,8 @@ module.exports = {
     CHALLAN_USER_PERMISSION_MAKE: 'permission/make-permission',
 
 
-    WASH_DASHBORD_DATA: 'wash-dashboard/all'
+    WASH_DASHBORD_DATA: 'wash-dashboard/all',
+    GATE_IN_OUT_DASHBOARD: 'dashboard/gate-in-out'
   },
   
   TABLE: {

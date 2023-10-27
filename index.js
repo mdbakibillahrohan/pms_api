@@ -18,7 +18,7 @@ const io = require('socket.io')(server,{
 });
 app.use(morgan('dev'));
 const body_parser = require("body-parser");
-const { getEndpoints, getSpaceForPrintingPath } = require("./util/helper");
+const { getEndpoints, getSpaceForPrintingPath, getMethodColor } = require("./util/helper");
 const port = process.env.PORT || 3000;
 app.use("/storage",express.static("public"))
 app.use(body_parser.json());
@@ -40,7 +40,7 @@ server.listen(port,async () => {
   endpoints.forEach((endpoint) => {
     const cleanedPath = endpoint.path.slice(12);
     const spaces = getSpaceForPrintingPath(endpoint.method, 15);
-    console.log(chalk.green(endpoint.method.toUpperCase()) + spaces + chalk.yellowBright(cleanedPath));
+    console.log(getMethodColor(endpoint.method.toUpperCase()) + spaces + chalk.blueBright(cleanedPath));
   });
   await dbConnectionChecker(dbConfig);
   await dbConnectionChecker(dbConfig2);
