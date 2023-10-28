@@ -10,8 +10,8 @@ Accept: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    "gate_in_type":"out",
-    "challan_type":"sewing"
+    "gate_in_type":"in",
+    "challan_type":"finishing"
 }
 
 

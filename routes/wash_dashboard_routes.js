@@ -11,24 +11,33 @@ const {
   controller: weekReceiveVsDeliveryController,
   schema: weekReceiveVsDeliverySchema,
 } = require("../controllers/wash_dashboard/weekly_receive_vs_delivery_controller");
+const {
+  controller: totalReceivedController,
+  schema: totalReceivedSchema,
+} = require("../controllers/wash_dashboard/total_received_gmt_controller");
 
 const washDashboardRouter = Router();
 
 washDashboardRouter.get(
   API.API_CONTEXT + API.WASH_DASHBORD_DATA,
-  authenticationMiddleware,
   validator(washDashboardSchema, 'query'),
   washDashboarController
 );
+
+washDashboardRouter.get(
+  API.API_CONTEXT + API.WASH_DASHBORD_DATA_TOTAL_RECEIVE_GMT,
+  validator(totalReceivedSchema, 'query'),
+  totalReceivedController
+);
+
+
 washDashboardRouter.get(
   API.API_CONTEXT + API.WASH_DASHBORD_DATA_WEEKLY_RECEIVE_VS_DELIVER,
-  authenticationMiddleware,
   validator(weekReceiveVsDeliverySchema, 'query'),
   weekReceiveVsDeliveryController
 );
 washDashboardRouter.get(
   API.API_CONTEXT + API.WASH_DASHBORD_DATA_STYLE_WISE_RECEIVE_VS_DELIVERY,
-  authenticationMiddleware,
   validator(weekReceiveVsDeliverySchema, 'query'),
   weekReceiveVsDeliveryController
 );
