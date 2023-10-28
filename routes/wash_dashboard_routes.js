@@ -23,6 +23,10 @@ const {
   controller: totalProductionController,
   schema: totalProductionSchema,
 } = require("../controllers/wash_dashboard/total_production_controller");
+const {
+  controller: totalRejectionPercentageController,
+  schema: totalRejectionPercentageSchema,
+} = require("../controllers/wash_dashboard/total_reject_percentage_controller");
 
 const washDashboardRouter = Router();
 
@@ -50,6 +54,13 @@ washDashboardRouter.get(
   API.API_CONTEXT + API.WASH_DASHBORD_DATA_TOTAL_PRODUCTION,
   validator(totalProductionSchema, 'query'),
   totalProductionController
+);
+
+
+washDashboardRouter.get(
+  API.API_CONTEXT + API.WASH_DASHBORD_DATA_TOTAL_REJECTION_PERCENTAGE,
+  validator(totalRejectionPercentageSchema, 'query'),
+  totalRejectionPercentageController
 );
 
 
