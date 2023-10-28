@@ -13,18 +13,16 @@ const getWashDashboardData = async (payload)=>{
     const totalRejectQty = await getTotalRejectQty(payload);
     const unitWiseReceivedQty = await getUnitWiseReceivedQty(payload);
     const unitWiseDeliveryQty = await getUnitWiseDeliveryQty(payload);
-    const styleWiseReceiveVsStyleWiseDelivery = await getStyleWisReceiveVsStyleWiseDelivery(payload);
     const rejectionPercent = (totalRejectQty[0].TotalReject/totalProductionQty[0].TotalProduction) * 100;
     const wip = totalReceivedGmtQty[0].TotalReceived - totalDeliveryGmtQty[0].TotalDelivery;
     const data = {
-        total_received: totalReceivedGmtQty[0].TotalReceived,
-        total_delivery: totalDeliveryGmtQty[0].TotalDelivery,
-        total_production: totalProductionQty[0].TotalProduction,
+        totalReceived: totalReceivedGmtQty[0].TotalReceived,
+        totalDelivery: totalDeliveryGmtQty[0].TotalDelivery,
+        totalProduction: totalProductionQty[0].TotalProduction,
         wip,
-        rejection_percent: rejectionPercent,
-        unit_wise_received: unitWiseReceivedQty,
-        unit_wise_delivery: unitWiseDeliveryQty,
-        style_wise_receive_vs_style_wise_delivery: styleWiseReceiveVsStyleWiseDelivery,
+        rejectionPercent: rejectionPercent,
+        unitWiseReceived: unitWiseReceivedQty,
+        unitWiseDelivery: unitWiseDeliveryQty,
     }
     return data;
 }
