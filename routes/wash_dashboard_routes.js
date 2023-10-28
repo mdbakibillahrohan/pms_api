@@ -31,6 +31,10 @@ const {
   controller: totalRejectionPercentageController,
   schema: totalRejectionPercentageSchema,
 } = require("../controllers/wash_dashboard/total_reject_percentage_controller");
+const {
+  controller: wipController,
+  schema: wipSchema,
+} = require("../controllers/wash_dashboard/wip_controller");
 
 const washDashboardRouter = Router();
 
@@ -72,6 +76,13 @@ washDashboardRouter.get(
   API.API_CONTEXT + API.WASH_DASHBORD_DATA_TOTAL_REJECTION_PERCENTAGE,
   validator(totalRejectionPercentageSchema, 'query'),
   totalRejectionPercentageController
+);
+
+
+washDashboardRouter.get(
+  API.API_CONTEXT + API.WASH_DASHBORD_DATA_WIP,
+  validator(wipSchema, 'query'),
+  wipController
 );
 
 
