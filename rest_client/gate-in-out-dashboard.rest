@@ -11,7 +11,8 @@ Authorization: Bearer {{TOKEN}}
 
 {
     "gate_in_type":"out",
-    "challan_type":"wash"
+    "challan_type":"wash",
+    "date":"2023-10-22"
 }
 
 

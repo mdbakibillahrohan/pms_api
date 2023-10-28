@@ -3,7 +3,7 @@ const { MESSAGE } = require('../../util/constant');
 const gateInOutDashboardService = require('../../services/gate_in_out_dashboard_services/gate_in_out_dashboard_services');
 
 const schema = Joi.object({
-    date: Joi.date().iso().optional(),
+    date: Joi.date().optional(),
     gate_in_type: Joi.string().valid("in", "out").required(),
     challan_type: Joi.string().valid("wash", "sewing", "finishing").required()
 });
