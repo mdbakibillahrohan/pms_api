@@ -4,7 +4,8 @@ const styleWiseReceiveVsDeliveryService = require('../../services/wash_dashboard
 const styleWiseReceiveVsDeliverService = require('../../services/wash_dashboard_services/style_wise_receive_vs_delivery');
 
 const schema = Joi.object({
-    date: Joi.date().optional()
+    date: Joi.date().optional(),
+    unitId: Joi.number().required()
 });
 
 const controller = async (req, res) => {

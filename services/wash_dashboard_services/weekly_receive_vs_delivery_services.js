@@ -8,6 +8,7 @@ const weeklyReceiveVsDeliveryServices = async(payload)=>{
 
 const getWeeklyReceiveVsDeliveryData = async (payload)=>{
     const date = getDate(payload, true);
+    const {unitId} = payload;
     const query = `select nwcm.ChallanDate Date, count(wrd.ChildBarcode) WashReceive, 
     count(distinct nwcd.ChildBarcode) WashChallan from HourlySewingProductionCount hsp with(nolock)
     right join WashReceiveDetails wrd with(nolock) on wrd.ChildBarcode = hsp.ChildBarcode
@@ -18,6 +19,7 @@ const getWeeklyReceiveVsDeliveryData = async (payload)=>{
     and nwcm.ChallanDate = wrm.ReceivedDate 
     and nwcm.ChallanDate >= ${date} 
     and wrm.ReceivedDate >= ${date}
+    and nwcm.FromUnitId = ${unitId}
     group by nwcm.ChallanDate`;
     const data = await getData(dbConfig, query);
     return data;

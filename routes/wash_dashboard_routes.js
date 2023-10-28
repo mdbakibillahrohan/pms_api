@@ -12,6 +12,10 @@ const {
   schema: weekReceiveVsDeliverySchema,
 } = require("../controllers/wash_dashboard/weekly_receive_vs_delivery_controller");
 const {
+  controller: styleWiseReceiveVsDeliveryController,
+  schema: styleWiseReceiveVsDeliverySchema,
+} = require("../controllers/wash_dashboard/style_wise_receive_vs_delivery_controller");
+const {
   controller: totalReceivedController,
   schema: totalReceivedSchema,
 } = require("../controllers/wash_dashboard/total_received_gmt_controller");
@@ -93,8 +97,8 @@ washDashboardRouter.get(
 );
 washDashboardRouter.get(
   API.API_CONTEXT + API.WASH_DASHBORD_DATA_STYLE_WISE_RECEIVE_VS_DELIVERY,
-  validator(weekReceiveVsDeliverySchema, 'query'),
-  weekReceiveVsDeliveryController
+  validator(styleWiseReceiveVsDeliverySchema, 'query'),
+  styleWiseReceiveVsDeliveryController
 );
 
 module.exports = washDashboardRouter;

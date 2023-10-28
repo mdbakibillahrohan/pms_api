@@ -7,6 +7,7 @@ const styleWiseReceiveVsDeliverService = async (payload)=>{
 }
 
 const getStyleWisReceiveVsStyleWiseDeliveryData = async (payload)=>{
+    const {unitId} = payload;
     const date = getDate(payload);
     const query = `select cs.StyleNo, count(wrd.ChildBarcode) ReceiveQty, count(nwcd.ChildBarcode) SendQty from CuttingBarcodeTag cbt with(nolock)
 	inner join CP_Style cs with(nolock) on cs.Id = cbt.StyleId
@@ -15,6 +16,7 @@ const getStyleWisReceiveVsStyleWiseDeliveryData = async (payload)=>{
 	left join NewWashChallanMaster nwcm with(nolock) on nwcm.WCMId = nwcd.WCMId
 	left join WashReceiveMaster wrm with(nolock) on wrm.WRMId = wrd.WRMId
 	where wrm.ReceivedDate = ${date} and nwcm.ChallanDate = ${date}
+    and nwcm.FromUnitId = ${unitId}
 	group by cs.StyleNo`;
     const data = await getData(dbConfig, query);
     return data; 

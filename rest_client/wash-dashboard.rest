@@ -24,7 +24,7 @@ Authorization: Bearer {{TOKEN}}
 }
 
 ###
-GET {{API_URL}}/wash-dashboard/style-wise-receive-vs-delivery
+GET {{API_URL}}/wash-dashboard/style-wise-receive-vs-delivery?unitId=87
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{TOKEN}}
