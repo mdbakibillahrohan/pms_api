@@ -2,8 +2,8 @@ const { getData } = require('../../util/dao');
 const { dbConfig } = require('../../util/settings');
 
 const gateInOutDashboardServices = async(payload)=>{
-    const checkRquestParameter = checkIsThisRequestValidOrNot(payload);
-    if(checkRquestParameter){
+    const checkRequestParameter = checkIsThisRequestValidOrNot(payload);
+    if(checkRequestParameter){
         const data = await getGateInOutDashboardData(payload);
         return {message: "success", data};
     }
@@ -46,9 +46,11 @@ const getGateInOutDashboardData = async(payload)=>{
 const getSewingData = async(payload)=>{
     const {userInfo} = payload;
     const date = getDate(payload);
-    const waitingDataQuery = `select count(SCId) Waiting from NewSewingChallan where Status = 1 and ApprovedByUserId != 0 and ChallanDate = ${date}`;
+    //const waitingDataQuery = `select count(SCId) Waiting from NewSewingChallan where Status = 1 and ApprovedByUserId != 0 and ChallanDate = ${date}`;
+    const waitingDataQuery = `select count(SCId) Waiting from NewSewingChallan where Status = 1 and ApprovedByUserId != 0`;
     const waitingData = await getData(dbConfig, waitingDataQuery);
-    const passedChallanQuery = `select count(SCId) Passed from NewSewingChallan where status = 1 and CheckedByUserId = ${userInfo.UserId} and ChallanDate = ${date}`;
+    //const passedChallanQuery = `select count(SCId) Passed from NewSewingChallan where status = 1 and CheckedByUserId = ${userInfo.UserId} and ChallanDate = ${date}`;
+    const passedChallanQuery = `select count(SCId) Passed from NewSewingChallan where status = 1 and CheckedByUserId = ${userInfo.UserId}`;
     const passedChallanData = await getData(dbConfig, passedChallanQuery);
 
     return{
@@ -66,11 +68,14 @@ const getWashData = async(payload)=>{
     let gateInData = null;
     let passedData = null;
     if(gate_in_type==="in"){
-        waitingDataQuery = `select count(SCId) Waiting from NewSewingChallan where Status = 1 and CheckedByUserId != 0 and ChallanDate = ${date}`;
-        gateInQuery = `select count(WCId) GateIn from WashChecking Where UserId = ${userInfo.UserId} and CreatedAt = ${date}`;
+        //waitingDataQuery = `select count(SCId) Waiting from NewSewingChallan where Status = 1 and CheckedByUserId != 0 and ChallanDate = ${date}`;
+        waitingDataQuery = `select count(SCId) Waiting from NewSewingChallan where Status = 1 and CheckedByUserId != 0`;
+        //gateInQuery = `select count(WCId) GateIn from WashChecking Where UserId = ${userInfo.UserId} and CreatedAt = ${date}`;
+        gateInQuery = `select count(WCId) GateIn from WashChecking Where UserId = ${userInfo.UserId}`;
         gateInData = await getData(dbConfig, gateInQuery);
     }else{
-        waitingDataQuery = `select count(WCMId) Waiting from NewWashChallanMaster where Status = 1 and ApprovedByUserId != 0 and ChallanDate = ${date}`;
+        //waitingDataQuery = `select count(WCMId) Waiting from NewWashChallanMaster where Status = 1 and ApprovedByUserId != 0 and ChallanDate = ${date}`;
+        waitingDataQuery = `select count(WCMId) Waiting from NewWashChallanMaster where Status = 1 and ApprovedByUserId != 0`;
         passedQuery = `select count(WCMId) Passed from NewWashChallanMaster where status = 1 and CheckedByUserId = ${userInfo.UserId}`;
         passedData = await getData(dbConfig, passedQuery);
     }
@@ -86,9 +91,11 @@ const getWashData = async(payload)=>{
 const getFinishingData = async(payload)=>{
     const {userInfo} = payload;
     const date = getDate(payload);
-    const waitingDataQuery = `select count(WCMId) Waiting from NewWashChallanMaster where Status = 1 and CheckedByUserId != 0 and ChallanDate = ${date}`;
+    //const waitingDataQuery = `select count(WCMId) Waiting from NewWashChallanMaster where Status = 1 and CheckedByUserId != 0 and ChallanDate = ${date}`;
+    const waitingDataQuery = `select count(WCMId) Waiting from NewWashChallanMaster where Status = 1 and CheckedByUserId != 0`;
     const waitingData = await getData(dbConfig, waitingDataQuery);
-    const gateInQuery = `select count(FCId) GateIn from FinishingChecking Where UserId = ${userInfo.UserId} and CreatedAt = ${date}`;
+    //const gateInQuery = `select count(FCId) GateIn from FinishingChecking Where UserId = ${userInfo.UserId} and CreatedAt = ${date}`;
+    const gateInQuery = `select count(FCId) GateIn from FinishingChecking Where UserId = ${userInfo.UserId}`;
     const gateInData = await getData(dbConfig, gateInQuery);
     return{
         waiting: waitingData[0].Waiting,
@@ -101,9 +108,11 @@ const getTotalChallanData = async(payload)=>{
     const date = getDate(payload);
     let totalChallanQuery = null;
     if(challan_type==="sewing"){
-        totalChallanQuery = `select count(SCId) TotalChallan from NewSewingChallan where Status = 1 and ChallanDate = ${date}`
+        //totalChallanQuery = `select count(SCId) TotalChallan from NewSewingChallan where Status = 1 and ChallanDate = ${date}`
+        totalChallanQuery = `select count(SCId) TotalChallan from NewSewingChallan where Status = 1`
     }else{
-        totalChallanQuery = `select count(WCMId) TotalChallan from NewWashChallanMaster where Status = 1 and ChallanDate = ${date}`;
+        //totalChallanQuery = `select count(WCMId) TotalChallan from NewWashChallanMaster where Status = 1 and ChallanDate = ${date}`;
+        totalChallanQuery = `select count(WCMId) TotalChallan from NewWashChallanMaster where Status = 1`;
     }
     const totalChallanData = await getData(dbConfig, totalChallanQuery);
     return totalChallanData[0].TotalChallan;
