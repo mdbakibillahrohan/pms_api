@@ -35,6 +35,7 @@ module.exports = {
     WASH_DASHBORD_DATA: 'wash-dashboard/all',
     WASH_DASHBORD_DATA_TOTAL_PRODUCTION: 'wash-dashboard/all',
     WASH_DASHBORD_DATA_TOTAL_PRODUCTION: 'wash-dashboard/total-production',
+    WASH_DASHBORD_DATA_THIS_MONTH_TOTAL_PRODUCTION: 'wash-dashboard/this-month-total-production',
     WASH_DASHBORD_DATA_TOTAL_RECEIVE_GMT: 'wash-dashboard/total-received',
     WASH_DASHBORD_DATA_TOTAL_DELIVERY: 'wash-dashboard/total-delivery',
     WASH_DASHBORD_DATA_TOTAL_REJECTION_PERCENTAGE: 'wash-dashboard/rejection-percentage',
