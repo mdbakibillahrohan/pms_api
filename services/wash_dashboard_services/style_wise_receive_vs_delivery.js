@@ -14,10 +14,21 @@ const getStyleWisReceiveVsStyleWiseDeliveryData = async (payload)=>{
 	inner join NewWashChallanDetails nwcd with(nolock) on nwcd.ChildBarcode = cbt.ChildBarcode
 	left join NewWashChallanMaster nwcm with(nolock) on nwcm.WCMId = nwcd.WCMId
 	left join WashReceiveMaster wrm with(nolock) on wrm.WRMId = wrd.WRMId
-	where wrm.ReceivedDate = ${date} and nwcm.ChallanDate = cast(GETDATE() as date)
+	where wrm.ReceivedDate = ${date} and nwcm.ChallanDate = ${date}
 	group by cs.StyleNo`;
     const data = await getData(dbConfig, query);
     return data; 
+}
+
+const getDate = (payload, isWeekly = false)=>{
+    if(isWeekly){
+        return "CAST(DATEADD(day,-7, GETDATE()) as date)";
+    }
+    const {date} = payload;
+    if(date){
+        return `'${date}'`;
+    }
+    return "CAST(GETDATE() as date)";
 }
 
  module.exports = styleWiseReceiveVsDeliverService;

@@ -83,10 +83,6 @@ const getUnitWiseDeliveryQty = async (payload)=>{
     return data; 
 }
 
-
-
-
-
 const getDate = (payload, isWeekly = false)=>{
     if(isWeekly){
         return "CAST(DATEADD(day,-7, GETDATE()) as date)";
