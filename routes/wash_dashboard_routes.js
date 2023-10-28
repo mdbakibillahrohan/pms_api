@@ -15,6 +15,10 @@ const {
   controller: totalReceivedController,
   schema: totalReceivedSchema,
 } = require("../controllers/wash_dashboard/total_received_gmt_controller");
+const {
+  controller: totalDeliveryController,
+  schema: totalDeliverySchema,
+} = require("../controllers/wash_dashboard/total_delivery_gmt_controller");
 
 const washDashboardRouter = Router();
 
@@ -28,6 +32,13 @@ washDashboardRouter.get(
   API.API_CONTEXT + API.WASH_DASHBORD_DATA_TOTAL_RECEIVE_GMT,
   validator(totalReceivedSchema, 'query'),
   totalReceivedController
+);
+
+
+washDashboardRouter.get(
+  API.API_CONTEXT + API.WASH_DASHBORD_DATA_TOTAL_DELIVERY,
+  validator(totalDeliverySchema, 'query'),
+  totalDeliveryController
 );
 
 

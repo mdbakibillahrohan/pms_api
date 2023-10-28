@@ -8,11 +8,12 @@ const totalReceiveService = async (payload)=>{
 }
 
 const getTotalReceivedGmtQty = async (payload)=>{
+    const {unitId} = payload;
     const date = getDate(payload);
     const query = `select count(wrd.ChildBarcode) TotalReceived from WashReceiveMaster wrm with(nolock)
     inner join WashReceiveDetails wrd on wrm.WRMId = wrd.WRMId
     inner join UserInfo ui on ui.UserId = wrm.CreatedBy
-    where wrm.ReceivedDate = ${date} and ui.branch_code = 75`;
+    where wrm.ReceivedDate = ${date} and ui.branch_code = ${unitId}`;
     const data = await getData(dbConfig, query);
     return data;
 }

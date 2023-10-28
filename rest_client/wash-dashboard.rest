@@ -32,7 +32,16 @@ Authorization: Bearer {{TOKEN}}
     
 }
 ###
-GET {{API_URL}}/wash-dashboard/total-received?unitId=87
+GET {{API_URL}}/wash-dashboard/total-received?unitId=87&&date=2023-10-19
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+    
+}
+###
+GET {{API_URL}}/wash-dashboard/total-delivery?unitId=87&&date=2023-10-23
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{TOKEN}}
