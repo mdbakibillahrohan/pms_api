@@ -3,35 +3,6 @@
 
 @TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjMyODIsIkVtcElkIjoiY3dsMi13YXNoLWNoZWNrIiwiVXNlck5hbWUiOiJjd2wyLXdhc2gtY2hlY2siLCJUeXBlTmFtZSI6Ildhc2hDaGVja2luZyIsIkNvbXBhbnlJZCI6MTcsIlVuaXRJZCI6Ijg3IiwiRnVsbE5hbWUiOiJjd2wyLXdhc2gtY2hlY2siLCJMaW5lSWQiOm51bGwsIklzU2V3aW5nIjpudWxsLCJJc1dhc2hpbmciOnRydWUsIklzRmluaXNoaW5nIjpudWxsLCJVc2VyVHlwZSI6Ildhc2hDaGVja2luZyIsImlhdCI6MTY5Njk5MDg0NX0.2ue1t0EOod9y5BWOBFB-_Ufw4o9-5qbyhlOChLBVC5w
 
-###
-GET {{API_URL}}/finishing-dashboard/all?date=2023-10-25
-Content-Type: application/json
-Accept: application/json
-Authorization: Bearer {{TOKEN}}
-
-{
-    
-}
-
-###
-GET {{API_URL}}/finishing-dashboard/weekly-receive-vs-delivery?unitId=87
-Content-Type: application/json
-Accept: application/json
-Authorization: Bearer {{TOKEN}}
-
-{
-    
-}
-
-###
-GET {{API_URL}}/finishing-dashboard/style-wise-receive-vs-delivery?unitId=87
-Content-Type: application/json
-Accept: application/json
-Authorization: Bearer {{TOKEN}}
-
-{
-    
-}
 
 ###
 GET {{API_URL}}/finishing-dashboard/total-received?unitId=7&date=2023-09-12
@@ -43,15 +14,6 @@ Authorization: Bearer {{TOKEN}}
     
 }
 
-###
-GET {{API_URL}}/finishing-dashboard/total-delivery?unitId=87&&date=2023-10-23
-Content-Type: application/json
-Accept: application/json
-Authorization: Bearer {{TOKEN}}
-
-{
-    
-}
 
 ###
 GET {{API_URL}}/finishing-dashboard/rejection-percentage?unitId=87
@@ -74,7 +36,7 @@ Authorization: Bearer {{TOKEN}}
 }
 
 ###
-GET {{API_URL}}/finishing-dashboard/this-month-total-production?unitId=87
+GET {{API_URL}}/finishing-dashboard/this-month-total-production?unitId=7
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{TOKEN}}

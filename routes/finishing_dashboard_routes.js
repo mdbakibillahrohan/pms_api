@@ -11,9 +11,10 @@ const {
   schema: totalProductionSchema,
 } = require("../controllers/finishing_dashboard/total_production_controller");
 const {
-  controller: totalDeliveryController,
-  schema: totalDeliverySchema,
-} = require("../controllers/finishing_dashboard/total_delivery_controller");
+  controller: thisMonthTotalProductionController,
+  schema: thisMonthTotalProductionSchema,
+} = require("../controllers/finishing_dashboard/this_moth_total_production_controller");
+
 
 
 const finishingDashboardRouter = Router();
@@ -28,6 +29,11 @@ finishingDashboardRouter.get(
   API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_TOTAL_PRODUCTION,
   validator(totalProductionSchema, 'query'),
   totalProductionController
+);
+finishingDashboardRouter.get(
+  API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_THIS_MONTH_TOTAL_PRODUCTION,
+  validator(thisMonthTotalProductionSchema, 'query'),
+  thisMonthTotalProductionController
 );
 // finishingDashboardRouter.get(
 //   API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_TOTAL_DELIVERY,
