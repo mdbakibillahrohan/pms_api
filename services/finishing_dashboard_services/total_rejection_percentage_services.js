@@ -20,7 +20,7 @@ const getRejectionPercentage = async(payload)=>{
 const getTotalProductionQty = async (payload)=>{
     const {unitId} = payload;
     const date = getDate(payload);
-    const query = `select count(HWPId) TotalProduction from HourlyWashProductionCount with(nolock) where WashDate = ${date} and UnitId = ${unitId}`;
+    const query = `select count(HFPId) TotalProduction from HourlyFinishingProductionCount with(nolock) where ProductionDate = ${date} and UnitId = ${unitId}`;
     const data = await getData(dbConfig, query);
     return data; 
 }
@@ -28,9 +28,8 @@ const getTotalProductionQty = async (payload)=>{
 const getTotalRejectQty = async (payload)=>{
     const {unitId} = payload;
     const date = getDate(payload);
-    const query = `select COUNT(HWDId) TotalReject from HourlyWashDefectCount with(nolock) 
-    where DefectId in (select DefectId from IE_Defects where FaultGroupId=3 and ColumnNo = 3) 
-    and WashDate = ${date} and UnitId = ${unitId}`;
+    const query = `select count(HFDId) TotalReject from HourlyFinishingDefectCount with (nolock) 
+    where DefectId in (51,52) and ProductionDate = ${date} and UnitId = ${unitId}`;
     const data = await getData(dbConfig, query);
     return data; 
 }

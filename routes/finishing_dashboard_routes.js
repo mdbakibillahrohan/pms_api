@@ -14,6 +14,10 @@ const {
   controller: thisMonthTotalProductionController,
   schema: thisMonthTotalProductionSchema,
 } = require("../controllers/finishing_dashboard/this_moth_total_production_controller");
+const {
+  controller: totalRejectionPercentageController,
+  schema: totalRejectionPercentageSchema,
+} = require("../controllers/finishing_dashboard/total_rejection_percentage_controller");
 
 
 
@@ -34,6 +38,11 @@ finishingDashboardRouter.get(
   API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_THIS_MONTH_TOTAL_PRODUCTION,
   validator(thisMonthTotalProductionSchema, 'query'),
   thisMonthTotalProductionController
+);
+finishingDashboardRouter.get(
+  API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_TOTAL_REJECTION_PERCENTAGE,
+  validator(totalRejectionPercentageSchema, 'query'),
+  totalRejectionPercentageController
 );
 // finishingDashboardRouter.get(
 //   API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_TOTAL_DELIVERY,
