@@ -3,7 +3,7 @@ const { MESSAGE } = require('../../util/constant');
 const totalReceiveService = require('../../services/wash_dashboard_services/total_received_services');
 
 const schema = Joi.object({
-    unitId: Joi.date().required(),
+    unitId: Joi.number().required(),
     date: Joi.date().optional()
 });
 

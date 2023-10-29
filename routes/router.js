@@ -8,6 +8,7 @@ const uploadFilesRouter = require('./upload_files_routes');
 const permissionRouter = require("./permission_routes");
 const washDashboardRouter = require("./wash_dashboard_routes");
 const gateInOutDashboardRouter = require("./gate_in_out_dashboard_routes");
+const finishingDashboardRouter = require("./finishing_dashboard_routes");
 
 appRouter.use(authenticationRouter);
 appRouter.use(dashboardRouter);
@@ -17,4 +18,5 @@ appRouter.use(uploadFilesRouter);
 appRouter.use(permissionRouter);
 appRouter.use(washDashboardRouter);
 appRouter.use(gateInOutDashboardRouter);
+appRouter.use(finishingDashboardRouter);
 module.exports = appRouter;

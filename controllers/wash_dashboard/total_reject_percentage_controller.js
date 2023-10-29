@@ -3,7 +3,7 @@ const { MESSAGE } = require('../../util/constant');
 const totalRejectionPercentageServices = require('../../services/wash_dashboard_services/total_rejection_percentage_rejection_services');
 
 const schema = Joi.object({
-    unitId: Joi.date().required(),
+    unitId: Joi.number().required(),
     date: Joi.date().optional()
 });
 
