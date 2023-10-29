@@ -32,17 +32,31 @@ module.exports = {
     CHALLAN_USER_PERMISSION_MAKE: 'permission/make-permission',
 
 
-    WASH_DASHBORD_DATA: 'wash-dashboard/all',
-    WASH_DASHBORD_DATA_TOTAL_PRODUCTION: 'wash-dashboard/all',
-    WASH_DASHBORD_DATA_TOTAL_PRODUCTION: 'wash-dashboard/total-production',
-    WASH_DASHBORD_DATA_THIS_MONTH_TOTAL_PRODUCTION: 'wash-dashboard/this-month-total-production',
-    WASH_DASHBORD_DATA_TOTAL_RECEIVE_GMT: 'wash-dashboard/total-received',
-    WASH_DASHBORD_DATA_TOTAL_DELIVERY: 'wash-dashboard/total-delivery',
-    WASH_DASHBORD_DATA_TOTAL_REJECTION_PERCENTAGE: 'wash-dashboard/rejection-percentage',
-    WASH_DASHBORD_DATA_WIP: 'wash-dashboard/wip',
-    WASH_DASHBORD_DATA_WEEKLY_RECEIVE_VS_DELIVER: 'wash-dashboard/weekly-receive-vs-delivery',
-    WASH_DASHBORD_DATA_STYLE_WISE_RECEIVE_VS_DELIVERY: 'wash-dashboard/style-wise-receive-vs-delivery',
-    GATE_IN_OUT_DASHBOARD: 'dashboard/gate-in-out'
+    WASH_DASHBOARD_DATA: 'wash-dashboard/all',
+    WASH_DASHBOARD_DATA_TOTAL_PRODUCTION: 'wash-dashboard/all',
+    WASH_DASHBOARD_DATA_TOTAL_PRODUCTION: 'wash-dashboard/total-production',
+    WASH_DASHBOARD_DATA_THIS_MONTH_TOTAL_PRODUCTION: 'wash-dashboard/this-month-total-production',
+    WASH_DASHBOARD_DATA_TOTAL_RECEIVE_GMT: 'wash-dashboard/total-received',
+    WASH_DASHBOARD_DATA_TOTAL_DELIVERY: 'wash-dashboard/total-delivery',
+    WASH_DASHBOARD_DATA_TOTAL_REJECTION_PERCENTAGE: 'wash-dashboard/rejection-percentage',
+    WASH_DASHBOARD_DATA_WIP: 'wash-dashboard/wip',
+    WASH_DASHBOARD_DATA_WEEKLY_RECEIVE_VS_DELIVER: 'wash-dashboard/weekly-receive-vs-delivery',
+    WASH_DASHBOARD_DATA_STYLE_WISE_RECEIVE_VS_DELIVERY: 'wash-dashboard/style-wise-receive-vs-delivery',
+
+
+    GATE_IN_OUT_DASHBOARD: 'dashboard/gate-in-out',
+
+
+    FINISHING_DASHBOARD_DATA: 'finishing-dashboard/all',
+    FINISHING_DASHBOARD_DATA_TOTAL_PRODUCTION: 'finishing-dashboard/all',
+    FINISHING_DASHBOARD_DATA_TOTAL_PRODUCTION: 'finishing-dashboard/total-production',
+    FINISHING_DASHBOARD_DATA_THIS_MONTH_TOTAL_PRODUCTION: 'finishing-dashboard/this-month-total-production',
+    FINISHING_DASHBOARD_DATA_TOTAL_RECEIVE_GMT: 'finishing-dashboard/total-received',
+    FINISHING_DASHBOARD_DATA_TOTAL_DELIVERY: 'finishing-dashboard/total-delivery',
+    FINISHING_DASHBOARD_DATA_TOTAL_REJECTION_PERCENTAGE: 'finishing-dashboard/rejection-percentage',
+    FINISHING_DASHBOARD_DATA_WIP: 'finishing-dashboard/wip',
+    FINISHING_DASHBOARD_DATA_WEEKLY_RECEIVE_VS_DELIVER: 'finishing-dashboard/weekly-receive-vs-delivery',
+    FINISHING_DASHBOARD_DATA_STYLE_WISE_RECEIVE_VS_DELIVERY: 'finishing-dashboard/style-wise-receive-vs-delivery',
   },
   
   TABLE: {
