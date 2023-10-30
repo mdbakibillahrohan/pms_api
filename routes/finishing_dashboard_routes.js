@@ -18,6 +18,10 @@ const {
   controller: totalRejectionPercentageController,
   schema: totalRejectionPercentageSchema,
 } = require("../controllers/finishing_dashboard/total_rejection_percentage_controller");
+const {
+  controller: finishingDashboardWipController,
+  schema: finishingDashboardWipSchema,
+} = require("../controllers/finishing_dashboard/finishing_dashboard_wip_controller");
 
 
 
@@ -43,6 +47,11 @@ finishingDashboardRouter.get(
   API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_TOTAL_REJECTION_PERCENTAGE,
   validator(totalRejectionPercentageSchema, 'query'),
   totalRejectionPercentageController
+);
+finishingDashboardRouter.get(
+  API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_WIP,
+  validator(finishingDashboardWipSchema, 'query'),
+  finishingDashboardWipController
 );
 // finishingDashboardRouter.get(
 //   API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_TOTAL_DELIVERY,

@@ -46,7 +46,7 @@ Authorization: Bearer {{TOKEN}}
 }
 
 ###
-GET {{API_URL}}/finishing-dashboard/wip?unitId=87
+GET {{API_URL}}/finishing-dashboard/wip?unitId=7
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{TOKEN}}
