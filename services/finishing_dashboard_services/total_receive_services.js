@@ -4,7 +4,7 @@ const { dbConfig } = require('../../util/settings');
 
 const totalReceiveService = async (payload)=>{
     const data = await getTotalReceivedGmtQty(payload);
-    return data;
+    return {totalReceived: data};
 }
 
 const getTotalReceivedGmtQty = async (payload)=>{
@@ -15,7 +15,7 @@ const getTotalReceivedGmtQty = async (payload)=>{
     inner join UserInfo ui with(nolock) on ui.UserId = frm.CreatedBy
     where frm.ReceivedDate = ${date} and ui.branch_code = ${unitId}`;
     const data = await getData(dbConfig, query);
-    return data;
+    return data[0].TotalReceived;
 }
 
 const getDate = (payload, isWeekly = false)=>{

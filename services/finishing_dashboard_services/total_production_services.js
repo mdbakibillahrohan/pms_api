@@ -4,7 +4,7 @@ const { dbConfig } = require('../../util/settings');
 
 const totalProductionServices = async (payload)=>{
     const data = await getTotalProductionQty(payload);
-    return data;
+    return {totalProduction:data};
 }
 
 const getTotalProductionQty = async (payload)=>{
@@ -12,7 +12,7 @@ const getTotalProductionQty = async (payload)=>{
     const date = getDate(payload);
     const query = `select count(HFPId) TotalProduction from HourlyFinishingProductionCount with(nolock) where ProductionDate = ${date} and UnitId = ${unitId}`;
     const data = await getData(dbConfig, query);
-    return data; 
+    return data[0].TotalProduction; 
 }
 
 const getDate = (payload, isWeekly = false)=>{
