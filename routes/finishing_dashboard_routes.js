@@ -22,6 +22,10 @@ const {
   controller: finishingDashboardWipController,
   schema: finishingDashboardWipSchema,
 } = require("../controllers/finishing_dashboard/finishing_dashboard_wip_controller");
+const {
+  controller: weeklyReceiveVsProductionController,
+  schema: weeklyReceiveVsProductionSchema,
+} = require("../controllers/finishing_dashboard/weekly_receive_vs_production_controller");
 
 
 
@@ -52,6 +56,11 @@ finishingDashboardRouter.get(
   API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_WIP,
   validator(finishingDashboardWipSchema, 'query'),
   finishingDashboardWipController
+);
+finishingDashboardRouter.get(
+  API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_WEEKLY_RECEIVE_VS_PRODUCTION,
+  validator(weeklyReceiveVsProductionSchema, 'query'),
+  weeklyReceiveVsProductionController
 );
 // finishingDashboardRouter.get(
 //   API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_TOTAL_DELIVERY,
