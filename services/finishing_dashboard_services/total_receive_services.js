@@ -10,9 +10,9 @@ const totalReceiveService = async (payload)=>{
 const getTotalReceivedGmtQty = async (payload)=>{
     const {unitId} = payload;
     const date = getDate(payload);
-    const query = `select count(frd.ChildBarcode) TotalReceived from FinishingReceiveMaster frm with(nolock)
-    left join FinishingReceiveDetails frd with(nolock) on frd.FRMId = frd.FRMId
-    left join UserInfo ui with(nolock) on ui.UserId = frm.CreatedBy
+    const query = `select count(frd.ChildBarcode) TotalReceived from FinishingReceiveMaster frm
+    inner join FinishingReceiveDetails frd on frd.FRMId = frm.FRMId
+    inner join UserInfo ui on ui.UserId = frm.CreatedBy
     where frm.ReceivedDate = ${date} and ui.branch_code = ${unitId}`;
     const data = await getData(dbConfig, query);
     return data[0].TotalReceived;

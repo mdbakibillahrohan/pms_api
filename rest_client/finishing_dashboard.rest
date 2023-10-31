@@ -5,7 +5,7 @@
 
 
 ###
-GET {{API_URL}}/finishing-dashboard/total-received?unitId=7&date=2023-09-12
+GET {{API_URL}}/finishing-dashboard/total-received?unitId=7
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{TOKEN}}
