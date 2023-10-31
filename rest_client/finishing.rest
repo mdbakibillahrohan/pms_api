@@ -16,6 +16,13 @@ Authorization: Bearer {{TOKEN}}
     "hourlyTarget": 35,
     "unitId": 7
 }
+###
+GET  {{API_URL}}/finishing/style-wise-target-list
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{TOKEN}}
+
+
 
 
 

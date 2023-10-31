@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const { MESSAGE } = require('../../util/constant');
 const totalProductionServices = require('../../services/finishing_dashboard_services/total_production_services');
+const styleWiseTargetListServices = require('../../services/finishing_services/style_wise_target_list_services');
 
 
 const schema = Joi.object({
@@ -12,7 +13,7 @@ const schema = Joi.object({
 const controller = async(req, res) => {
     try {
         //req.query.userInfo = req.userInfo;
-        const data = await totalProductionServices(req.query);
+        const data = await styleWiseTargetListServices(req.query);
         if (data) {
             return res.status(MESSAGE.SUCCESS_GET.STATUS_CODE).json({ message: MESSAGE.SUCCESS_GET.CONTENT, status_code: MESSAGE.SUCCESS_GET.STATUS_CODE, data });
         }
