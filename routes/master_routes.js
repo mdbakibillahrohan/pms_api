@@ -16,13 +16,13 @@ const masterRouter = Router();
 
 masterRouter.get(
   API.API_CONTEXT + API.MASTER_GET_BUYER,
-  authenticationMiddleware,
+  //authenticationMiddleware,
   validator(getBuyerSchema),
   getBuyerController
 );
 masterRouter.get(
   API.API_CONTEXT + API.MASTER_GET_STYLES,
-  authenticationMiddleware,
+  //authenticationMiddleware,
   validator(getStylesSchema),
   getStylesController
 );
