@@ -29,4 +29,4 @@ const getDate = (payload, isWeekly = false)=>{
     return "CAST(GETDATE() as date)";
 }
 
- module.exports = totalReceiveService;
+module.exports = totalReceiveService;
