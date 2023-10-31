@@ -60,6 +60,7 @@ module.exports = {
     FINISHING_DASHBOARD_DATA_STYLE_WISE_RECEIVE_VS_DELIVERY: 'finishing-dashboard/style-wise-receive-vs-delivery',
 
     FINISHING_STYLE_WISE_TARGET_ENTRY: 'finishing/style-wise-target-entry',
+    FINISHING_STYLE_WISE_TARGET_LIST: 'finishing/style-wise-target-list',
 
 
 

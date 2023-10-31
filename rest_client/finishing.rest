@@ -10,7 +10,7 @@ Accept: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    "styleId": 17379,
+    "styleId": 17345,
     "smv": 31.11,
     "plantManpower": 60,
     "hourlyTarget": 35,

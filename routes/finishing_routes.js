@@ -7,6 +7,10 @@ const {
   controller: styleWiseTargetEntryController,
   schema: styleWiseTargetEntrySchema,
 } = require("../controllers/finishing/style_wise_target_entry_controller");
+const {
+  controller: styleWiseTargetListController,
+  schema: styleWiseTargetListSchema,
+} = require("../controllers/finishing/style_wise_target_list_controller");
 
 const finishingRouter = Router();
 
@@ -15,6 +19,12 @@ finishingRouter.post(
   //authenticationMiddleware,
   validator(styleWiseTargetEntrySchema),
   styleWiseTargetEntryController
+);
+finishingRouter.get(
+  API.API_CONTEXT + API.FINISHING_STYLE_WISE_TARGET_LIST,
+  //authenticationMiddleware,
+  validator(styleWiseTargetListSchema),
+  styleWiseTargetListController
 );
 
 module.exports = finishingRouter;

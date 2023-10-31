@@ -17,7 +17,7 @@ const controller = async (req, res) => {
         if (data.message==="success") {
             return res.status(201).json({ message: "Successfully inserted", status_code: 201, data: data.data });
         }
-        return res.status(MESSAGE.BAD_REQUEST.STATUS_CODE).json({ message: data.message});
+        return res.status(200).json({ message: data.message});
     } catch (error) {
         console.log(error);
         return res.status(MESSAGE.SERVER_ERROR.STATUS_CODE).send(MESSAGE.SERVER_ERROR.CONTENT);
