@@ -57,6 +57,9 @@ module.exports = {
     FINISHING_DASHBOARD_DATA_WIP: 'finishing-dashboard/wip',
     FINISHING_DASHBOARD_DATA_WEEKLY_RECEIVE_VS_PRODUCTION: 'finishing-dashboard/weekly-receive-vs-production',
     FINISHING_DASHBOARD_DATA_STYLE_WISE_RECEIVE_VS_DELIVERY: 'finishing-dashboard/style-wise-receive-vs-delivery',
+
+    MASTER_GET_BUYER: 'master/get-all-buyer',
+    MASTER_GET_STYLES: 'master/get-all-styles'
   },
   
   TABLE: {
