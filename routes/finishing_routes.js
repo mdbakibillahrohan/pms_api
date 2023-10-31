@@ -12,7 +12,7 @@ const finishingRouter = Router();
 
 finishingRouter.post(
   API.API_CONTEXT + API.FINISHING_STYLE_WISE_TARGET_ENTRY,
-  authenticationMiddleware,
+  //authenticationMiddleware,
   validator(styleWiseTargetEntrySchema),
   styleWiseTargetEntryController
 );
