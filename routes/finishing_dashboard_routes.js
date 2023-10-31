@@ -30,11 +30,12 @@ const {
   controller: lineWiseTargetProductionDHUController,
   schema: lineWiseTargetProductionDHUSchema,
 } = require("../controllers/finishing_dashboard/line_wise_target_production_dhu_controller");
-
-
+const {
+  controller: achievementController,
+  schema: achievementSchema,
+} = require("../controllers/finishing_dashboard/achievement_controller");
 
 const finishingDashboardRouter = Router();
-
 
 finishingDashboardRouter.get(
   API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_TOTAL_RECEIVE_GMT,
@@ -70,6 +71,11 @@ finishingDashboardRouter.get(
   API.API_CONTEXT + API.FINISHING_DASHBOARD_LINE_WISE_TARGET_PRODUCTION_DHU,
   validator(lineWiseTargetProductionDHUSchema, 'query'),
   lineWiseTargetProductionDHUController
+);
+finishingDashboardRouter.get(
+  API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_ACHIEVEMENT,
+  validator(achievementSchema, 'query'),
+  achievementController
 );
 // finishingDashboardRouter.get(
 //   API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_TOTAL_DELIVERY,
