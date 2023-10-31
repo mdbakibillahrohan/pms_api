@@ -1,0 +1,23 @@
+@API_URL = http://localhost:3000/pms/api/v1 
+# @API_URL = http://192.168.1.160:3000/api
+
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjMyODMsIkVtcElkIjoiY2NsMWEtZmluaXNoaW5nLWNoZWNrIiwiVXNlck5hbWUiOiJjY2wxYS1maW5pc2hpbmctY2hlY2siLCJVbml0TmFtZSI6IkNDTCBVbml0IDFBIChUSUdMKSIsIlR5cGVOYW1lIjoiRmluaXNoaW5nQ2hlY2tpbmciLCJDb21wYW55SWQiOjEyLCJVbml0SWQiOiI3IiwiRnVsbE5hbWUiOiJjY2wxYS1maW5pc2hpbmctY2hlY2siLCJMaW5lSWQiOm51bGwsIklzU2V3aW5nIjpudWxsLCJJc1dhc2hpbmciOm51bGwsIklzRmluaXNoaW5nIjp0cnVlLCJVc2VyVHlwZSI6IkZpbmlzaGluZ0NoZWNraW5nIiwiaWF0IjoxNjk4NTc3MjcwfQ.9MTTazHMqfKnO7uOXksdtztjsedKwwYHMauTLzGvWTs
+
+###
+POST  {{API_URL}}/finishing/style-wise-target-entry
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+    "styleId": 17379,
+    "smv": 31.11,
+    "plantManpower": 60,
+    "hourlyTarget": 35,
+    "unitId": 7
+}
+
+
+
+
+

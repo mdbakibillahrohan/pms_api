@@ -3,18 +3,19 @@ const { MESSAGE } = require('../../util/constant');
 const styleWiseTargerEntryServices = require('../../services/finishing_services/style_wise_target_entry_services');
 
 const schema = Joi.object({
-    style_id: Joi.number().required(),
+    styleId: Joi.number().required(),
     smv: Joi.number().required(),
-    plant_manpower: Joi.number().required(),
-    hourly_target: Joi.number().required()
+    plantManpower: Joi.number().required(),
+    hourlyTarget: Joi.number().required(),
+    unitId: Joi.number().required()
 });
 
 const controller = async (req, res) => {
     try {
-        req.body.userInfo = req.userInfo;
+        //req.body.userInfo = req.userInfo;
         const data = await styleWiseTargerEntryServices(req.body);
         if (data.message==="success") {
-            return res.status(MESSAGE.SUCCESS_GET.STATUS_CODE).json({ message: MESSAGE.SUCCESS_GET.CONTENT, status_code: MESSAGE.SUCCESS_GET.STATUS_CODE, data: data.data });
+            return res.status(201).json({ message: "Successfully inserted", status_code: 201, data: data.data });
         }
         return res.status(MESSAGE.BAD_REQUEST.STATUS_CODE).json({ message: data.message});
     } catch (error) {
