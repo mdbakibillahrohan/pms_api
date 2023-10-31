@@ -56,6 +56,7 @@ module.exports = {
     FINISHING_DASHBOARD_DATA_TOTAL_REJECTION_PERCENTAGE: 'finishing-dashboard/rejection-percentage',
     FINISHING_DASHBOARD_DATA_WIP: 'finishing-dashboard/wip',
     FINISHING_DASHBOARD_DATA_WEEKLY_RECEIVE_VS_PRODUCTION: 'finishing-dashboard/weekly-receive-vs-production',
+    FINISHING_DASHBOARD_LINE_WISE_TARGET_PRODUCTION_DHU: 'finishing-dashboard/line-wise-target-production-dhu',
     FINISHING_DASHBOARD_DATA_STYLE_WISE_RECEIVE_VS_DELIVERY: 'finishing-dashboard/style-wise-receive-vs-delivery',
 
     FINISHING_STYLE_WISE_TARGET_ENTRY: 'finishing/style-wise-target-entry',
