@@ -64,7 +64,8 @@ module.exports = {
 
 
     MASTER_GET_BUYER: 'master/get-all-buyer',
-    MASTER_GET_STYLES: 'master/get-all-styles'
+    MASTER_GET_STYLES: 'master/get-all-styles',
+    MASTER_GET_UNIT_LIST: 'master/get-all-unit'
   },
   
   TABLE: {

@@ -11,6 +11,10 @@ const {
   controller: getStylesController,
   schema: getStylesSchema,
 } = require("../controllers/master/get_styles_controller");
+const {
+  controller: getUnitListController,
+  schema: getUnitListSchema,
+} = require("../controllers/master/get_unit_list_controller");
 
 const masterRouter = Router();
 
@@ -25,6 +29,12 @@ masterRouter.get(
   //authenticationMiddleware,
   validator(getStylesSchema),
   getStylesController
+);
+masterRouter.get(
+  API.API_CONTEXT + API.MASTER_GET_UNIT_LIST,
+  //authenticationMiddleware,
+  validator(getUnitListSchema),
+  getUnitListController
 );
 
 module.exports = masterRouter;
