@@ -11,20 +11,21 @@ const loginServices = async (payload) => {
     const userInfo = await getUserInfo(payload);
     const isUserValid = checkValidity(userInfo, payload);
     if (isUserValid) {
-        const { TypeName, IsWashing, IsSewing, FullName, UnitId, UserId, IsFinishing, UnitName } = userInfo;
+        const { TypeName, IsWashing, IsSewing, FullName, UnitId, UserId, IsFinishing, UnitName, UserType } = userInfo;
         const userType = getUserType(TypeName);
         userInfo.UserType = userType;
         token = generateJwtToken(userInfo);
         userData = {
-            IsWashing, IsSewing, UnitName, IsFinishing, FullName, UnitId, UserId, ChallanApprovalUserType: userType, token
+            IsWashing, IsSewing, UnitName, IsFinishing, FullName, UnitId, UserId, UserType, ChallanApprovalUserType: userType, token
         }
     }
     return userData;
 }
 
 const getUserInfo = async (payload) => {
-    const query = `select ui.UserId, ui.EmpId, ui.UserName, u.UnitName, cpt.ChallanPermissionType TypeName, ui.CompanyId,
+    const query = `select ui.UserId, ui.EmpId, ui.UserName, u.UnitName, ut.TypeName UserType, cpt.ChallanPermissionType TypeName, ui.CompanyId,
     ui.branch_code UnitId, ui.FullName, ui.LineId, ui.UsrPass, ui.IsSewing, ui.IsWashing, ui.IsFinishing from UserInfo ui
+    left join UserType ut on ui.UserType = ut.TypeId
     left join ChallanApprovalPermission cap on cap.UserId = ui.UserId
     left join ChallanPermissionType cpt on cpt.CPTId = cap.CPTId
 	left join Unit u on u.UnitId = ui.branch_code
