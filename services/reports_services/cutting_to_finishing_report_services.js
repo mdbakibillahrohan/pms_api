@@ -7,17 +7,40 @@ const cuttingToFinishingReportServices = async(payload)=>{
 }
 
 const getCuttingToFinishingReport = async(payload)=>{
+    const cuttingData = await getCuttingData(payload);
     const sewingInData = await getSewingInData(payload);
     const sewingOutData = await getSewintOutData(payload);
     const washInData = await getWashInData(payload);
     const washOutData = await getWashOutData(payload);
     const finishingInData = await getFinishingInData(payload);
-    return {sewingInData, sewingOutData, washInData, washOutData, finishingInData};
+    const finishingOutData = await getFinishingOutData(payload);
+    return {cuttingData,sewingInData, sewingOutData, washInData, washOutData, finishingInData, finishingOutData};
+}
+
+const getCuttingData = async(payload)=>{
+    const {fromDate, toDate, sortBy} = payload;
+    let query = null;
+    if(sortBy==="all"){
+        query = `select sum(CuttingQty) TotalCutting from View_Cutting where cast(CutDate as date) BETWEEN '${fromDate}' and '${toDate}'`;
+    }else if(sortBy==="style"){
+        query = `select rb.Buyer_name, cs.StyleNo, sum(CuttingQty) Gmt from View_Cutting vc
+        inner join CP_Style cs on cs.Id = vc.StyleId
+        inner join Reg_Buyer rb on rb.Buyer_id = vc.Buyer_id
+        where cast(vc.CutDate as date) BETWEEN '${fromDate}' and '${toDate}' 
+        group by rb.Buyer_name, cs.StyleNo`;
+    }else{
+        query = ` select rb.Buyer_name, sum(CuttingQty) Gmt from View_Cutting vc
+        inner join Reg_Buyer rb on rb.Buyer_id = vc.Buyer_id
+        where cast(vc.CutDate as date) BETWEEN '${fromDate}' and '${toDate}' 
+        group by rb.Buyer_name`;
+    }
+    const data = await getData(dbConfig, query);
+    return data;
 }
 
 const getSewingInData = async(payload)=>{
     const {fromDate, toDate, unitId} = payload;
-    let query = `select sum(TotalBundleQty) BundleQty from CuttingChallanMasterNew 
+    let query = `select sum(TotalChallanQty) TotalPcs from CuttingChallanMasterNew 
     where cast(CreateDate as date) BETWEEN '${fromDate}' and '${toDate}'`;
     const data = await getData(dbConfig, query);
     return data;
@@ -90,7 +113,7 @@ const getWashOutData = async(payload)=>{
         where RDCUserId!=0 and ApprovedByUserId!=0 and CheckedByUserId!=0 
         and ChallanDate BETWEEN '${fromDate}' and '${toDate}'`;
     }else if(sortBy==="style"){
-        query = `select cs.StyleNo, rb.Buyer_name, sum(nwcs.GmtQty) Garments from NewWashChallanSummary nwcs
+        query = `select cs.StyleNo, rb.Buyer_name, convert(bigint, sum(nwcs.GmtQty)) Garments from NewWashChallanSummary nwcs
         inner join NewWashChallanMaster nwcm on nwcm.WCMId = nwcs.WCMId
         inner join CP_Style cs on cs.Id = nwcs.StyleId 
         left join Reg_Buyer rb on rb.Buyer_id = cs.Buyer_id
@@ -98,7 +121,7 @@ const getWashOutData = async(payload)=>{
         and nwcm.ChallanDate BETWEEN '${fromDate}' and '${toDate}'
         group by cs.StyleNo, rb.Buyer_name`;
     }else{
-        query = `select rb.Buyer_name, sum(nwcs.GmtQty) Garments from NewWashChallanSummary nwcs
+        query = `select rb.Buyer_name, convert(bigint, sum(nwcs.GmtQty)) Garments from NewWashChallanSummary nwcs
         inner join NewWashChallanMaster nwcm on nwcm.WCMId = nwcs.WCMId
         inner join CP_Style cs on cs.Id = nwcs.StyleId 
         left join Reg_Buyer rb on rb.Buyer_id = cs.Buyer_id
@@ -134,6 +157,28 @@ const getFinishingInData = async(payload)=>{
         inner join CP_Style cs on cs.Id = hspc.StyleId
         inner join Reg_Buyer rb on rb.Buyer_id = cs.Buyer_id
         where frm.ReceivedDate BETWEEN '${fromDate}' and '${toDate}' and ui.branch_code = 7
+        group by rb.Buyer_name`;
+    }
+    const data = await getData(dbConfig, query);
+    return data;
+}
+
+const getFinishingOutData = async(payload)=>{
+    const {fromDate, toDate, sortBy} = payload;
+    let query = null;
+    if(sortBy==="all"){
+        query = `select Count(HFPId) FinishingOut from HourlyFinishingProductionCount where ProductionDate BETWEEN '${fromDate}' and '${toDate}'`;
+    }else if(sortBy==="style"){
+        query = `select rb.Buyer_name, cs.StyleNo,  Count(hfpc.HFPId) Gmt from HourlyFinishingProductionCount hfpc
+        inner join CP_Style cs on cs.Id = hfpc.StyleId
+        inner join Reg_Buyer rb on rb.Buyer_id = cs.Buyer_id
+        where ProductionDate BETWEEN '${fromDate}' and '${toDate}'
+        group by rb.Buyer_name, cs.StyleNo`;
+    }else{
+        query = `select rb.Buyer_name,  Count(hfpc.HFPId) Gmt from HourlyFinishingProductionCount hfpc
+        inner join CP_Style cs on cs.Id = hfpc.StyleId
+        inner join Reg_Buyer rb on rb.Buyer_id = cs.Buyer_id
+        where ProductionDate BETWEEN '${fromDate}' and '${toDate}'
         group by rb.Buyer_name`;
     }
     const data = await getData(dbConfig, query);
