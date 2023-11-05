@@ -29,7 +29,7 @@ const getUserInfo = async (payload) => {
     left join ChallanApprovalPermission cap on cap.UserId = ui.UserId
     left join ChallanPermissionType cpt on cpt.CPTId = cap.CPTId
 	left join Unit u on u.UnitId = ui.branch_code
-    where UserName = @UserName`;
+    where LOWER(UserName) = LOWER(@UserName)`;
     const parameters = [
         {
             name: "UserName",

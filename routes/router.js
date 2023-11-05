@@ -11,6 +11,7 @@ const gateInOutDashboardRouter = require("./gate_in_out_dashboard_routes");
 const finishingDashboardRouter = require("./finishing_dashboard_routes");
 const masterRouter = require("./master_routes");
 const finishingRouter = require("./finishing_routes");
+const reportRouter = require("./report_routes");
 
 appRouter.use(authenticationRouter);
 appRouter.use(dashboardRouter);
@@ -23,4 +24,5 @@ appRouter.use(gateInOutDashboardRouter);
 appRouter.use(finishingDashboardRouter);
 appRouter.use(masterRouter);
 appRouter.use(finishingRouter);
+appRouter.use(reportRouter);
 module.exports = appRouter;

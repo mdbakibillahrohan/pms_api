@@ -64,6 +64,7 @@ module.exports = {
     FINISHING_STYLE_WISE_TARGET_LIST: 'finishing/style-wise-target-list',
 
 
+    REPORT_CUTTING_TO_FINISHING: 'report/cutting-to-finishing',
 
 
     MASTER_GET_BUYER: 'master/get-all-buyer',
