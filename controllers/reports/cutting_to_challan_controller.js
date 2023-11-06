@@ -4,10 +4,10 @@ const cuttingToFinishingReportServices = require('../../services/reports_service
 
 
 const schema = Joi.object({
-    unitId: Joi.number().optional(),
-    sortBy: Joi.string().valid("all", "buyer", "style").required(),
-    fromDate: Joi.date().required(),
-    toDate: Joi.date().required()
+    fromDate: Joi.date().optional(),
+    toDate: Joi.date().optional(),
+    buyerId: Joi.number().optional(),
+    styleId: Joi.number().optional()
 });
 
 const controller = async(req, res) => {
