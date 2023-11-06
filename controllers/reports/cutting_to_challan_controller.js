@@ -7,7 +7,8 @@ const schema = Joi.object({
     fromDate: Joi.date().optional(),
     toDate: Joi.date().optional(),
     buyerId: Joi.number().optional(),
-    styleId: Joi.number().optional()
+    styleId: Joi.number().optional(),
+    isDate: Joi.number().optional()
 });
 
 const controller = async(req, res) => {

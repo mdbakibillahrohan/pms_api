@@ -16,7 +16,8 @@ const getCuttingToFinishingReport = async(payload)=>{
 
 const getCuttingData = async(payload)=>{
     const {fromDate, toDate, buyerId, styleId} = payload;
-    let query = `select rb.Buyer_name, cs.StyleNo, sum(ccppod.OrderQty) OrderQty, cast(vc.CutDate as date) CutDate,ccpd.PO,  
+    const dateQuery = getDateQuery("cutting", payload);
+    let query = `select rb.Buyer_name, cs.StyleNo, sum(ccppod.OrderQty) OrderQty, ${dateQuery[0]} ccpd.PO,  
                     sum(vc.CuttingQty) CuttingQty from View_Cutting vc
                     inner join CP_Style cs on cs.Id = vc.StyleId
                     inner join Reg_Buyer rb on rb.Buyer_id = cs.Buyer_id
@@ -33,15 +34,15 @@ const getCuttingData = async(payload)=>{
         query += ` and vc.Buyer_id = ${buyerId}`
     }
 
-    query+=` group by cs.StyleNo, ccpd.PO, vc.CutDate, rb.Buyer_name
-    order by vc.CutDate desc`;
+    query+=` group by cs.StyleNo, ccpd.PO, ${dateQuery[1]} rb.Buyer_name`;
     const data = await getData(dbConfig, query);
     return data;
 }
 
 const getSewingData = async(payload)=>{
+    const dateQuery = getDateQuery("sewing", payload);
     const {fromDate, toDate, buyerId, styleId} = payload;
-    let query = `select hspc.ProductionDate SewingDate, sum(ccppod.OrderQty) OrderQty, rb.Buyer_name, cs.StyleNo, ccpd.PO, 
+    let query = `select ${dateQuery[0]} sum(ccppod.OrderQty) OrderQty, rb.Buyer_name, cs.StyleNo, ccpd.PO, 
                     count(ChildBarcode) SewingQty from HourlySewingProductionCount hspc
                     inner join CP_Style cs on cs.Id = hspc.StyleId
                     inner join Reg_Buyer rb on rb.Buyer_id = cs.Buyer_id
@@ -58,15 +59,15 @@ const getSewingData = async(payload)=>{
         query += ` and cs.Buyer_id = ${buyerId}`
     }
     
-    query+=` group by cs.StyleNo, ccpd.PO, hspc.ProductionDate, rb.Buyer_name
-    order by hspc.ProductionDate desc`;
+    query+=` group by cs.StyleNo, ccpd.PO, ${dateQuery[1]} rb.Buyer_name`;
     const data = await getData(dbConfig, query);
     return data;
 }
 
 const getWashData = async(payload)=>{
+    const dateQuery = getDateQuery("washing", payload);
     const {fromDate, toDate, buyerId, styleId} = payload;
-    let query = `select hwpc.WashDate, rb.Buyer_name, sum(ccppod.OrderQty) OrderQty, cs.StyleNo, ccpd.PO,
+    let query = `select ${dateQuery[0]} rb.Buyer_name, sum(ccppod.OrderQty) OrderQty, cs.StyleNo, ccpd.PO,
                     count(ChildBarcode) WashQty from HourlyWashProductionCount hwpc 
                     inner join CP_Style cs on cs.Id = hwpc.StyleId
                     inner join Reg_Buyer rb on rb.Buyer_id = cs.Buyer_id
@@ -83,15 +84,15 @@ const getWashData = async(payload)=>{
         query += ` and cs.Buyer_id = ${buyerId}`
     }
     
-    query+=` group by cs.StyleNo, ccpd.PO, hwpc.WashDate, rb.Buyer_name
-    order by hwpc.WashDate desc`;
+    query+=` group by cs.StyleNo, ccpd.PO, ${dateQuery[1]} rb.Buyer_name`;
     const data = await getData(dbConfig, query);
     return data;
 }
 
 const getFinishingData = async(payload)=>{
+    const dateQuery = getDateQuery("finishing", payload);
     const {fromDate, toDate, buyerId, styleId} = payload;
-    let query = `select hfpc.ProductionDate FinishingDate, sum(ccppod.OrderQty) OrderQty, rb.Buyer_name, ccpd.PO, 
+    let query = `select ${dateQuery[0]} sum(ccppod.OrderQty) OrderQty, rb.Buyer_name, ccpd.PO, 
                     cs.StyleNo, count(ChildBarcode) FinishingQty 
                     from HourlyFinishingProductionCount hfpc 
                     inner join CP_Style cs on cs.Id = hfpc.StyleId
@@ -109,10 +110,35 @@ const getFinishingData = async(payload)=>{
         query += ` and cs.Buyer_id = ${buyerId}`
     }
     
-    query+=` group by cs.StyleNo, ccpd.PO, hfpc.ProductionDate, rb.Buyer_name
-    order by hfpc.ProductionDate desc`;
+    query+=` group by cs.StyleNo, ccpd.PO, ${dateQuery[1]} rb.Buyer_name`;
     const data = await getData(dbConfig, query);
     return data;
+}
+
+
+const getDateQuery = (stack, payload)=>{
+    if(payload.isDate){
+        let query = null;
+        if(stack==="cutting"){
+            query[0] = ` cast(vc.CutDate as date) CutDate,`;
+            query[1] = ` vc.CutDate,`
+        }else if(stack==="sewing"){
+            query[0] = ` hspc.ProductionDate SewingDate,`;
+            query[1] = ` hspc.ProductionDate,`
+        }else if(stack==="washing"){
+            query[0] = ` hwpc.WashDate,`;
+            query[1] = ` hwpc.WashDate,`
+        }else if(stack==="finishing"){
+            query[0] = ` hfpc.ProductionDate FinishingDate,`;
+            query[1] = ` hfpc.ProductionDate,`
+        }else{
+            query = "";
+        }
+        return query;
+    }else{
+        return ["", ""];
+    }
+    
 }
 
 module.exports = cuttingToFinishingReportServices;
