@@ -6,7 +6,7 @@
 
 
 ###
-GET {{API_URL}}/report/cutting-to-finishing?fromDate=2015-10-25&toDate=2030-11-05&buyerId=25&styleId=18646
+GET {{API_URL}}/report/cutting-to-finishing?fromDate=2015-10-25&toDate=2030-11-05&buyerId=25&styleId=18646&isDate=0
 Accept: application/json
 Authorization: Bearer {{TOKEN}}
 

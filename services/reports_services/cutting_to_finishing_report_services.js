@@ -117,8 +117,8 @@ const getFinishingData = async(payload)=>{
 
 
 const getDateQuery = (stack, payload)=>{
-    if(payload.isDate){
-        let query = null;
+    if(payload.isDate && payload.isDate==1){
+        let query = [];
         if(stack==="cutting"){
             query[0] = ` cast(vc.CutDate as date) CutDate,`;
             query[1] = ` vc.CutDate,`
