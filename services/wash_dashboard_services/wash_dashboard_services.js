@@ -28,33 +28,58 @@ const getWashDashboardData = async (payload)=>{
 }
 
 const getTotalReceivedGmtQty = async (payload)=>{
+    const {UnitId, UserType} = payload.userInfo;
     const date = getDate(payload);
-    const query = `select count(wrd.ChildBarcode) TotalReceived from WashReceiveMaster wrm with(nolock)
+    let query = `select count(wrd.ChildBarcode) TotalReceived from WashReceiveMaster wrm with(nolock)
     inner join WashReceiveDetails wrd on wrm.WRMId = wrd.WRMId
+    inner join UserInfo ui on ui.UserId = wrm.CreatedBy
     where wrm.ReceivedDate = ${date}`;
+
+    if(UserType.toLowerCase()!=="admin"){
+        query += ` and ui.branch_code = ${UnitId}`;
+    }
+
     const data = await getData(dbConfig, query);
     return data;
 }
 
 const getTotalDeliveryGmtQty = async (payload)=>{
+    const {UnitId, UserType} = payload.userInfo;
     const date = getDate(payload);
-    const query = `select isnull(sum(TotalGmtQty), 0) TotalDelivery from NewWashChallanMaster with(nolock) where ChallanDate = ${date} and IsReject = 0`;
+    let query = `select isnull(sum(TotalGmtQty), 0) TotalDelivery from NewWashChallanMaster with(nolock) where ChallanDate = ${date} and IsReject = 0`;
+
+    if(UserType.toLowerCase()!=="admin"){
+        query += ` and FromUnitId = ${UnitId}`;
+    }
+
     const data = await getData(dbConfig, query);
     return data; 
 }
 
 const getTotalProductionQty = async (payload)=>{
+    const {UnitId, UserType} = payload.userInfo;
     const date = getDate(payload);
-    const query = `select count(HWPId) TotalProduction from HourlyWashProductionCount with(nolock) where WashDate = ${date}`;
+    let query = `select count(HWPId) TotalProduction from HourlyWashProductionCount with(nolock) where WashDate = ${date}`;
+
+    if(UserType.toLowerCase()!=="admin"){
+        query += ` and UnitId = ${UnitId}`;
+    }
+
     const data = await getData(dbConfig, query);
     return data; 
 }
 
 const getTotalRejectQty = async (payload)=>{
+    const {UnitId, UserType} = payload.userInfo;
     const date = getDate(payload);
-    const query = `select COUNT(HWDId) TotalReject from HourlyWashDefectCount with(nolock) 
+    let query = `select COUNT(HWDId) TotalReject from HourlyWashDefectCount with(nolock) 
     where DefectId in (select DefectId from IE_Defects where FaultGroupId=3 and ColumnNo = 3) 
     and WashDate = ${date}`;
+
+    if(UserType.toLowerCase()!=="admin"){
+        query += ` and UnitId = ${UnitId}`;
+    }
+
     const data = await getData(dbConfig, query);
     return data; 
 }

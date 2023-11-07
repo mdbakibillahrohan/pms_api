@@ -3,7 +3,7 @@ const { MESSAGE } = require('../../util/constant');
 const weeklyReceiveVsDeliveryServices = require('../../services/wash_dashboard_services/weekly_receive_vs_delivery_services');
 
 const schema = Joi.object({
-     unitId: Joi.number().required()
+     unitId: Joi.number().optional()
 });
 
 const controller = async (req, res) => {

@@ -115,7 +115,6 @@ const getFinishingData = async(payload)=>{
     return data;
 }
 
-
 const getDateQuery = (stack, payload)=>{
     if(payload.isDate && payload.isDate==1){
         let query = [];
@@ -138,7 +137,6 @@ const getDateQuery = (stack, payload)=>{
     }else{
         return ["", ""];
     }
-    
 }
 
 module.exports = cuttingToFinishingReportServices;

@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const validator = require("../middlewares/validator_middleware");
+const authenticationMiddleware = require("../middlewares/auth_middleware");
 const { API } = require("../util/constant");
 
 const {
@@ -43,6 +44,7 @@ const washDashboardRouter = Router();
 
 washDashboardRouter.get(
   API.API_CONTEXT + API.WASH_DASHBOARD_DATA,
+  authenticationMiddleware,  
   validator(washDashboardSchema, 'query'),
   washDashboarController
 );
