@@ -78,7 +78,7 @@ const getWashData = async(payload)=>{
     if(gate_in_type==="in"){
         //waitingDataQuery = `select count(SCId) Waiting from NewSewingChallan where Status = 1 and CheckedByUserId != 0 and ChallanDate = ${date}`;
         waitingDataQuery = `select count(SCId) Waiting from NewSewingChallan where Status = 1 and RDCUserId != 0 and ApprovedByUserId != 0 
-        and CheckedByUserId != 0 and ChallanDate is not null and ToUnitId = 87 and IsWashChecked = 0`;
+        and CheckedByUserId != 0 and ChallanDate is not null and ToUnitId = ${userInfo.UnitId} and IsWashChecked = 0`;
         //gateInQuery = `select count(WCId) GateIn from WashChecking Where UserId = ${userInfo.UserId} and CreatedAt = ${date}`;
         gateInQuery = `select count(WCId) GateIn from WashChecking Where UserId = ${userInfo.UserId}`;
         gateInData = await getData(dbConfig, gateInQuery);

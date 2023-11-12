@@ -4,7 +4,7 @@
 @TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjMyODAsIkVtcElkIjoiY3dsMS1jaGVja2VyLTEiLCJVc2VyTmFtZSI6ImN3bDEtY2hlY2tlci0xIiwiVW5pdE5hbWUiOiJDV0wgVW5pdCAwMSIsIlVzZXJUeXBlIjoiV2FzaENoZWNrZWRCeSIsIlR5cGVOYW1lIjoiV2FzaENoZWNrZWRCeSIsIkNvbXBhbnlJZCI6MTcsIlVuaXRJZCI6Ijg3IiwiRnVsbE5hbWUiOiJjd2wxLWNoZWNrZXItMSIsIkxpbmVJZCI6bnVsbCwiSXNTZXdpbmciOm51bGwsIklzV2FzaGluZyI6dHJ1ZSwiSXNGaW5pc2hpbmciOm51bGwsImlhdCI6MTY5OTMzMzQxN30.mjeQ5uYh4ZOB-4XLzEj376jWDJfLcM9kikXn0GeIOKk
 
 ###
-GET {{API_URL}}/wash-dashboard/all?date=2023-11-2
+GET {{API_URL}}/wash-dashboard/all?date=2023-11-7
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{TOKEN}}
@@ -20,7 +20,6 @@ Accept: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    
     
 }
 

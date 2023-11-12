@@ -3,6 +3,10 @@ const validator = require("../middlewares/validator_middleware");
 const { API } = require("../util/constant");
 
 const {
+  controller: finishingDashboardAllController,
+  schema: finishingDashboardAllSchema,
+} = require("../controllers/finishing_dashboard/finishing_dashboard_all_controller");
+const {
   controller: totalReceiveController,
   schema: totalReceiveSchema,
 } = require("../controllers/finishing_dashboard/total_receive_controller");
@@ -37,6 +41,11 @@ const {
 
 const finishingDashboardRouter = Router();
 
+finishingDashboardRouter.get(
+  API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA,
+  validator(finishingDashboardAllSchema, 'query'),
+  finishingDashboardAllController
+);
 finishingDashboardRouter.get(
   API.API_CONTEXT + API.FINISHING_DASHBOARD_DATA_TOTAL_RECEIVE_GMT,
   validator(totalReceiveSchema, 'query'),

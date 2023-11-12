@@ -1,12 +1,13 @@
 @API_URL = http://localhost:3000/pms/api/v1 
 # @API_URL = http://192.168.1.160:3000/api
+# @API_URL = http://202.22.203.92:3000/pms/api/v1
 
 @TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjMyODIsIkVtcElkIjoiY3dsMi13YXNoLWNoZWNrIiwiVXNlck5hbWUiOiJjd2wyLXdhc2gtY2hlY2siLCJUeXBlTmFtZSI6Ildhc2hDaGVja2luZyIsIkNvbXBhbnlJZCI6MTcsIlVuaXRJZCI6Ijg3IiwiRnVsbE5hbWUiOiJjd2wyLXdhc2gtY2hlY2siLCJMaW5lSWQiOm51bGwsIklzU2V3aW5nIjpudWxsLCJJc1dhc2hpbmciOnRydWUsIklzRmluaXNoaW5nIjpudWxsLCJVc2VyVHlwZSI6Ildhc2hDaGVja2luZyIsImlhdCI6MTY5Njk5MDg0NX0.2ue1t0EOod9y5BWOBFB-_Ufw4o9-5qbyhlOChLBVC5w
 
 
 
 ###
-GET {{API_URL}}/report/cutting-to-finishing?fromDate=2015-10-25&toDate=2030-11-05&buyerId=25&styleId=18646&isDate=0
+GET {{API_URL}}/report/cutting-to-finishing?fromDate=2023-10-07&toDate=2023-11-08&buyerId=25&styleId=17046&isDate=0
 Accept: application/json
 Authorization: Bearer {{TOKEN}}
 

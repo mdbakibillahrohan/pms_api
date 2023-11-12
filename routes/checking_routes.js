@@ -22,21 +22,21 @@ checkingRouter.post(
   API.API_CONTEXT + API.CHALLAN_CHECKING,
   validator(challanCheckingSchema),
   authenticationMiddleware,
-  checkingAuthorizationMiddleware,
+  //checkingAuthorizationMiddleware,
   challanCheckingController
 );
 checkingRouter.post(
   API.API_CONTEXT + API.CHALLAN_CHEKING_LIST,
   validator(challanCheckingListSchema),
   authenticationMiddleware,
-  checkingAuthorizationMiddleware,
+  //checkingAuthorizationMiddleware,
   challanCheckingListController
 );
 checkingRouter.post(
   API.API_CONTEXT + API.CHALLAN_CHEKING_SUMMARY,
   validator(challanCheckingSummarySchema),
   authenticationMiddleware,
-  checkingAuthorizationMiddleware,
+  //checkingAuthorizationMiddleware,
   challanCheckingSummaryController
 );
 

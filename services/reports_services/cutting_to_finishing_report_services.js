@@ -18,7 +18,7 @@ const getCuttingData = async(payload)=>{
     const {fromDate, toDate, buyerId, styleId} = payload;
     const dateQuery = getDateQuery("cutting", payload);
     let query = `select rb.Buyer_name, cs.StyleNo, sum(ccppod.OrderQty) OrderQty, ${dateQuery[0]} ccpd.PO,  
-                    sum(vc.CuttingQty) CuttingQty from View_Cutting vc
+                    sum(distinct vc.CuttingQty) CuttingQty from View_Cutting vc
                     inner join CP_Style cs on cs.Id = vc.StyleId
                     inner join Reg_Buyer rb on rb.Buyer_id = cs.Buyer_id
                     left join CP_CuttingPlanDetail ccpd on ccpd.CP_StyleId = cs.Id
@@ -43,7 +43,7 @@ const getSewingData = async(payload)=>{
     const dateQuery = getDateQuery("sewing", payload);
     const {fromDate, toDate, buyerId, styleId} = payload;
     let query = `select ${dateQuery[0]} sum(ccppod.OrderQty) OrderQty, rb.Buyer_name, cs.StyleNo, ccpd.PO, 
-                    count(ChildBarcode) SewingQty from HourlySewingProductionCount hspc
+                    count(distinct ChildBarcode) SewingQty from HourlySewingProductionCount hspc
                     inner join CP_Style cs on cs.Id = hspc.StyleId
                     inner join Reg_Buyer rb on rb.Buyer_id = cs.Buyer_id
                     left join CP_CuttingPlanDetail ccpd on ccpd.CP_StyleId = cs.Id
@@ -67,8 +67,8 @@ const getSewingData = async(payload)=>{
 const getWashData = async(payload)=>{
     const dateQuery = getDateQuery("washing", payload);
     const {fromDate, toDate, buyerId, styleId} = payload;
-    let query = `select ${dateQuery[0]} rb.Buyer_name, sum(ccppod.OrderQty) OrderQty, cs.StyleNo, ccpd.PO,
-                    count(ChildBarcode) WashQty from HourlyWashProductionCount hwpc 
+    let query = `select ${dateQuery[0]} rb.Buyer_name, sum(distinct ccppod.OrderQty) OrderQty, cs.StyleNo, ccpd.PO,
+                    count(distinct ChildBarcode) WashQty from HourlyWashProductionCount hwpc 
                     inner join CP_Style cs on cs.Id = hwpc.StyleId
                     inner join Reg_Buyer rb on rb.Buyer_id = cs.Buyer_id
                     left join CP_CuttingPlanDetail ccpd on ccpd.CP_StyleId = cs.Id
@@ -92,8 +92,8 @@ const getWashData = async(payload)=>{
 const getFinishingData = async(payload)=>{
     const dateQuery = getDateQuery("finishing", payload);
     const {fromDate, toDate, buyerId, styleId} = payload;
-    let query = `select ${dateQuery[0]} sum(ccppod.OrderQty) OrderQty, rb.Buyer_name, ccpd.PO, 
-                    cs.StyleNo, count(ChildBarcode) FinishingQty 
+    let query = `select ${dateQuery[0]} sum(distinct ccppod.OrderQty) OrderQty, rb.Buyer_name, ccpd.PO, 
+                    cs.StyleNo, count(distinct ChildBarcode) FinishingQty 
                     from HourlyFinishingProductionCount hfpc 
                     inner join CP_Style cs on cs.Id = hfpc.StyleId
                     inner join Reg_Buyer rb on rb.Buyer_id = cs.Buyer_id
