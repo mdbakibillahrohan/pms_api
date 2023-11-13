@@ -32,8 +32,8 @@ Accept: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    "checking_type": "WashChecking",
-    "challan_id":98
+    "checking_type": "FinishingChecking",
+    "challan_id":15
 }
 
 

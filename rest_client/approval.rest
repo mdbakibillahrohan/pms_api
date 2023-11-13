@@ -62,7 +62,7 @@ Accept: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    "challan_id":1,
-    "challan_type": "wash",
+    "challan_id":277,
+    "challan_type": "sewing",
     "approver_stack":"RDC"
 }
