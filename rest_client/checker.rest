@@ -22,7 +22,7 @@ Authorization: Bearer {{TOKEN}}
 
 {
     "checking_type": "WashChecking",
-    "list_type":"passed",
+    "list_type":"waiting",
     "is_return":true
 }
 
@@ -34,7 +34,8 @@ Authorization: Bearer {{TOKEN}}
 
 {
     "checking_type": "FinishingChecking",
-    "challan_id":15
+    "challan_id":2,
+    "is_return":true
 }
 
 
