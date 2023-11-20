@@ -64,6 +64,10 @@ module.exports = {
     FINISHING_STYLE_WISE_TARGET_LIST: 'finishing/style-wise-target-list',
 
 
+    UNIDENTIFIY_PRODUCTS_ENTRY: 'finishing/unidentify-products-entry',
+    UNIDENTIFIY_PRODUCTS_LIST: 'finishing/unidentify-products-list',
+
+
     REPORT_CUTTING_TO_FINISHING: 'report/cutting-to-finishing',
 
 
