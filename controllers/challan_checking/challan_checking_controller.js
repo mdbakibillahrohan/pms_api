@@ -5,7 +5,8 @@ const challanCheckingServices = require('../../services/challan_checking_service
 
 const schema = Joi.object({
     challan_id:Joi.number().required(),
-    checking_type: Joi.string().valid("WashChecking", "FinishingChecking").required()
+    checking_type: Joi.string().valid("WashChecking", "FinishingChecking").required(),
+    is_return: Joi.boolean().optional()
 });
 
 const controller = async(req, res)=>{

@@ -123,7 +123,6 @@ const getCount = async(payload)=>{
     return data[0].count;
 }
 
-
 const getReturnWashList = async(payload)=>{
     const {list_type} = payload;
     const {UserId} = payload.userInfo;
@@ -138,6 +137,7 @@ const getReturnWashList = async(payload)=>{
     }else{
         query += ` and rwcm.CheckedByUserId = ${UserId}`;
     }
+    query += ` order by rwcm.RWCMId desc`
     const data = await getData(dbConfig, query);
     return data;
 }
@@ -156,6 +156,7 @@ const getReturnSewingList = async(payload)=>{
     }else{
         query += ` and rwcm.CheckedByUserId is not null and rwcm.CheckInUserId = ${UserId}`;
     }
+    query += ` order by rwcm.RWCMId desc`
     const data = await getData(dbConfig, query);
     return data;
 }
@@ -185,6 +186,7 @@ const getReturnCount = async(payload)=>{
             query += ` and rwcm.CheckedByUserId is not null and rwcm.CheckInUserId = ${UserId}`;
         }
     }
+    
     const data = await getData(dbConfig, query);
     return data[0].count;
 }

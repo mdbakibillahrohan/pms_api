@@ -3,6 +3,18 @@ const {executeQuery, getData} = require("../../util/dao");
 const { dbConfig } = require("../../util/settings");
 
 const challanCheckingServices = async(payload)=>{
+    const {is_return} = payload;
+    if(is_return){
+        const data = await returnChallanChecking(payload);
+        if(data){
+            return {
+                message:"Success"
+            }
+        }
+        return {
+            message:"Something went wrong"
+        };
+    }
     const isAlreadyApprovedOrNotFoundData = await checkIsAlreadyApprovedOrNotFound(payload);
     if(isAlreadyApprovedOrNotFoundData.status){
         return isAlreadyApprovedOrNotFoundData;
@@ -131,6 +143,19 @@ const checkIsAlreadyApprovedOrNotFound = async(payload)=>{
             status: false
         }
     }
+}
+
+const returnChallanChecking = async(payload)=>{
+    const {checking_type, challan_id} = payload;
+    const {UserId} = payload.userInfo
+    let query = null;
+    if(checking_type==="WashChecking"){
+        query = `update ReturnWashChallanMaster set CheckedByUserId = ${UserId} where RWCMId = ${challan_id}`;
+    }else{
+        query = `update ReturnWashChallanMaster set CheckInUserId = ${UserId} where RWCMId = ${challan_id}`;
+    }
+    const data = await executeQuery(dbConfig, query);
+    return data;
 }
 
 module.exports = challanCheckingServices;

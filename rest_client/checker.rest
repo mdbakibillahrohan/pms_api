@@ -10,8 +10,9 @@ Accept: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    "challan_id": "86",
-    "checking_type": "WashChecking"
+    "challan_id": "1",
+    "checking_type": "WashChecking",
+    "is_return":true
 }
 
 ###
@@ -33,7 +34,7 @@ Accept: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    "checking_type": "FinishingChecking",
+    "checking_type": "WashChecking",
     "challan_id":2,
     "is_return":true
 }
