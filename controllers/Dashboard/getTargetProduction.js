@@ -44,7 +44,7 @@ const GetTargetProductionController = async (req, res) => {
     
     data = await executeSqlB(sql);
 
-    //console.log(data.recordsets[0])
+    console.log(data.recordsets[0])
 
     if (data.recordset.length > 0) {
         let info=data.recordsets[0];
