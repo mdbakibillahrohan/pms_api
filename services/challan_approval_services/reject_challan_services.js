@@ -1,6 +1,7 @@
 const { executeQuery } = require('../../util/dao');
 const { dbConfig } = require('../../util/settings');
 const { TABLE } = require('../../util/constant');
+
 const rejectChallanServices = async (payload) => {
     const data = await rejectChallan(payload);
     return data;
@@ -13,9 +14,14 @@ const rejectChallan = async (payload) => {
         if (updateChallan) {
             const insert = await insertRejectHistory(payload);
             if (insert) {
+                if(await updateRejectedChildbarcode(payload)){
+                    return {
+                        message:"Success"
+                    };
+                }
                 return {
-                    message:"Success"
-                };
+                    message: "Update operation of rejected childbarcode has been failed"
+                }
             }
             return {
                 message: "Failed to insert data"
@@ -66,6 +72,19 @@ const insertRejectHistory = async (payload) => {
     ];
     const data = await executeQuery(dbConfig, query, parameters);
     return data;
+}
+
+const updateRejectedChildbarcode = async(payload)=>{
+    const { challan_type, challan_id } = payload;
+    let query = null;
+    if (challan_type === "sewing") {
+        query = `update NewSewingChallanDetails set IsRejected = 1 where SCId = ${challan_id}`;
+        
+        const data = await executeQuery(dbConfig, query);
+        return data;
+    }
+    return true; 
+    
 }
 
 module.exports = rejectChallanServices;
