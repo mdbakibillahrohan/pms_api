@@ -15,3 +15,13 @@ Authorization: Bearer {{TOKEN}}
     "challan_id": 1,
     "unit_id":7
 }
+
+###
+POST {{API_URL}}/approval/wash/return-challan-list
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+    
+}
