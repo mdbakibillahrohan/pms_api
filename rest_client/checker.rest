@@ -1,7 +1,7 @@
 @API_URL = http://localhost:3000/pms/api/v1 
 # @API_URL = http://192.168.1.160:3000/api
 
-@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjMyODMsIkVtcElkIjoiY2NsMWEtZmluaXNoaW5nLWNoZWNrIiwiVXNlck5hbWUiOiJjY2wxYS1maW5pc2hpbmctY2hlY2siLCJVbml0TmFtZSI6IkNDTCBVbml0IDFBIChUSUdMKSIsIlVzZXJUeXBlIjoiRmluaXNoaW5nIiwiVHlwZU5hbWUiOiJGaW5pc2hpbmdDaGVja2luZyIsIkNvbXBhbnlJZCI6MTIsIlVuaXRJZCI6IjciLCJGdWxsTmFtZSI6ImNjbDFhLWZpbmlzaGluZy1jaGVjayIsIkxpbmVJZCI6bnVsbCwiSXNTZXdpbmciOm51bGwsIklzV2FzaGluZyI6bnVsbCwiSXNGaW5pc2hpbmciOnRydWUsImlhdCI6MTY5OTQxNDgyM30.lFJh8OZQZ7-ikeNXu-mMUCefWYH9fIpPPtMV4lvXl3s
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjMyODIsIkVtcElkIjoiY3dsMS13YXNoLWNoZWNrIiwiVXNlck5hbWUiOiJjd2wxLXdhc2gtY2hlY2siLCJVbml0TmFtZSI6IkNXTCBVbml0IDAxIiwiVXNlclR5cGUiOiJXYXNoaW5nIiwiVHlwZU5hbWUiOiJXYXNoQ2hlY2tpbmciLCJDb21wYW55SWQiOjE3LCJVbml0SWQiOiI4NyIsIkZ1bGxOYW1lIjoiY3dsMS13YXNoLWNoZWNrIiwiTGluZUlkIjpudWxsLCJJc1Nld2luZyI6bnVsbCwiSXNXYXNoaW5nIjp0cnVlLCJJc0ZpbmlzaGluZyI6bnVsbCwiaWF0IjoxNzAwNDgxOTgzfQ.0rEgzw-96ft-N2owIi9SUIAGPKwU-VQDGwNeUPmPDDI
 
 ###
 POST {{API_URL}}/check/checking
@@ -21,8 +21,9 @@ Accept: application/json
 Authorization: Bearer {{TOKEN}}
 
 {
-    "checking_type": "FinishingChecking",
-    "list_type":"waiting"
+    "checking_type": "WashChecking",
+    "list_type":"passed",
+    "is_return":true
 }
 
 ###
