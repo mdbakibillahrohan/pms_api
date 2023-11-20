@@ -24,7 +24,7 @@ const getList = async(payload)=>{
         }
     }else{
         if(is_return){
-            
+            data = await getReturnSewingList(payload);
         }else{
             data = await getFinishingList(payload);
         }
@@ -161,13 +161,11 @@ const getReturnSewingList = async(payload)=>{
 }
 
 const getReturnCount = async(payload)=>{
-    const {list_type, challan_type} = payload;
+    const {list_type, checking_type} = payload;
     const {UserId} = payload.userInfo;
     let query = null;
-    if(challan_type==="WashChecking"){
-        query = `select rwcm.RWCMId ChallanId, rwcm.ChallanNo, 
-                    rwcm.ChallanDate, rwcm.TotalGmt TotalGmtQty, 
-                    ufr.UnitName FromUnit, uto.UnitName ToUnit from ReturnWashChallanMaster rwcm
+    if(checking_type==="WashChecking"){
+        query = `select count(rwcm.RWCMId) count  from ReturnWashChallanMaster rwcm
                     inner join Unit ufr on ufr.UnitId = rwcm.FromUnitId
                     inner join Unit uto on uto.UnitId = rwcm.ToUnitId 
                     where 1 = 1`;
