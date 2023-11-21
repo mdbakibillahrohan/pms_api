@@ -14,7 +14,7 @@ const controller = async (req, res) => {
         const {user_id, unit_id} = req.body;
         const data = await returnWashChallanCreateServices(req.body);
         if(data){
-            const sendData = _.clone(data);
+            const sendData = _.clone(data[0]);
             sendData.UserId = user_id;
             sendData.FromUnitId = unit_id;
             req.io.emit(SOCKET.NOTIFY_RETURN_CHALLAN, sendData);
