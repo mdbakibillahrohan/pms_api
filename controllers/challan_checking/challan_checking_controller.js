@@ -1,6 +1,6 @@
 
 const Joi = require('joi');
-const {MESSAGE} = require('../../util/constant');
+const {MESSAGE, SOCKET} = require('../../util/constant');
 const challanCheckingServices = require('../../services/challan_checking_services/challan_checking_services');
 
 const schema = Joi.object({
@@ -16,7 +16,8 @@ const controller = async(req, res)=>{
         if(data.message!=="Success"){
             return res.status(MESSAGE.BAD_REQUEST.STATUS_CODE).json({message:data.message, status_code: MESSAGE.BAD_REQUEST.STATUS_CODE});
         }
-        return res.status(MESSAGE.SUCCESS_GET.STATUS_CODE).json({message:data.message, status_code: MESSAGE.SUCCESS_GET.STATUS_CODE});
+        req.io.emit(SOCKET.NOTIFY_RETURN_CHALLAN_GATE_PASSED, data.data);
+        return res.status(MESSAGE.SUCCESS_GET.STATUS_CODE).json({message:data.message, data:data.data, status_code: MESSAGE.SUCCESS_GET.STATUS_CODE});
     }catch(error){
         console.log(error);
         return res.status(MESSAGE.SERVER_ERROR.STATUS_CODE).send(MESSAGE.SERVER_ERROR.CONTENT);

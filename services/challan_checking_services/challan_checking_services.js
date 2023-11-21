@@ -7,8 +7,15 @@ const challanCheckingServices = async(payload)=>{
     if(is_return){
         const data = await returnChallanChecking(payload);
         if(data){
-            return {
-                message:"Success"
+            const returnChallanCheckedData = await getReturnChallanCheckedData(payload);
+            if(returnChallanCheckedData){
+                return {
+                    message:"Success",
+                    data: returnChallanCheckedData
+                }
+            }
+            return{
+                message:"updated successfully but failed to get the data"
             }
         }
         return {
@@ -155,6 +162,18 @@ const returnChallanChecking = async(payload)=>{
         query = `update ReturnWashChallanMaster set CheckInUserId = ${UserId} where RWCMId = ${challan_id}`;
     }
     const data = await executeQuery(dbConfig, query);
+    return data;
+}
+
+const getReturnChallanCheckedData = async(payload)=>{
+    const { challan_id} = payload;
+    const query = `select ui.FullName, rwcm.RWCMId ChallanId, rwcm.ChallanNo, rwcm.ToUnitId, u.UnitName 
+    ToUnitName, rwcm.TotalGmt TotalGmtQty, ChallanDate 
+    from ReturnWashChallanMaster rwcm
+    inner join Unit u on u.UnitId = rwcm.ToUnitId
+    inner join UserInfo ui on ui.UserId = rwcm.CreatedBy
+    where rwcm.RWCMId = ${challan_id}`;
+    const data = await getData(dbConfig, query);
     return data;
 }
 
