@@ -18,7 +18,7 @@ returnWashApprovalRouter.post(
   validator(returnWashChallanCreateSchema),
   returnWashChallanCreateController
 );
-returnWashApprovalRouter.post(
+returnWashApprovalRouter.get(
   API.API_CONTEXT + API.GET_RETURN_WASH_CHALLAN_LIST,
   validator(returnWashChallanListSchema),
   returnWashChallanListController
