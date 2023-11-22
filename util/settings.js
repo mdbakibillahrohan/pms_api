@@ -1,7 +1,7 @@
 const dbConfig = {
 	user: "softadmin",
 	password: "w23eW@#E",
-	server: "192.168.61.68",
+	server: "192.168.61.49",
 	database: "ProductionManagementLive",
 	port:1433,
 	//database: "ERPUSERDB",
