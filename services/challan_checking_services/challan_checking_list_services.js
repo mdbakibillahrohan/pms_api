@@ -4,17 +4,30 @@ const { dbConfig } = require("../../util/settings");
 
 const challanCheckingListServices = async(payload)=>{
     const data = await getList(payload);
-    const count = await getCount(payload);
+    let count = null;
+    if(payload.is_return){
+        count = await getReturnCount(payload);
+    }else{
+        count = await getCount(payload);
+    }
     return {count, data};
 }
 
 const getList = async(payload)=>{
-    const {checking_type} = payload;
+    const {checking_type, is_return} = payload;
     let data = null;
     if(checking_type==="WashChecking"){
-        data = await getWashList(payload);
+        if(is_return){
+            data = await getReturnWashList(payload);
+        }else{
+            data = await getWashList(payload);
+        }
     }else{
-        data = await getFinishingList(payload);
+        if(is_return){
+            data = await getReturnSewingList(payload);
+        }else{
+            data = await getFinishingList(payload);
+        }
     }
     return data;
 }
@@ -107,6 +120,74 @@ const getCount = async(payload)=>{
         }
     }
     data = await getData(dbConfig, query);
+    return data[0].count;
+}
+
+const getReturnWashList = async(payload)=>{
+    const {list_type} = payload;
+    const {UserId} = payload.userInfo;
+    let query = `select rwcm.RWCMId ChallanId, rwcm.ChallanNo, 
+    rwcm.ChallanDate, rwcm.TotalGmt TotalGmtQty, 
+    ufr.UnitName FromUnit, uto.UnitName ToUnit from ReturnWashChallanMaster rwcm
+    inner join Unit ufr on ufr.UnitId = rwcm.FromUnitId
+    inner join Unit uto on uto.UnitId = rwcm.ToUnitId 
+    where 1 = 1`;
+    if(list_type==="waiting"){
+        query += ` and rwcm.CheckedByUserId is null`;
+    }else{
+        query += ` and rwcm.CheckedByUserId = ${UserId}`;
+    }
+    query += ` order by rwcm.RWCMId desc`
+    const data = await getData(dbConfig, query);
+    return data;
+}
+
+const getReturnSewingList = async(payload)=>{
+    const {list_type} = payload;
+    const {UserId} = payload.userInfo;
+    let query = `select rwcm.RWCMId ChallanId, rwcm.ChallanNo, 
+    rwcm.ChallanDate, rwcm.TotalGmt TotalGmtQty, 
+    ufr.UnitName FromUnit, uto.UnitName ToUnit from ReturnWashChallanMaster rwcm
+    inner join Unit ufr on ufr.UnitId = rwcm.FromUnitId
+    inner join Unit uto on uto.UnitId = rwcm.ToUnitId 
+    where 1 = 1`;
+    if(list_type==="waiting"){
+        query += ` and rwcm.CheckedByUserId is not null and rwcm.CheckInUserId is null`;
+    }else{
+        query += ` and rwcm.CheckedByUserId is not null and rwcm.CheckInUserId = ${UserId}`;
+    }
+    query += ` order by rwcm.RWCMId desc`
+    const data = await getData(dbConfig, query);
+    return data;
+}
+
+const getReturnCount = async(payload)=>{
+    const {list_type, checking_type} = payload;
+    const {UserId} = payload.userInfo;
+    let query = null;
+    if(checking_type==="WashChecking"){
+        query = `select count(rwcm.RWCMId) count  from ReturnWashChallanMaster rwcm
+                    inner join Unit ufr on ufr.UnitId = rwcm.FromUnitId
+                    inner join Unit uto on uto.UnitId = rwcm.ToUnitId 
+                    where 1 = 1`;
+        if(list_type==="waiting"){
+            query += ` and rwcm.CheckedByUserId is null`;
+        }else{
+            query += ` and rwcm.CheckedByUserId = ${UserId}`;
+        }
+    }else{
+        query = `select count(rwcm.RWCMId) count from ReturnWashChallanMaster rwcm
+        inner join Unit ufr on ufr.UnitId = rwcm.FromUnitId
+        inner join Unit uto on uto.UnitId = rwcm.ToUnitId 
+        where 1 = 1`;
+        if(list_type==="waiting"){
+            query += ` and rwcm.CheckedByUserId is not null and rwcm.CheckInUserId is null`;
+        }else{
+            query += ` and rwcm.CheckedByUserId is not null and rwcm.CheckInUserId = ${UserId}`;
+        }
+    }
+    
+    const data = await getData(dbConfig, query);
     return data[0].count;
 }
 

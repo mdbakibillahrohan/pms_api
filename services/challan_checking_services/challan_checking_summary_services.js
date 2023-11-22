@@ -8,8 +8,12 @@ const challanCheckingSummaryServices = async(payload)=>{
 }
 
 const getChallanSummary = async(payload)=>{
-    const {checking_type} = payload;
+    const {is_return, checking_type} = payload;
     let data = null;
+    if(is_return){
+        data = await getReturnChallanSummary(payload);
+        return data;
+    }
     if(checking_type==="WashChecking"){
         data = await getWashChallanSummary(payload);
     }else{
@@ -59,6 +63,22 @@ const getFinishingChallanSummary = async(payload)=>{
                     group by cs.StyleNo, rb.Buyer_name, c.Color, 
                     rdc.SignaturePicPath, approver.SignaturePicPath,
                     checker.SignaturePicPath`;
+    const data = await getData(dbConfig, query);
+    return data;
+}
+
+const getReturnChallanSummary = async(payload)=>{
+    const {challan_id} = payload;
+    const query = `select cs.StyleNo, rb.Buyer_name, c.Color, 
+                    count(distinct rwcd.ChildBarcode) TotalPieceQty
+                    from ReturnWashChallanMaster rwcm
+                    inner join ReturnWashChallanDetails rwcd on rwcm.RWCMId = rwcd.RWCMId
+                    inner join CuttingBarcodeTag cbt on cbt.ChildBarcode = rwcd.ChildBarcode
+                    inner join Cutting c on c.CuttingId = cbt.CuttingId
+                    inner join CP_Style cs on cs.Id = cbt.StyleId
+                    inner join Reg_Buyer rb on rb.Buyer_id = cs.Buyer_id
+                    where rwcm.RWCMId = ${challan_id}
+                    group by cs.StyleNo, rb.Buyer_name, c.Color`;
     const data = await getData(dbConfig, query);
     return data;
 }

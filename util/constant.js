@@ -31,6 +31,12 @@ module.exports = {
     CHALLAN_USER_PERMISSION_LIST: 'permission/get-permission-list',
     CHALLAN_USER_PERMISSION_MAKE: 'permission/make-permission',
 
+    //Return wash challan endpoints 
+    RETURN_WASH_CHALLAN_CREATE: 'approval/wash/return-challan-create',
+    APPROVE_RETURN_WASH_CHALLAN: 'approval/wash/approve-return-challan',
+    GET_RETURN_WASH_CHALLAN_LIST: 'approval/wash/return-challan-list',
+    GET_RETURN_WASH_CHALLAN_SUMMARY: 'approval/wash/return-challan-summary',
+    //Return wash challan endpoints
 
     WASH_DASHBOARD_DATA: 'wash-dashboard/all',
     WASH_DASHBOARD_DATA_TOTAL_PRODUCTION: 'wash-dashboard/all',
@@ -125,6 +131,8 @@ module.exports = {
   },
 
   SOCKET: {
-    NOTIFY_CHALLAN: "notify-challan"
+    NOTIFY_CHALLAN: "notify-challan",
+    NOTIFY_RETURN_CHALLAN: "notify-return-challan",
+    NOTIFY_RETURN_CHALLAN_GATE_PASSED: "notify-return-challan-gate-passed",
   }
 };

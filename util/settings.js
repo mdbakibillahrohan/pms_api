@@ -1,9 +1,9 @@
 const dbConfig = {
 	user: "softadmin",
 	password: "w23eW@#E",
-	server: "192.168.0.13",
+	server: "192.168.61.49",
 	database: "ProductionManagementLive",
-	port:4368,
+	port:1433,
 	//database: "ERPUSERDB",
     options: {
         encrypt: true, // for azure

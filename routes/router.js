@@ -13,6 +13,7 @@ const masterRouter = require("./master_routes");
 const finishingRouter = require("./finishing_routes");
 const washingRouter = require("./washing_routes");
 const reportRouter = require("./report_routes");
+const returnWashApprovalRouter = require("./return_challan/return_wash_approval_routes");
 
 appRouter.use(authenticationRouter);
 appRouter.use(dashboardRouter);
@@ -27,4 +28,5 @@ appRouter.use(masterRouter);
 appRouter.use(finishingRouter);
 appRouter.use(washingRouter);
 appRouter.use(reportRouter);
+appRouter.use(returnWashApprovalRouter);
 module.exports = appRouter;

@@ -1,0 +1,27 @@
+@API_URL = http://localhost:3000/pms/api/v1 
+#@API_URL = http://202.22.203.92:3000/pms/api/v1 
+#@API_URL = http://192.168.1.160:3000/api
+
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjMyNzYsIkVtcElkIjoiY2NsMWEtYXBwcm92ZXItMSIsIlVzZXJOYW1lIjoiY2NsMWEtYXBwcm92ZXItMSIsIlVuaXROYW1lIjoiQ0NMIFVuaXQgMUEgKFRJR0wpIiwiVXNlclR5cGUiOiJTZXdpbmdBcHByb3ZlZEJ5IiwiVHlwZU5hbWUiOiJTZXdpbmdBcHByb3ZlZEJ5IiwiQ29tcGFueUlkIjoxMiwiVW5pdElkIjoiNyIsIkZ1bGxOYW1lIjoiY2NsMWEtYXBwcm92ZXItMSIsIkxpbmVJZCI6bnVsbCwiSXNTZXdpbmciOnRydWUsIklzV2FzaGluZyI6bnVsbCwiSXNGaW5pc2hpbmciOm51bGwsImlhdCI6MTcwMDQ2MzYxM30.2_Vg0dufjKXK2fCRstRU-cNINENSVDtWQeAJXqBEexM
+
+###
+POST {{API_URL}}/approval/wash/return-challan-create
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+    "user_id": 3270,
+    "challan_id": 1,
+    "unit_id":7
+}
+
+###
+GET {{API_URL}}/approval/wash/return-challan-list
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{TOKEN}}
+
+{
+    
+}
