@@ -28,17 +28,26 @@ const GetLineWiseDhuController = async (req, res) => {
     } = req.query;
 
 
-    const sql=`Select top(10) p.LineId LineId,l.LineName name, CONVERT(decimal(10,1), CAST((ISNULL(SUM(p.CountValue),0))*100 as decimal(10,2))/CAST((ISNULL(TotalOk,0)) as decimal(10,2))) DHU
+    const sql=`
+    select distinct SectionName, SectionId into #sectionTbl from [FactoryDB].[dbo].DeptWiseDailyData 
+      where SectionId in (select PreviousId from LineNew where UnitId = 7) 
+      and Len(SectionName) > 12;
+
+    Select top(10) p.LineId LineId,sec.SectionName name, CONVERT(decimal(10,1), CAST((ISNULL(SUM(p.CountValue),0))*100 as decimal(10,2))/CAST((ISNULL(TotalOk,0)) as decimal(10,2))) DHU
     from HourlySewingProductionCount p
         left join (select LineId,ISNULL(SUM(CountValue),0) TotalOk from HourlySewingProductionCount
         where UnitId=${UnitId}
         and cast(CreateAt as date) = cast('${filterDate}' as date) and InputTypeId=1
         group by LineId) o on o.LineId=p.LineId
         left join LineNew l on l.LineId = p.LineId
+        left join #sectionTbl sec on sec.SectionId = l.PreviousId
     where UnitId=${UnitId}
     and cast(CreateAt as date) = cast('${filterDate}' as date) and InputTypeId in (2,3) 
-    group by p.LineId, o.TotalOk, l.LineName
-    order by p.LineId`;
+    group by p.LineId, o.TotalOk, sec.SectionName 
+    order by p.LineId
+    
+    drop table #sectionTbl
+    `;
 
     // const sql=`Select top(10) p.LineId LineId,l.LineName name, CONVERT(decimal(10,1), CAST((ISNULL(SUM(p.CountValue),0))*100 as decimal(10,2))/CAST((ISNULL(TotalOk,0)) as decimal(10,2))) DHU
     // from HourlySewingProductionCount p
