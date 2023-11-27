@@ -28,7 +28,7 @@ const GetTotalProduction = async (req, res) => {
     } = req.query;
 
 
-    const sql=`select  ISNULL(count(ChildBarcode),0) TotalOk from HourlySewingProductionCount
+    const sql=`select  ISNULL(count(ChildBarcode),0) TotalOk from HourlySewingProductionCount with(nolock)
     where UnitId=${UnitId}  and cast(CreateAt as date) = cast('${filterDate}' as date) and InputTypeId=1`;
     data = await executeSqlB(sql);
 

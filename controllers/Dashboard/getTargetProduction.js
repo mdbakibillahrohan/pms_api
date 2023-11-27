@@ -29,13 +29,13 @@ const GetTargetProductionController = async (req, res) => {
 
 
     const sql=`
-    select distinct SectionName, SectionId into #sectionTbl from [FactoryDB].[dbo].DeptWiseDailyData 
+    select distinct SectionName, SectionId into #sectionTbl from [FactoryDB].[dbo].DeptWiseDailyData with(nolock) 
       where SectionId in (select PreviousId from LineNew where UnitId = 7) 
       and Len(SectionName) > 12;
 
-    WITH CTE  AS (select A.HourNo,A.LineId, sec.SectionName LineName, ISNULL(count(ChildBarcode),0) TotalOk,B.TargetQty from HourlySewingProductionCount A 
-    INNER JOIN HourlyProduction B On A.LineId=B.LineId AND A.ProductionDate=B.ProductionDate 
-    join LineNew ln on ln.LineId = A.LineId
+    WITH CTE  AS (select A.HourNo,A.LineId, sec.SectionName LineName, ISNULL(count(ChildBarcode),0) TotalOk,B.TargetQty from HourlySewingProductionCount A with(nolock)
+    INNER JOIN HourlyProduction B with(nolock) On A.LineId=B.LineId AND A.ProductionDate=B.ProductionDate 
+    join LineNew ln with(nolock) on ln.LineId = A.LineId
     left join #sectionTbl sec on sec.SectionId = ln.PreviousId
     where A.UnitId=${UnitId}  and cast(CreateAt as date) = cast('${filterDate}' as date) and InputTypeId=1
     group by HourNo,A.LineId,TargetQty, sec.SectionName, LineName)

@@ -32,9 +32,9 @@ const GetRunningStyleDetailsController = async (req, res) => {
     A.StyleId OutStyleId
     into #tblOutToday
     from 
-        HourlySewingProductionCount A 
+        HourlySewingProductionCount A with(nolock)
 
-        join LineNew ln on ln.LineId = A.LineId 
+        join LineNew ln with(nolock) on ln.LineId = A.LineId 
     where 
         A.UnitId =${UnitId}
         and cast(CreateAt as date) = cast(
@@ -50,7 +50,7 @@ const GetRunningStyleDetailsController = async (req, res) => {
     into #tblOut
     from
         #tblOutToday today 
-    join	HourlySewingProductionCount hs on hs.StyleId = today.OutStyleId and hs.InputTypeId = 1
+    join	HourlySewingProductionCount hs with(nolock) on hs.StyleId = today.OutStyleId and hs.InputTypeId = 1
     group by  
     today.OutStyleId
 
@@ -62,11 +62,11 @@ const GetRunningStyleDetailsController = async (req, res) => {
     b.Buyer_id 
     into #tblIn
     from 
-    Cutting_BundleLineInput a 
-    join Cutting c on c.CuttingId = a.CuttingId 
+    Cutting_BundleLineInput a with(nolock)
+    join Cutting c with(nolock) on c.CuttingId = a.CuttingId 
     JOIN #tblOutToday os ON os.OutStyleId = c.StyleId 
-    JOIN CP_Style s ON s.Id = os.OutStyleId 
-    join hameem_erp_New.dbo.Reg_Buyer b ON b.Buyer_id = c.Buyer_id 
+    JOIN CP_Style s with(nolock) ON s.Id = os.OutStyleId 
+    join hameem_erp_New.dbo.Reg_Buyer b with(nolock) ON b.Buyer_id = c.Buyer_id 
     where 
     a.UnitId = ${UnitId}						 
     group by 
@@ -78,19 +78,19 @@ const GetRunningStyleDetailsController = async (req, res) => {
 
     select  *, 
     ISNULL((SELECT SUM(OrderQty) 
-            FROM CP_CuttingPlanPODetail CPPOD 
+            FROM CP_CuttingPlanPODetail CPPOD with(nolock) 
             WHERE 
             CPPOD.CuttingPlanDetailId IN (
                     SELECT 
                     CPD.Id 
                     FROM 
-                    CP_CuttingPlanDetail CPD 
+                    CP_CuttingPlanDetail CPD with(nolock) 
                     WHERE 
                     CPD.CP_StyleId IN (
                         SELECT 
                         CPS.Id 
                         FROM 
-                        CP_Style CPS 
+                        CP_Style CPS with(nolock)
                         WHERE 
                         CPS.Buyer_id = A.Buyer_id 
                         AND CPS.Id = A.StyleIdIn

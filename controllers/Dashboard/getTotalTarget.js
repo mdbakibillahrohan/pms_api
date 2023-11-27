@@ -28,9 +28,9 @@ const GetTotalTarget = async (req, res) => {
     } = req.query;
 
 
-    const sql=`WITH CTE  AS (select A.HourNo,A.LineId,ln.LineName ,ISNULL(count(ChildBarcode),0) TotalOk,B.TargetQty from HourlySewingProductionCount A 
-    INNER JOIN HourlyProduction B On A.LineId=B.LineId AND A.ProductionDate=B.ProductionDate 
-    join LineNew ln on ln.LineId = A.LineId
+    const sql=`WITH CTE  AS (select A.HourNo,A.LineId,ln.LineName ,ISNULL(count(ChildBarcode),0) TotalOk,B.TargetQty from HourlySewingProductionCount A with(nolock)
+    INNER JOIN HourlyProduction B with(nolock) On A.LineId=B.LineId AND A.ProductionDate=B.ProductionDate 
+    join LineNew ln with(nolock) on ln.LineId = A.LineId
       where A.UnitId=${UnitId} and cast(CreateAt as date) = cast('${filterDate}' as date) and InputTypeId=1
       group by HourNo,A.LineId,TargetQty,LineName)
 SELECT Isnull(SUM(TotalOk),0) ProductionQty, isnull(SUM(TargetQty),0) TargetQty FROM CTE`;

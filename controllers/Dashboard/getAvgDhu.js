@@ -43,8 +43,8 @@ const GetAvgDhuController = async (req, res) => {
   
   const sql=`with DefectInHours as (
 		select p.HourNo, CONVERT(decimal(10,2), CAST((ISNULL(SUM(p.CountValue),0))*100 as decimal(10,2))/CAST((ISNULL(TotalOk,0)) as decimal(10,2))) DHU
-		from HourlySewingProductionCount p
-		left join (select HourNo,ISNULL(SUM(CountValue),0) TotalOk from HourlySewingProductionCount
+		from HourlySewingProductionCount p with(nolock)
+		left join (select HourNo,ISNULL(SUM(CountValue),0) TotalOk from HourlySewingProductionCount with(nolock)
 		where UnitId=${UnitId}
 		and cast(CreateAt as date) = cast('${filterDate}' as date) and InputTypeId=1
 		group by HourNo) o on o.HourNo=p.HourNo

@@ -34,9 +34,9 @@ const GetHourlyProductionController = async (req, res) => {
         A.LineId,
         ln.LineName,
         ISNULL(COUNT(ChildBarcode), 0) TotalOk
-    FROM HourlySewingProductionCount A
+    FROM HourlySewingProductionCount A with(nolock)
    
-    JOIN LineNew ln
+    JOIN LineNew ln with(nolock)
         ON ln.LineId = A.LineId
     WHERE A.UnitId = ${UnitId}
     AND CAST(CreateAt AS date) = CAST('${filterDate}' AS date)

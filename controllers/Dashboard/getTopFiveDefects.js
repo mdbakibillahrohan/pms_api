@@ -28,8 +28,8 @@ const GetTopFiveDefectsController = async (req, res) => {
     } = req.query;
 
 
-    const sql=`select top (5) f.DefectName as name,sum(CountValue) as DefectQty from HourlySewingDefectCount D
-    inner join IE_Defects f on f.DefectId = D.DefectID
+    const sql=`select top (5) f.DefectName as name,sum(CountValue) as DefectQty from HourlySewingDefectCount D with(nolock)
+    inner join IE_Defects f with(nolock) on f.DefectId = D.DefectID
     where CAST(CreateAt as date) = CAST('${filterDate}' as date) and D.UnitId = ${UnitId}
     group by f.DefectName order by sum(CountValue) desc`;
     

@@ -35,7 +35,7 @@ const GetTotalEfficiency = async (req, res) => {
 
     if(dateString===filterDate){
       sql=`
-      select distinct SectionName, SectionId into #sectionTbl from [FactoryDB].[dbo].DeptWiseDailyData 
+      select distinct SectionName, SectionId into #sectionTbl from [FactoryDB].[dbo].DeptWiseDailyData with(nolock)
       where SectionId in (select PreviousId from LineNew where UnitId = ${UnitId}) 
       and Len(SectionName) > 12 
 
@@ -43,17 +43,17 @@ const GetTotalEfficiency = async (req, res) => {
       FROM (
       SELECT sec.SectionName LineName,SMV,PlantManPower,ISNULL(count(ChildBarcode),0) TotalOk,T.HourlyTarget,(T.HourlyTarget/60.00)*(datediff(minute, '${filterDate} 08:00:00', GETDATE())) TotalTgt,
       datediff(minute, '${filterDate} 08:00:00', GETDATE()) HorkingMinute
-      FROM LineEfficiency ST 
-      INNER join StyleWiseTarget T on ST.SWTId=T.SWTId 
-      INNER JOIN LineNew LN ON ST.LineId=LN.LineId
-      INNER JOIN LineOld LD ON LN.PreviousId=LD.LineId
+      FROM LineEfficiency ST with(nolock)
+      INNER join StyleWiseTarget T with(nolock) on ST.SWTId=T.SWTId 
+      INNER JOIN LineNew LN with(nolock) ON ST.LineId=LN.LineId
+      INNER JOIN LineOld LD with(nolock) ON LN.PreviousId=LD.LineId
       LEFT JOIN #sectionTbl sec on sec.SectionId = ld.LineId  
-      INNER JOIN HourlySewingProductionCount HP ON HP.LineId=ST.LineId AND HP.UnitId=LD.UnitId AND HP.ProductionDate=T.TargetDate 
+      INNER JOIN HourlySewingProductionCount HP with(nolock) ON HP.LineId=ST.LineId AND HP.UnitId=LD.UnitId AND HP.ProductionDate=T.TargetDate 
       WHERE LD.UnitId=${UnitId} AND T.TargetDate=cast('${filterDate}' as date) AND LD.LineTypeId=1
       GROUP BY LN.LineName,SMV,PlantManPower,T.HourlyTarget,sec.SectionName) AS K
       drop table #sectionTbl`;
     }else{
-      sql=`select distinct SectionName, SectionId into #sectionTbl from [FactoryDB].[dbo].DeptWiseDailyData 
+      sql=`select distinct SectionName, SectionId into #sectionTbl from [FactoryDB].[dbo].DeptWiseDailyData with(nolock)
       where SectionId in (select PreviousId from LineNew where UnitId = ${UnitId}) 
       and Len(SectionName) > 12 
 
@@ -61,12 +61,12 @@ const GetTotalEfficiency = async (req, res) => {
       FROM (
       SELECT sec.SectionName LineName,SMV,PlantManPower,ISNULL(count(ChildBarcode),0) TotalOk,T.HourlyTarget,(T.HourlyTarget/60.00)*(datediff(minute, '${filterDate} 08:00:00', GETDATE())) TotalTgt,
       datediff(minute, '${filterDate} 08:00:00', GETDATE()) HorkingMinute
-      FROM LineEfficiency ST 
-      INNER join StyleWiseTarget T on ST.SWTId=T.SWTId 
-      INNER JOIN LineNew LN ON ST.LineId=LN.LineId
-      INNER JOIN LineOld LD ON LN.PreviousId=LD.LineId
+      FROM LineEfficiency ST with(nolock)
+      INNER join StyleWiseTarget T with(nolock) on ST.SWTId=T.SWTId 
+      INNER JOIN LineNew LN with(nolock) ON ST.LineId=LN.LineId
+      INNER JOIN LineOld LD with(nolock) ON LN.PreviousId=LD.LineId
       LEFT JOIN #sectionTbl sec on sec.SectionId = ld.LineId  
-      INNER JOIN HourlySewingProductionCount HP ON HP.LineId=ST.LineId AND HP.UnitId=LD.UnitId AND HP.ProductionDate=T.TargetDate 
+      INNER JOIN HourlySewingProductionCount HP with(nolock) ON HP.LineId=ST.LineId AND HP.UnitId=LD.UnitId AND HP.ProductionDate=T.TargetDate 
       WHERE LD.UnitId=${UnitId} AND T.TargetDate=cast('${filterDate}' as date) AND LD.LineTypeId=1
       GROUP BY LN.LineName,SMV,PlantManPower,T.HourlyTarget,sec.SectionName) AS K
       drop table #sectionTbl`;

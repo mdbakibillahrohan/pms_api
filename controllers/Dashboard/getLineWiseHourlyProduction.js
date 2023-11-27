@@ -30,10 +30,10 @@ const GetLineWiseHourlyProductionController = async (req, res) => {
 
     const sql=`select  SectionId,SectionName
     into #LinePre
-    from [FactoryDB].[dbo].DeptWiseDailyData
+    from [FactoryDB].[dbo].DeptWiseDailyData with(nolock)
     where SectionId in  (
             select ln.PreviousId from LineUnit lu
-            join LineNew ln on ln.LineId = lu.LineId
+            join LineNew ln with(nolock) on ln.LineId = lu.LineId
             where UnitId = ${UnitId} and IsActive = 1 and UnitLineName like '%LINE -%') and Len(SectionName) >12
             Group By SectionName, SectionId
             Order By SectionName;
@@ -44,9 +44,9 @@ const GetLineWiseHourlyProductionController = async (req, res) => {
             A.LineId,
             pl.SectionName LineName,
             ISNULL(COUNT(ChildBarcode), 0) TotalOk
-        FROM HourlySewingProductionCount A
+        FROM HourlySewingProductionCount A with(nolock)
 
-        JOIN LineNew ln
+        JOIN LineNew ln with(nolock)
             ON ln.LineId = A.LineId
         Join #LinePre pl on pl.SectionId = ln.PreviousId
 

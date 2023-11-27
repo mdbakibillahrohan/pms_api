@@ -251,10 +251,10 @@ const GetLineRankListsController = async (req, res) => {
 
             const sql=`select  SectionId,SectionName
     into #LinePre
-    from [FactoryDB].[dbo].DeptWiseDailyData
+    from [FactoryDB].[dbo].DeptWiseDailyData with(nolock)
     where SectionId in  (
-            select ln.PreviousId from LineUnit lu
-            join LineNew ln on ln.LineId = lu.LineId
+            select ln.PreviousId from LineUnit lu with(nolock)
+            join LineNew ln with(nolock) on ln.LineId = lu.LineId
             where UnitId = ${UnitId} and IsActive = 1 and UnitLineName like '%LINE -%') and Len(SectionName) >12
             Group By SectionName, SectionId
             Order By SectionName;
@@ -274,10 +274,10 @@ const GetLineRankListsController = async (req, res) => {
             B.TargetQty
     
         from 
-            HourlySewingProductionCount A 
-            INNER JOIN HourlyProduction B On A.LineId = B.LineId 
+            HourlySewingProductionCount A with(nolock) 
+            INNER JOIN HourlyProduction B with(nolock) On A.LineId = B.LineId 
             AND A.ProductionDate = B.ProductionDate 
-            join LineNew ln on ln.LineId = A.LineId 
+            join LineNew ln with(nolock) on ln.LineId = A.LineId 
             Join #LinePre pl on pl.SectionId = ln.PreviousId
     
         where 
@@ -314,7 +314,7 @@ const GetLineRankListsController = async (req, res) => {
         A.TargetQty,A.CurrentHourNo
     into #tblOut
     from #tbl1 A
-        join HourlySewingProductionCount B on B.LineId = a.LineId and A.OutStyleId = b.StyleId and B.InputTypeId = 1
+        join HourlySewingProductionCount B with(nolock) on B.LineId = a.LineId and A.OutStyleId = b.StyleId and B.InputTypeId = 1
         Group by A.LineId, A.OutStyleId,A.LineName,A.TargetQty,A.CurrentHourNo
     
     select 
@@ -327,8 +327,8 @@ const GetLineRankListsController = async (req, res) => {
     into #tblIn
     from 
         Cutting_BundleLineInput a 
-        join Cutting c on c.CuttingId = a.CuttingId 
-        join hameem_erp_New.dbo.Reg_Buyer b ON b.Buyer_id = c.Buyer_id 
+        join Cutting c with(nolock) on c.CuttingId = a.CuttingId 
+        join hameem_erp_New.dbo.Reg_Buyer b with(nolock) ON b.Buyer_id = c.Buyer_id 
         JOIN #tbl1 os ON os.OutStyleId = c.StyleId 
         JOIN CP_Style s ON s.Id = os.OutStyleId 
         and c.Buyer_id = b.Buyer_id
@@ -344,13 +344,13 @@ const GetLineRankListsController = async (req, res) => {
     
     select  *, 
         ISNULL((SELECT SUM(OrderQty) 
-                FROM CP_CuttingPlanPODetail CPPOD 
+                FROM CP_CuttingPlanPODetail CPPOD with(nolock) 
                 WHERE 
                 CPPOD.CuttingPlanDetailId IN (
                         SELECT 
                         CPD.Id 
                         FROM 
-                        CP_CuttingPlanDetail CPD 
+                        CP_CuttingPlanDetail CPD with(nolock)
                         WHERE 
                         CPD.CP_StyleId IN (
                             SELECT 
@@ -395,7 +395,7 @@ const GetLineRankListsController = async (req, res) => {
             ISNULL(count(ChildBarcode), 0) DayOutput
             Into #tblJoin
             from 
-            HourlySewingProductionCount hp join #tblJoin1 j on  hp.LineId = j.LineIdOut --and hp.StyleId = j.OutStyleId
+            HourlySewingProductionCount hp with(nolock) join #tblJoin1 j on  hp.LineId = j.LineIdOut --and hp.StyleId = j.OutStyleId
             where 
             UnitId = ${UnitId} and cast(CreateAt as date) = cast('${filterDate}' as date) and InputTypeId = 1 
             group by j.Buyer_id,
@@ -433,8 +433,8 @@ const GetLineRankListsController = async (req, res) => {
                 0
                 ) MonthlyProduction 
             from 
-                HourlySewingProductionCount A 
-                INNER JOIN HourlyProduction B On A.LineId = B.LineId -- and  A.StyleId = b.StyleId
+                HourlySewingProductionCount A with(nolock) 
+                INNER JOIN HourlyProduction B with(nolock) On A.LineId = B.LineId -- and  A.StyleId = b.StyleId
                 AND A.ProductionDate = B.ProductionDate 
                 join LineNew ln on ln.LineId = A.LineId 
             where 
