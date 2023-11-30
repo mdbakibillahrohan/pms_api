@@ -14,9 +14,13 @@ const finishingRouter = require("./finishing_routes");
 const washingRouter = require("./washing_routes");
 const reportRouter = require("./report_routes");
 const returnWashApprovalRouter = require("./return_challan/return_wash_approval_routes");
+const lineInputRouter = require("./line_input_routes");
+
+
 
 appRouter.use(authenticationRouter);
 appRouter.use(dashboardRouter);
+appRouter.use(lineInputRouter)
 appRouter.use(approvalRouter);
 appRouter.use(challanCheckingRouter);
 appRouter.use(uploadFilesRouter);
