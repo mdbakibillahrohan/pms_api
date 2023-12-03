@@ -8,7 +8,7 @@ Content-Type: application/json
 Accept: application/json 
 
 {
-    "username":"cwl1-wash-check",
+    "username":"agl1-rdc-1",
     "password":"123"
 }
 
