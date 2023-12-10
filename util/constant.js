@@ -52,6 +52,7 @@ module.exports = {
 
     GATE_IN_OUT_DASHBOARD: 'dashboard/gate-in-out',
 
+    GET_LINE_LISTS_WITH_PERMISSION:'cutting/get-line-lists-with-permission',
     GET_CUTTING_DETAILS_WITH_ID:'cutting/cutting-details-with-id',
     GET_CUTTING_LINE_ENTRY:'cutting/cutting-line-entry',
     GET_CUTTING_LINE_LISTS:'cutting/cutting-line-lists',

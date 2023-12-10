@@ -3,16 +3,7 @@ const { MESSAGE } = require('../../util/constant');
 const addNewLineEntryServices = require('../../services/line_input/add_new_line_input_services');
 
 const schema = Joi.object({
-    InputDate: Joi.string().required(),
-    CuttingDetailsId: Joi.number().required(),
-    CuttingId: Joi.number().required(),
-    UnitId: Joi.number().required(),
-    LineId: Joi.number().required(),
-    HourNo: Joi.number().required(),
-    BundleNo: Joi.number().required(),
-    BundleQty: Joi.number().required(),
-    StyleId: Joi.number().required(),
-    CreateBy: Joi.number().required()
+    UserId: Joi.number().required()
 });
 
 const controller = async (req, res) => {
