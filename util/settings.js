@@ -3,6 +3,8 @@ const dbConfig = {
 	password: "w23eW@#E",
 	// server: "192.168.61.49",
 	server:"192.168.0.13",
+	// server: "192.168.61.49",
+	server: "192.168.0.13",
 	database: "ProductionManagementLive",
 	// port:1433,
 	port: 4368,
