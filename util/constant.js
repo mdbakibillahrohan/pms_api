@@ -70,6 +70,13 @@ module.exports = {
     FINISHING_DASHBOARD_DATA_STYLE_WISE_RECEIVE_VS_DELIVERY: 'finishing-dashboard/style-wise-receive-vs-delivery',
     FINISHING_DASHBOARD_DATA_ACHIEVEMENT: 'finishing-dashboard/achievement',
 
+    //Return finishing challan endpoints 
+    RETURN_FINISHING_CHALLAN_CREATE: 'approval/finishing/return-challan-create',
+    APPROVE_RETURN_FINISHING_CHALLAN: 'approval/finishing/approve-return-challan',
+    GET_RETURN_FINISHING_CHALLAN_LIST: 'approval/finishing/return-challan-list',
+    GET_RETURN_FINISHING_CHALLAN_SUMMARY: 'approval/finishing/return-challan-summary',
+    //Return finishing challan endpoints
+
     FINISHING_STYLE_WISE_TARGET_ENTRY: 'finishing/style-wise-target-entry',
     FINISHING_STYLE_WISE_TARGET_LIST: 'finishing/style-wise-target-list',
 

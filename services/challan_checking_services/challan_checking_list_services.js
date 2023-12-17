@@ -24,7 +24,7 @@ const getList = async(payload)=>{
         }
     }else{
         if(is_return){
-            data = await getReturnSewingList(payload);
+            data = await getReturnFinishingList(payload);
         }else{
             data = await getFinishingList(payload);
         }
@@ -142,7 +142,7 @@ const getReturnWashList = async(payload)=>{
     return data;
 }
 
-const getReturnSewingList = async(payload)=>{
+const getReturnFinishingList = async(payload)=>{
     const {list_type} = payload;
     const {UserId} = payload.userInfo;
     let query = `select rwcm.RWCMId ChallanId, rwcm.ChallanNo, 

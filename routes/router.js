@@ -15,6 +15,7 @@ const washingRouter = require("./washing_routes");
 const reportRouter = require("./report_routes");
 const returnWashApprovalRouter = require("./return_challan/return_wash_approval_routes");
 const lineInputRouter = require("./line_input_routes");
+const returnFinishingApprovalRouter = require("./return_challan/return_finishing_approval_routes");
 
 
 
@@ -33,4 +34,5 @@ appRouter.use(finishingRouter);
 appRouter.use(washingRouter);
 appRouter.use(reportRouter);
 appRouter.use(returnWashApprovalRouter);
+appRouter.use(returnFinishingApprovalRouter);
 module.exports = appRouter;

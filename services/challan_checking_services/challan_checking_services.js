@@ -159,20 +159,31 @@ const returnChallanChecking = async(payload)=>{
     if(checking_type==="WashChecking"){
         query = `update ReturnWashChallanMaster set CheckedByUserId = ${UserId} where RWCMId = ${challan_id}`;
     }else{
-        query = `update ReturnWashChallanMaster set CheckInUserId = ${UserId} where RWCMId = ${challan_id}`;
+        query = `update ReturnFinishingChallanMaster set CheckedByUserId = ${UserId} where RFCMId = ${challan_id}`;
     }
     const data = await executeQuery(dbConfig, query);
     return data;
 }
 
 const getReturnChallanCheckedData = async(payload)=>{
-    const { challan_id} = payload;
-    const query = `select ui.FullName, rwcm.RWCMId ChallanId, rwcm.ChallanNo, rwcm.ToUnitId, u.UnitName 
-    ToUnitName, rwcm.TotalGmt TotalGmtQty, ChallanDate 
-    from ReturnWashChallanMaster rwcm
-    inner join Unit u on u.UnitId = rwcm.ToUnitId
-    inner join UserInfo ui on ui.UserId = rwcm.CreatedBy
-    where rwcm.RWCMId = ${challan_id}`;
+    const { challan_id, checking_type} = payload;
+    let query = null;
+    if(checking_type==="WashChecking"){
+        query = `select ui.FullName, rwcm.RWCMId ChallanId, rwcm.ChallanNo, rwcm.ToUnitId, u.UnitName 
+                    ToUnitName, rwcm.TotalGmt TotalGmtQty, ChallanDate 
+                    from ReturnWashChallanMaster rwcm
+                    inner join Unit u on u.UnitId = rwcm.ToUnitId
+                    inner join UserInfo ui on ui.UserId = rwcm.CreatedBy
+                    where rwcm.RWCMId = ${challan_id}`;
+    }else{
+        query = `select ui.FullName, rfcm.RFCMId ChallanId, rfcm.ChallanNo, rfcm.ToUnitId, 
+                    u.UnitName ToUnitName, rfcm.TotalGmt TotalGmtQty, ChallanDate
+                    from ReturnFinishingChallanMaster rfcm 
+                    inner join Unit u on u.UnitId = rfcm.ToUnitId
+                    inner join UserInfo ui on ui.UserId = rfcm.CreatedBy
+                    where rfcm.RFCMId = ${challan_id}`;
+    }
+    
     const data = await getData(dbConfig, query);
     return data;
 }
