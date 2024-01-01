@@ -28,35 +28,21 @@ const GetLineWiseHourlyProductionController = async (req, res) => {
     } = req.query;
 
 
-    const sql=`select  SectionId,SectionName
-    into #LinePre
-    from [FactoryDB].[dbo].DeptWiseDailyData with(nolock)
-    where SectionId in  (
-            select ln.PreviousId from LineUnit lu
-            join LineNew ln with(nolock) on ln.LineId = lu.LineId
-            where UnitId = ${UnitId} and IsActive = 1 and UnitLineName like '%LINE -%') and Len(SectionName) >12
-            Group By SectionName, SectionId
-            Order By SectionName;
-    
+    const sql = `
     WITH CTE
         AS (SELECT
+			ln.LocalLineName LineName,
             A.HourNo,
             A.LineId,
-            pl.SectionName LineName,
             ISNULL(COUNT(ChildBarcode), 0) TotalOk
         FROM HourlySewingProductionCount A with(nolock)
-
-        JOIN LineNew ln with(nolock)
-            ON ln.LineId = A.LineId
-        Join #LinePre pl on pl.SectionId = ln.PreviousId
-
+		INNER JOIN LineNew ln on ln.LineId = A.LineId
         WHERE A.UnitId = ${UnitId}
         AND CAST(CreateAt AS date) = CAST('${filterDate}' AS date)
         AND InputTypeId = 1
-        GROUP BY HourNo,
-                    A.LineId,
-                        pl.SectionName
-                    ) 
+        group by ln.LocalLineName,
+            A.HourNo,
+            A.LineId) 
         SELECT
             * INTO #tbl1
         FROM CTE
@@ -78,7 +64,17 @@ const GetLineWiseHourlyProductionController = async (req, res) => {
             WHEN HourNo = 10 THEN '7 PM'
             WHEN HourNo = 11 THEN '8 PM'
             WHEN HourNo = 12 THEN '9 PM'
-
+            WHEN HourNo = 13 THEN '10 PM'
+            WHEN HourNo = 14 THEN '11 PM'
+            WHEN HourNo = 15 THEN '12 AM'
+            WHEN HourNo = 16 THEN '1 AM'
+            WHEN HourNo = 17 THEN '2 AM'
+            WHEN HourNo = 18 THEN '3 AM'
+            WHEN HourNo = 19 THEN '4 AM'
+            WHEN HourNo = 20 THEN '5 AM'
+            WHEN HourNo = 21 THEN '6 AM'
+            WHEN HourNo = 22 THEN '7 AM'
+            WHEN HourNo = 23 THEN '8 AM'
             ELSE '10 PM'
             END HourNo,
             LineId,
@@ -88,8 +84,71 @@ const GetLineWiseHourlyProductionController = async (req, res) => {
         FROM #tbl1
         GROUP BY LineId,LineName,HourNo
 
-        DROP TABLE #LinePre
-        DROP TABLE #tbl1`;
+        DROP TABLE #tbl1
+    `;
+    // const sql=`
+    // select  SectionId,SectionName
+    // into #LinePre
+    // from [FactoryDB].[dbo].DeptWiseDailyData with(nolock)
+    // where SectionId in  (
+    //         select ln.PreviousId from LineUnit lu
+    //         join LineNew ln with(nolock) on ln.LineId = lu.LineId
+    //         where UnitId = ${UnitId} and IsActive = 1 and UnitLineName like '%LINE -%') and Len(SectionName) >12
+    //         Group By SectionName, SectionId
+    //         Order By SectionName;
+    
+    // WITH CTE
+    //     AS (SELECT
+    //         A.HourNo,
+    //         A.LineId,
+    //         pl.SectionName LineName,
+    //         ISNULL(COUNT(ChildBarcode), 0) TotalOk
+    //     FROM HourlySewingProductionCount A with(nolock)
+
+    //     JOIN LineNew ln with(nolock)
+    //         ON ln.LineId = A.LineId
+    //     Join #LinePre pl on pl.SectionId = ln.PreviousId
+
+    //     WHERE A.UnitId = ${UnitId}
+    //     AND CAST(CreateAt AS date) = CAST('${filterDate}' AS date)
+    //     AND InputTypeId = 1
+    //     GROUP BY HourNo,
+    //                 A.LineId,
+    //                     pl.SectionName
+    //                 ) 
+    //     SELECT
+    //         * INTO #tbl1
+    //     FROM CTE
+    //     ORDER BY LineId
+
+    //     SELECT
+    //         ROW_NUMBER () over(order by LineId) RowNO,
+    //         HourNo as OHour,
+    //         CASE
+    //         WHEN HourNo = 1 THEN '9 AM'
+    //         WHEN HourNo = 2 THEN '10 AM'
+    //         WHEN HourNo = 3 THEN '11 AM'
+    //         WHEN HourNo = 4 THEN '12 PM'
+    //         WHEN HourNo = 5 THEN '1 PM'
+    //         WHEN HourNo = 6 THEN '3 PM'
+    //         WHEN HourNo = 7 THEN '4 PM'
+    //         WHEN HourNo = 8 THEN '5 PM'
+    //         WHEN HourNo = 9 THEN '6 PM'
+    //         WHEN HourNo = 10 THEN '7 PM'
+    //         WHEN HourNo = 11 THEN '8 PM'
+    //         WHEN HourNo = 12 THEN '9 PM'
+
+    //         ELSE '10 PM'
+    //         END HourNo,
+    //         LineId,
+    //         LineName,
+    //         Sum(TotalOk) ProductionQty
+        
+    //     FROM #tbl1
+    //     GROUP BY LineId,LineName,HourNo
+
+    //     DROP TABLE #LinePre
+    //     DROP TABLE #tbl1`;
 
     // const sql=`select  SectionId,SectionName
     // into #LinePre

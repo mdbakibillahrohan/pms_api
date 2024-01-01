@@ -62,7 +62,7 @@ const GetTargetProductionController = async (req, res) => {
         message: "Internal Server Error",
     });
   } catch (error) {
-    return res.status(500).send("Internall server error");
+    return res.status(500).send("Internal server error");
   }
 };
 

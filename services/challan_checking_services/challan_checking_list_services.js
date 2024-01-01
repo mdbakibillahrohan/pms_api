@@ -42,7 +42,9 @@ const getWashList = async(payload)=>{
                     from ${TABLE.NEW_SEWING_CHALLAN} nsc 
                     inner join Unit ufr on ufr.UnitId = nsc.FromUnitId
                     inner join Unit uto on uto.UnitId = nsc.ToUnitId
-                    where 1 = 1 and nsc.ChallanDate is not null and nsc.ToUnitId = ${userInfo.UnitId} and nsc.IsWashChecked = 0 and nsc.RDCUserId != 0 and nsc.ApprovedByUserId != 0 and nsc.CheckedByUserId !=0 order by nsc.SCId desc`;
+                    where 1 = 1 and nsc.ChallanDate is not null and nsc.ToUnitId = ${userInfo.UnitId} and nsc.IsWashChecked = 0 and nsc.RDCUserId != 0 and nsc.ApprovedByUserId != 0 and nsc.CheckedByUserId !=0
+                    and nsc.ChallanDate >= DATEADD(day,-7, GETDATE())
+                    order by nsc.SCId desc`;
     }else{
         query = `select nsc.SCId ChallanId, nsc.ChallanNo, nsc.ChallanDate, nsc.TotalGmtQty, 
                     ufr.UnitName FromUnit, uto.UnitName ToUnit 
@@ -52,7 +54,9 @@ const getWashList = async(payload)=>{
                     inner join WashChecking wc on wc.SCId = nsc.SCId
                     where 1 = 1 and nsc.ChallanDate is not null and nsc.ToUnitId = ${userInfo.UnitId} 
                     and nsc.IsWashChecked = 1 and nsc.RDCUserId != 0 and nsc.ApprovedByUserId != 0 
-                    and nsc.CheckedByUserId !=0 and wc.UserId = ${userInfo.UserId} order by nsc.SCId desc`;
+                    and nsc.CheckedByUserId !=0 and wc.UserId = ${userInfo.UserId} 
+                    and nsc.ChallanDate >= DATEADD(day,-7, GETDATE())
+                    order by nsc.SCId desc`;
     }
     const data = await getData(dbConfig, query);
     return data;
@@ -70,7 +74,9 @@ const getFinishingList = async(payload)=>{
                     inner join Unit uto on uto.UnitId = wcm.ToUnitId
                     where 1 = 1 and wcm.ChallanDate is not null and wcm.ToUnitId = ${userInfo.UnitId} 
                     and wcm.IsFinishingChecked = 0 and wcm.RDCUserId != 0 and wcm.ApprovedByUserId != 0 
-                    and wcm.CheckedByUserId !=0 order by wcm.WCMId desc`;
+                    and wcm.CheckedByUserId !=0 
+                    and wcm.ChallanDate >= DATEADD(day,-7, GETDATE())
+                    order by wcm.WCMId desc`;
     }else{
         query = `select wcm.WCMId ChallanId, wcm.ChallanNo, wcm.ChallanDate, wcm.TotalGmtQty, 
                     ufr.UnitName FromUnit, uto.UnitName ToUnit 
@@ -80,7 +86,9 @@ const getFinishingList = async(payload)=>{
                     inner join FinishingChecking fc on fc.WCMId = wcm.WCMId
                     where 1 = 1 and wcm.ChallanDate is not null and wcm.ToUnitId = ${userInfo.UnitId} 
                     and wcm.IsFinishingChecked = 1 and wcm.RDCUserId != 0 and wcm.ApprovedByUserId != 0 
-                    and wcm.CheckedByUserId !=0 and fc.UserId = ${userInfo.UserId} order by wcm.WCMId desc`
+                    and wcm.CheckedByUserId !=0 and fc.UserId = ${userInfo.UserId} 
+                    and wcm.ChallanDate >= DATEADD(day,-7, GETDATE())
+                    order by wcm.WCMId desc`
     }
     const data = await getData(dbConfig, query);
     return data;
@@ -94,29 +102,38 @@ const getCount = async(payload)=>{
         if(list_type==="waiting"){
             query = `select count(nsc.SCId) count  
                         from ${TABLE.NEW_SEWING_CHALLAN} nsc 
-                        where 1 = 1 and nsc.ChallanDate is not null and nsc.ToUnitId = ${userInfo.UnitId} and nsc.IsWashChecked = 0 and nsc.RDCUserId != 0 and nsc.ApprovedByUserId != 0 and nsc.CheckedByUserId !=0`;
+                        where 1 = 1 and nsc.ChallanDate is not null and nsc.ToUnitId = ${userInfo.UnitId} 
+                        and nsc.IsWashChecked = 0 and nsc.RDCUserId != 0 
+                        and nsc.ApprovedByUserId != 0 
+                        and nsc.CheckedByUserId !=0
+                        and nsc.ChallanDate >= DATEADD(day,-7, GETDATE())`;
         }else{
             query = `select count(nsc.SCId) count  
                         from NewSewingChallan nsc
                         inner join WashChecking wc on wc.SCId = nsc.SCId
                         where 1 = 1 and nsc.ChallanDate is not null and nsc.ToUnitId = ${userInfo.UnitId} 
                         and nsc.IsWashChecked = 1 and nsc.RDCUserId != 0 and nsc.ApprovedByUserId != 0 
-                        and nsc.CheckedByUserId !=0 and wc.UserId = ${userInfo.UserId}`;
+                        and nsc.CheckedByUserId !=0 and wc.UserId = ${userInfo.UserId}
+                        and nsc.ChallanDate >= DATEADD(day,-7, GETDATE())
+                        `;
         }
     }else{
         if(list_type==="waiting"){
             query = `select count(wcm.WCMId) count 
                         from NewWashChallanMaster wcm 
                         where 1 = 1 and wcm.ChallanDate is not null and wcm.ToUnitId = ${userInfo.UnitId} 
-                        and wcm.IsFinishingChecked = 0 and wcm.RDCUserId != 0 and wcm.ApprovedByUserId != 0 
-                        and wcm.CheckedByUserId !=0`
+                        and wcm.IsFinishingChecked = 0 and wcm.RDCUserId != 0 
+                        and wcm.ApprovedByUserId != 0 and wcm.CheckedByUserId !=0
+                        and wcm.ChallanDate >= DATEADD(day,-7, GETDATE())`
         }else{
             query = `select count(wcm.WCMId) count 
                         from NewWashChallanMaster wcm 
                         inner join FinishingChecking fc on fc.WCMId = wcm.WCMId
                         where 1 = 1 and wcm.ChallanDate is not null and wcm.ToUnitId = ${userInfo.UnitId} 
-                        and wcm.IsFinishingChecked = 1 and wcm.RDCUserId != 0 and wcm.ApprovedByUserId != 0 
-                        and wcm.CheckedByUserId !=0 and fc.UserId = ${userInfo.UserId}`
+                        and wcm.IsFinishingChecked = 1 and wcm.RDCUserId != 0 
+                        and wcm.ApprovedByUserId != 0 and wcm.CheckedByUserId !=0 
+                        and fc.UserId = ${userInfo.UserId}
+                        and wcm.ChallanDate >= DATEADD(day,-7, GETDATE())`
         }
     }
     data = await getData(dbConfig, query);
@@ -131,7 +148,7 @@ const getReturnWashList = async(payload)=>{
     ufr.UnitName FromUnit, uto.UnitName ToUnit from ReturnWashChallanMaster rwcm
     inner join Unit ufr on ufr.UnitId = rwcm.FromUnitId
     inner join Unit uto on uto.UnitId = rwcm.ToUnitId 
-    where 1 = 1`;
+    where 1 = 1 and rwcm.ChallanDate >= DATEADD(day,-7, GETDATE())`;
     if(list_type==="waiting"){
         query += ` and rwcm.CheckedByUserId is null`;
     }else{
@@ -150,7 +167,7 @@ const getReturnFinishingList = async(payload)=>{
     ufr.UnitName FromUnit, uto.UnitName ToUnit from ReturnWashChallanMaster rwcm
     inner join Unit ufr on ufr.UnitId = rwcm.FromUnitId
     inner join Unit uto on uto.UnitId = rwcm.ToUnitId 
-    where 1 = 1`;
+    where 1 = 1 and rwcm.ChallanDate >= DATEADD(day,-7, GETDATE())`;
     if(list_type==="waiting"){
         query += ` and rwcm.CheckedByUserId is not null and rwcm.CheckInUserId is null`;
     }else{
@@ -169,7 +186,7 @@ const getReturnCount = async(payload)=>{
         query = `select count(rwcm.RWCMId) count  from ReturnWashChallanMaster rwcm
                     inner join Unit ufr on ufr.UnitId = rwcm.FromUnitId
                     inner join Unit uto on uto.UnitId = rwcm.ToUnitId 
-                    where 1 = 1`;
+                    where 1 = 1 and rwcm.ChallanDate >= DATEADD(day,-7, GETDATE())`;
         if(list_type==="waiting"){
             query += ` and rwcm.CheckedByUserId is null`;
         }else{
@@ -179,7 +196,7 @@ const getReturnCount = async(payload)=>{
         query = `select count(rwcm.RWCMId) count from ReturnWashChallanMaster rwcm
         inner join Unit ufr on ufr.UnitId = rwcm.FromUnitId
         inner join Unit uto on uto.UnitId = rwcm.ToUnitId 
-        where 1 = 1`;
+        where 1 = 1 and rwcm.ChallanDate >= DATEADD(day,-7, GETDATE())`;
         if(list_type==="waiting"){
             query += ` and rwcm.CheckedByUserId is not null and rwcm.CheckInUserId is null`;
         }else{

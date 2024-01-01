@@ -30,7 +30,7 @@ const getSewingChallanList = async (payload) => {
     inner join Unit ufr on ufr.UnitId = nsc.FromUnitId
     inner join Unit uto on uto.UnitId = nsc.ToUnitId
     where 1 = 1 and ${partialQuery} and nsc.ChallanDate is not null
-    and nsc.IsReject = 0 
+    and nsc.IsReject = 0 and nsc.ChallanDate >= DATEADD(day,-7, GETDATE())
     and nsc.FromUnitId = ${userInfo.UnitId}`;
 
     if (search_text) {
@@ -73,7 +73,7 @@ const getWashChallanList = async (payload) => {
     inner join Unit ufr on ufr.UnitId = nwcm.FromUnitId
     inner join Unit uto on uto.UnitId = nwcm.ToUnitId
     where 1 = 1 and ${partialQuery} and nwcm.ChallanDate is not null
-    and nwcm.IsReject = 0  
+    and nwcm.IsReject = 0 and nwcm.ChallanDate >= DATEADD(day,-7, GETDATE()) 
     and nwcm.FromUnitId = ${userInfo.UnitId}`;
 
     if (search_text) {
@@ -147,7 +147,7 @@ const getCount = async(payload) => {
     if (challan_type === "sewing") {
         query = `select count(nsc.SCId) count from ${TABLE.NEW_SEWING_CHALLAN} nsc
         where 1 = 1 and ${partialQuery} and nsc.ChallanDate is not null 
-        and nsc.IsReject = 0
+        and nsc.IsReject = 0 and nsc.ChallanDate >= DATEADD(day,-7, GETDATE())
         and nsc.FromUnitId = ${userInfo.UnitId}`;
 
         if (search_text) {
@@ -160,7 +160,7 @@ const getCount = async(payload) => {
     } else {
         query = `select count(nwcm.WCMId) count from ${TABLE.NEW_WASH_CHALLAN} nwcm
         where 1 = 1 and ${partialQuery} and nwcm.ChallanDate is not null 
-        and nwcm.IsReject = 0
+        and nwcm.IsReject = 0 and nwcm.ChallanDate >= DATEADD(day,-7, GETDATE())
         and nwcm.FromUnitId = ${userInfo.UnitId}`;
 
         if (search_text) {
