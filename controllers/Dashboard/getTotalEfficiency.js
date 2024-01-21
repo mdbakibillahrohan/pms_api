@@ -44,43 +44,55 @@ const GetTotalEfficiency = async (req, res) => {
     // console.log("DTERF:",dateString)
     let sql="";
 
-    if(dateString===filterDate){
-      sql=`
-      select distinct SectionName, SectionId into #sectionTbl from [FactoryDB].[dbo].DeptWiseDailyData with(nolock)
-      where SectionId in (select PreviousId from LineNew where UnitId = ${UnitId}) 
-      and Len(SectionName) > 12 
-
-      SELECT LineName as name,TotalTgt, TotalOk,SMV,HorkingMinute,PlantManPower,((CONVERT(DECIMAL(10,2),(TotalOk*SMV)))/(CONVERT(DECIMAL(10,2),(HorkingMinute*PlantManPower))))*100.00 Effiency
+    if(hour==13){
+      sql=`SELECT LineName as name,TotalTgt, TotalOk,SMV,HorkingMinute,PlantManPower,((CONVERT(DECIMAL(10,2),(TotalOk*SMV)))/(CONVERT(DECIMAL(10,2),(HorkingMinute*PlantManPower))))*100.00 Effiency
       FROM (
-      SELECT sec.SectionName LineName,SMV,PlantManPower,ISNULL(count(ChildBarcode),0) TotalOk,T.HourlyTarget,(T.HourlyTarget/60.00)*(datediff(minute, '${filterDate} 08:00:00', GETDATE())) TotalTgt,
-      datediff(minute, '${filterDate} 08:00:00', GETDATE()) HorkingMinute
-      FROM LineEfficiency ST with(nolock)
-      INNER join StyleWiseTarget T with(nolock) on ST.SWTId=T.SWTId 
-      INNER JOIN LineNew LN with(nolock) ON ST.LineId=LN.LineId
-      INNER JOIN LineOld LD with(nolock) ON LN.PreviousId=LD.LineId
-      LEFT JOIN #sectionTbl sec on sec.SectionId = ld.LineId  
-      INNER JOIN HourlySewingProductionCount HP with(nolock) ON HP.LineId=ST.LineId AND HP.UnitId=LD.UnitId AND HP.ProductionDate=T.TargetDate 
+      SELECT LN.LineName,SMV,PlantManPower,ISNULL(count(ChildBarcode),0) TotalOk,T.HourlyTarget,(T.HourlyTarget/60.00)*(datediff(minute, '${filterDate} 08:00:00', '${filterDate} 13:0:0')) TotalTgt,
+      datediff(minute, '${filterDate} 08:00:00', '${filterDate} 13:0:0') HorkingMinute
+      FROM LineEfficiency ST 
+      INNER join StyleWiseTarget T on ST.SWTId=T.SWTId 
+      INNER JOIN LineNew LN ON ST.LineId=LN.LineId
+      INNER JOIn LineOld LD ON LN.PreviousId=LD.LineId  
+      INNER JOIN HourlySewingProductionCount HP ON HP.LineId=ST.LineId AND HP.UnitId=LD.UnitId AND HP.ProductionDate=T.TargetDate 
+      WHERE LD.UnitId=${UnitId} AND T.TargetDate=cast('${filterDate}' as date) AND LD.LineTypeId=1
+      GROUP BY LN.LineName,SMV,PlantManPower,T.HourlyTarget) AS K`
+    }else if(hour>13){
+      // sql=`SELECT LineName as name,TotalTgt, TotalOk,SMV,PlantManPower,((CONVERT(DECIMAL(10,2),(TotalOk*SMV)))/(CONVERT(DECIMAL(10,2),(HorkingMinute*PlantManPower))))*100.00 Effiency
+      // FROM (
+      // SELECT LN.LineName,SMV,PlantManPower,ISNULL(count(ChildBarcode),0) TotalOk,T.HourlyTarget,(T.HourlyTarget/60.00)*(datediff(minute, '${filterDate} 08:00:00', MAX(HP.CreateAt))) TotalTgt,
+      // (datediff(minute, '${filterDate} 08:00:00', MAX(HP.CreateAt))) HorkingMinute
+      // FROM LineEfficiency ST 
+      // INNER join StyleWiseTarget T on ST.SWTId=T.SWTId 
+      // INNER JOIN LineNew LN ON ST.LineId=LN.LineId
+      // INNER JOIn LineOld LD ON LN.PreviousId=LD.LineId  
+      // INNER JOIN HourlySewingProductionCount HP ON HP.LineId=ST.LineId AND HP.UnitId=LD.UnitId AND HP.ProductionDate=T.TargetDate 
+      // WHERE LD.UnitId=7 AND T.TargetDate=cast('${filterDate}' as date) AND LD.LineTypeId=1
+      // GROUP BY LN.LineName,SMV,PlantManPower,T.HourlyTarget) AS K`
+
+      sql=`SELECT LineName as name,TotalTgt, TotalOk,SMV,HorkingMinute,PlantManPower,((CONVERT(DECIMAL(10,2),(TotalOk*SMV)))/(CONVERT(DECIMAL(10,2),(HorkingMinute*PlantManPower))))*100.00 Effiency
+      FROM (
+      SELECT LN.LineName,SMV,PlantManPower,ISNULL(count(ChildBarcode),0) TotalOk,T.HourlyTarget,(T.HourlyTarget/60.00)*(datediff(minute, '${filterDate} 08:00:00', GETDATE())) TotalTgt,
+      datediff(minute, '${filterDate} 08:00:00',  '${filterDate} ${hour-1}:${minute}:${second}') HorkingMinute
+      FROM LineEfficiency ST 
+      INNER join StyleWiseTarget T on ST.SWTId=T.SWTId 
+      INNER JOIN LineNew LN ON ST.LineId=LN.LineId
+      INNER JOIn LineOld LD ON LN.PreviousId=LD.LineId  
+      INNER JOIN HourlySewingProductionCount HP ON HP.LineId=ST.LineId AND HP.UnitId=LD.UnitId AND HP.ProductionDate=T.TargetDate 
       WHERE LD.UnitId=${UnitId} AND T.TargetDate=cast('${filterDate}' as date) AND LD.LineTypeId=1
       GROUP BY LN.LineName,SMV,PlantManPower,T.HourlyTarget,sec.SectionName) AS K
       drop table #sectionTbl`;
     }else{
-      sql=`select distinct SectionName, SectionId into #sectionTbl from [FactoryDB].[dbo].DeptWiseDailyData with(nolock)
-      where SectionId in (select PreviousId from LineNew where UnitId = ${UnitId}) 
-      and Len(SectionName) > 12 
-
-      SELECT LineName as name,TotalTgt, TotalOk,SMV,HorkingMinute,PlantManPower,((CONVERT(DECIMAL(10,2),(TotalOk*SMV)))/(CONVERT(DECIMAL(10,2),(HorkingMinute*PlantManPower))))*100.00 Effiency
+      sql=`SELECT LineName as name,TotalTgt, TotalOk,SMV,HorkingMinute,PlantManPower,((CONVERT(DECIMAL(10,2),(TotalOk*SMV)))/(CONVERT(DECIMAL(10,2),(HorkingMinute*PlantManPower))))*100.00 Effiency
       FROM (
-      SELECT sec.SectionName LineName,SMV,PlantManPower,ISNULL(count(ChildBarcode),0) TotalOk,T.HourlyTarget,(T.HourlyTarget/60.00)*(datediff(minute, '${filterDate} 08:00:00', GETDATE())) TotalTgt,
+      SELECT LN.LineName,SMV,PlantManPower,ISNULL(count(ChildBarcode),0) TotalOk,T.HourlyTarget,(T.HourlyTarget/60.00)*(datediff(minute, '${filterDate} 08:00:00', '${filterDate} ${hour-1}:${minute}:${second}')) TotalTgt,
       datediff(minute, '${filterDate} 08:00:00', GETDATE()) HorkingMinute
-      FROM LineEfficiency ST with(nolock)
-      INNER join StyleWiseTarget T with(nolock) on ST.SWTId=T.SWTId 
-      INNER JOIN LineNew LN with(nolock) ON ST.LineId=LN.LineId
-      INNER JOIN LineOld LD with(nolock) ON LN.PreviousId=LD.LineId
-      LEFT JOIN #sectionTbl sec on sec.SectionId = ld.LineId  
-      INNER JOIN HourlySewingProductionCount HP with(nolock) ON HP.LineId=ST.LineId AND HP.UnitId=LD.UnitId AND HP.ProductionDate=T.TargetDate 
+      FROM LineEfficiency ST 
+      INNER join StyleWiseTarget T on ST.SWTId=T.SWTId 
+      INNER JOIN LineNew LN ON ST.LineId=LN.LineId
+      INNER JOIn LineOld LD ON LN.PreviousId=LD.LineId  
+      INNER JOIN HourlySewingProductionCount HP ON HP.LineId=ST.LineId AND HP.UnitId=LD.UnitId AND HP.ProductionDate=T.TargetDate 
       WHERE LD.UnitId=${UnitId} AND T.TargetDate=cast('${filterDate}' as date) AND LD.LineTypeId=1
-      GROUP BY LN.LineName,SMV,PlantManPower,T.HourlyTarget,sec.SectionName) AS K
-      drop table #sectionTbl`;
+      GROUP BY LN.LineName,SMV,PlantManPower,T.HourlyTarget) AS K`
     }
 
     data = await executeSqlB(sql);
