@@ -1,19 +1,18 @@
 const Joi = require('joi');
 const { MESSAGE } = require('../../util/constant');
-const addNewLineEntryServices = require('../../services/line_input/add_new_line_input_services');
+const getLineListsPermissionServices = require('../../services/line_input/get_line_lists_with_permission_services');
 
 const schema = Joi.object({
     UserId: Joi.number().required()
 });
 
-const controller = async (req, res) => {
+const controller = async(req, res) => {
     try {
-        //req.body.userInfo = req.userInfo;
-        const data = await addNewLineEntryServices(req.body);
-        if (data.message==="success") {
-            return res.status(200).json({ message: "Successfully inserted", status_code: 201, data: data.data,IsEntry:false });
+        const data = await getLineListsPermissionServices(req.query);
+        if (data) {
+            return res.status(MESSAGE.SUCCESS_GET.STATUS_CODE).json({ message: MESSAGE.SUCCESS_GET.CONTENT, status_code: MESSAGE.SUCCESS_GET.STATUS_CODE, data });
         }
-        return res.status(200).json({ message: data.message,IsEntry:data.IsEntry});
+        return res.status(MESSAGE.SERVER_ERROR.STATUS_CODE).json({ message: MESSAGE.SERVER_ERROR.CONTENT });
     } catch (error) {
         console.log(error);
         return res.status(MESSAGE.SERVER_ERROR.STATUS_CODE).send(MESSAGE.SERVER_ERROR.CONTENT);

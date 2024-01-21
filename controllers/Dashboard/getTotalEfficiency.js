@@ -7,6 +7,9 @@
 
 const Joi = require("joi");
 const {executeSqlB}=require('../../util/db')
+const 
+  calcTime
+=require('../../util/method')
 
 
 const schema = Joi.object().keys({
@@ -28,16 +31,48 @@ const GetTotalEfficiency = async (req, res) => {
     } = req.query;
     const newDate=new Date();
     const dateString=newDate.getFullYear()+'-'+(newDate.getMonth()+1)+'-'+newDate.getDate();
+    const myDated=calcTime(6);
+    const {
+      hour,
+      second,
+      minute
+    }=myDated;
+    console.log(myDated)
+
 
     // console.log("JKHGJK:",filterDate)
     // console.log("DTERF:",dateString)
     let sql="";
 
-    if(dateString===filterDate){
+    if(hour==13){
+      sql=`SELECT LineName as name,TotalTgt, TotalOk,SMV,HorkingMinute,PlantManPower,((CONVERT(DECIMAL(10,2),(TotalOk*SMV)))/(CONVERT(DECIMAL(10,2),(HorkingMinute*PlantManPower))))*100.00 Effiency
+      FROM (
+      SELECT LN.LineName,SMV,PlantManPower,ISNULL(count(ChildBarcode),0) TotalOk,T.HourlyTarget,(T.HourlyTarget/60.00)*(datediff(minute, '${filterDate} 08:00:00', '${filterDate} 13:0:0')) TotalTgt,
+      datediff(minute, '${filterDate} 08:00:00', '${filterDate} 13:0:0') HorkingMinute
+      FROM LineEfficiency ST 
+      INNER join StyleWiseTarget T on ST.SWTId=T.SWTId 
+      INNER JOIN LineNew LN ON ST.LineId=LN.LineId
+      INNER JOIn LineOld LD ON LN.PreviousId=LD.LineId  
+      INNER JOIN HourlySewingProductionCount HP ON HP.LineId=ST.LineId AND HP.UnitId=LD.UnitId AND HP.ProductionDate=T.TargetDate 
+      WHERE LD.UnitId=${UnitId} AND T.TargetDate=cast('${filterDate}' as date) AND LD.LineTypeId=1
+      GROUP BY LN.LineName,SMV,PlantManPower,T.HourlyTarget) AS K`
+    }else if(hour>13){
+      // sql=`SELECT LineName as name,TotalTgt, TotalOk,SMV,PlantManPower,((CONVERT(DECIMAL(10,2),(TotalOk*SMV)))/(CONVERT(DECIMAL(10,2),(HorkingMinute*PlantManPower))))*100.00 Effiency
+      // FROM (
+      // SELECT LN.LineName,SMV,PlantManPower,ISNULL(count(ChildBarcode),0) TotalOk,T.HourlyTarget,(T.HourlyTarget/60.00)*(datediff(minute, '${filterDate} 08:00:00', MAX(HP.CreateAt))) TotalTgt,
+      // (datediff(minute, '${filterDate} 08:00:00', MAX(HP.CreateAt))) HorkingMinute
+      // FROM LineEfficiency ST 
+      // INNER join StyleWiseTarget T on ST.SWTId=T.SWTId 
+      // INNER JOIN LineNew LN ON ST.LineId=LN.LineId
+      // INNER JOIn LineOld LD ON LN.PreviousId=LD.LineId  
+      // INNER JOIN HourlySewingProductionCount HP ON HP.LineId=ST.LineId AND HP.UnitId=LD.UnitId AND HP.ProductionDate=T.TargetDate 
+      // WHERE LD.UnitId=7 AND T.TargetDate=cast('${filterDate}' as date) AND LD.LineTypeId=1
+      // GROUP BY LN.LineName,SMV,PlantManPower,T.HourlyTarget) AS K`
+
       sql=`SELECT LineName as name,TotalTgt, TotalOk,SMV,HorkingMinute,PlantManPower,((CONVERT(DECIMAL(10,2),(TotalOk*SMV)))/(CONVERT(DECIMAL(10,2),(HorkingMinute*PlantManPower))))*100.00 Effiency
       FROM (
       SELECT LN.LineName,SMV,PlantManPower,ISNULL(count(ChildBarcode),0) TotalOk,T.HourlyTarget,(T.HourlyTarget/60.00)*(datediff(minute, '${filterDate} 08:00:00', GETDATE())) TotalTgt,
-      datediff(minute, '${filterDate} 08:00:00', GETDATE()) HorkingMinute
+      datediff(minute, '${filterDate} 08:00:00',  '${filterDate} ${hour-1}:${minute}:${second}') HorkingMinute
       FROM LineEfficiency ST 
       INNER join StyleWiseTarget T on ST.SWTId=T.SWTId 
       INNER JOIN LineNew LN ON ST.LineId=LN.LineId
@@ -46,16 +81,16 @@ const GetTotalEfficiency = async (req, res) => {
       WHERE LD.UnitId=${UnitId} AND T.TargetDate=cast('${filterDate}' as date) AND LD.LineTypeId=1
       GROUP BY LN.LineName,SMV,PlantManPower,T.HourlyTarget) AS K`
     }else{
-      sql=`SELECT LineName as name,TotalTgt, TotalOk,SMV,PlantManPower,((CONVERT(DECIMAL(10,2),(TotalOk*SMV)))/(CONVERT(DECIMAL(10,2),(HorkingMinute*PlantManPower))))*100.00 Effiency
+      sql=`SELECT LineName as name,TotalTgt, TotalOk,SMV,HorkingMinute,PlantManPower,((CONVERT(DECIMAL(10,2),(TotalOk*SMV)))/(CONVERT(DECIMAL(10,2),(HorkingMinute*PlantManPower))))*100.00 Effiency
       FROM (
-      SELECT LN.LineName,SMV,PlantManPower,ISNULL(count(ChildBarcode),0) TotalOk,T.HourlyTarget,(T.HourlyTarget/60.00)*(datediff(minute, '${filterDate} 08:00:00', MAX(HP.CreateAt))) TotalTgt,
-      (datediff(minute, '${filterDate} 08:00:00', MAX(HP.CreateAt))) HorkingMinute
+      SELECT LN.LineName,SMV,PlantManPower,ISNULL(count(ChildBarcode),0) TotalOk,T.HourlyTarget,(T.HourlyTarget/60.00)*(datediff(minute, '${filterDate} 08:00:00', '${filterDate} ${hour-1}:${minute}:${second}')) TotalTgt,
+      datediff(minute, '${filterDate} 08:00:00', GETDATE()) HorkingMinute
       FROM LineEfficiency ST 
       INNER join StyleWiseTarget T on ST.SWTId=T.SWTId 
       INNER JOIN LineNew LN ON ST.LineId=LN.LineId
       INNER JOIn LineOld LD ON LN.PreviousId=LD.LineId  
       INNER JOIN HourlySewingProductionCount HP ON HP.LineId=ST.LineId AND HP.UnitId=LD.UnitId AND HP.ProductionDate=T.TargetDate 
-      WHERE LD.UnitId=7 AND T.TargetDate=cast('${filterDate}' as date) AND LD.LineTypeId=1
+      WHERE LD.UnitId=${UnitId} AND T.TargetDate=cast('${filterDate}' as date) AND LD.LineTypeId=1
       GROUP BY LN.LineName,SMV,PlantManPower,T.HourlyTarget) AS K`
     }
 

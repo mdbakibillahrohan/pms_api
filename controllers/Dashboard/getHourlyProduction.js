@@ -34,9 +34,9 @@ const GetHourlyProductionController = async (req, res) => {
         A.LineId,
         ln.LineName,
         ISNULL(COUNT(ChildBarcode), 0) TotalOk
-    FROM HourlySewingProductionCount A
+    FROM HourlySewingProductionCount A with(nolock)
    
-    JOIN LineNew ln
+    JOIN LineNew ln with(nolock)
         ON ln.LineId = A.LineId
     WHERE A.UnitId = ${UnitId}
     AND CAST(CreateAt AS date) = CAST('${filterDate}' AS date)
@@ -63,6 +63,17 @@ const GetHourlyProductionController = async (req, res) => {
         WHEN name = 10 THEN '7 PM'
         WHEN name = 11 THEN '8 PM'
         WHEN name = 12 THEN '9 PM'
+        WHEN name = 13 THEN '10 PM'
+        WHEN name = 14 THEN '11 PM'
+        WHEN name = 15 THEN '12 AM'
+        WHEN name = 16 THEN '1 AM'
+        WHEN name = 17 THEN '2 AM'
+        WHEN name = 18 THEN '3 AM'
+        WHEN name = 19 THEN '4 AM'
+        WHEN name = 20 THEN '5 AM'
+        WHEN name = 21 THEN '6 AM'
+        WHEN name = 22 THEN '7 AM'
+        WHEN name = 23 THEN '8 AM'
 
         ELSE '10 PM'
         END name,
