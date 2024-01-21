@@ -15,6 +15,10 @@ const {
   controller: getLineInputListsController,
   schema: getlineInputListsSchema,
 } = require("../controllers/line_input/get_input_line_lists_controller");
+const {
+  controller: getLineListsWithPermissionController,
+  schema: getLineListsPermissionSchema,
+} = require("../controllers/line_input/get_line_lists_with_permission_controller");
 
 
 const lineInputRouter = Router();
@@ -36,6 +40,12 @@ lineInputRouter.get(
   //authenticationMiddleware,
   validator(getlineInputListsSchema,'query'),
   getLineInputListsController
+);
+lineInputRouter.get(
+  API.API_CONTEXT + API.GET_LINE_LISTS_WITH_PERMISSION,
+  //authenticationMiddleware,
+  validator(getLineListsPermissionSchema,'query'),
+  getLineListsWithPermissionController
 );
 
 

@@ -10,22 +10,11 @@ const getPermissionLineListsServices = async (payload)=>{
 
 const getPermissionLineLists = async (payload)=>{
     const {UserId}=payload;
-    const query = `Select cbl.CuttingDetailsId as Id,ln.LineName,cs.StyleNo,cbl.BundleQty from Cutting_BundleLineInput cbl
-    inner join CP_Style cs on cbl.StyleId=cs.Id
-    inner join LineNew ln on cbl.LineId=ln.LineId
-    where cbl.CreateBy=${userId} and cast(CreateAt as date) = cast('${filterDate}' as date)`;
+    const query = `Select b.LineId,b.LocalLineName as name from UserWiseLinePermission a
+    inner join LineNew b on a.LineId=b.LineId
+    where UserId=${UserId}`;
     const data = await getData(dbConfig, query);
     return data; 
-}
-
-const getCount = async(payload)=>{
-    const {userId,filterDate}=payload;
-    const query = `Select COUNT(cbl.CuttingDetailsId) as count from Cutting_BundleLineInput cbl
-    inner join CP_Style cs on cbl.StyleId=cs.Id
-    inner join LineNew ln on cbl.LineId=ln.LineId
-    where cbl.CreateBy=${userId} and cast(CreateAt as date) = cast('${filterDate}' as date)`;
-    const data = await getData(dbConfig, query);
-    return data[0].count;
 }
 
 

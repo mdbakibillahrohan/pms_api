@@ -7,6 +7,9 @@
 
 const Joi = require("joi");
 const {executeSqlB}=require('../../util/db')
+const 
+  calcTime
+=require('../../util/method')
 
 
 const schema = Joi.object().keys({
@@ -28,6 +31,14 @@ const GetTotalEfficiency = async (req, res) => {
     } = req.query;
     const newDate=new Date();
     const dateString=newDate.getFullYear()+'-'+(newDate.getMonth()+1)+'-'+newDate.getDate();
+    const myDated=calcTime(6);
+    const {
+      hour,
+      second,
+      minute
+    }=myDated;
+    console.log(myDated)
+
 
     // console.log("JKHGJK:",filterDate)
     // console.log("DTERF:",dateString)

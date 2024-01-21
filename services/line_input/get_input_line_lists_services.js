@@ -11,7 +11,7 @@ const getInputLineListsServices = async (payload)=>{
 
 const getInputLineLists = async (payload)=>{
     const {userId,filterDate}=payload;
-    const query = `Select cbl.CuttingDetailsId as Id,ln.LineName,cs.StyleNo,cbl.BundleQty from Cutting_BundleLineInput cbl
+    const query = `Select cbl.CuttingDetailsId as Id,ln.LocalLineName as LineName,cs.StyleNo,cbl.BundleQty from Cutting_BundleLineInput cbl
     inner join CP_Style cs on cbl.StyleId=cs.Id
     inner join LineNew ln on cbl.LineId=ln.LineId
     where cbl.CreateBy=${userId} and cast(CreateAt as date) = cast('${filterDate}' as date)`;
