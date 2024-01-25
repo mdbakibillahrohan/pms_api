@@ -1,17 +1,15 @@
 const Joi = require('joi');
 const { MESSAGE } = require('../../../util/constant');
-const getTenderListsServices = require('../../../services/tender/get_tender_lists/get_tender_lists_services');
+const getLastEntryTenderServices = require('../../../services/tender/get_last_entry_tender_id/get_last_entry_tender_id_services');
 
 
 const schema = Joi.object({
-    UserId:Joi.number().required(),
-    Take:Joi.number().required(),
-    Skip:Joi.number().required()
+    filterDate:Joi.string().required()
 });
 
 const controller = async(req, res) => {
     try {
-        const data = await getTenderListsServices(req.query);
+        const data = await getLastEntryTenderServices(req.query);
         if (data) {
             return res.status(MESSAGE.SUCCESS_GET.STATUS_CODE).json({ message: MESSAGE.SUCCESS_GET.CONTENT, status_code: MESSAGE.SUCCESS_GET.STATUS_CODE, data });
         }

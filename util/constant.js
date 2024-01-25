@@ -93,6 +93,7 @@ module.exports = {
     TMS_LOGIN:"login",
     TMS_REGISTRATION:"registration",
 
+    TMS_GET_LAST_TENDER_ID:'getlastEntryTenderId',
     TMS_NEW_TENDER:"createNewTender",
     TMS_GET_TENDER_LISTS:'getTenderLists'
 

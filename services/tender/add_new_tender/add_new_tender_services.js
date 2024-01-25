@@ -50,7 +50,7 @@ const insertNewTender = async(payload)=>{
     const {
         TenderNo, 
         TenderTitle,
-        TenderDescription, 
+        TenderDetails,
         TenderTotalAmount, 
         MinimumBidAmount,
         CreatedBy
@@ -70,7 +70,7 @@ const insertNewTender = async(payload)=>{
         },
         {
             name: "TenderDescription",
-            value: TenderDescription
+            value: TenderDetails
         },
         {
             name: "TotalAmount",
