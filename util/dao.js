@@ -54,6 +54,30 @@ const executeQuery = async (dbConfig, query, parameter = []) => {
     }
   }
 };
+const executeQueryWithReturnId = async (dbConfig, query, parameter = []) => {
+  const pool = new mssql.ConnectionPool(dbConfig);
+  try {
+    await pool.connect();
+    const request = pool.request();
+    parameter.forEach((element) => {
+      request.input(element.name, element.value);
+    });
+    const result = await request.query(query);
+    if (result !== null) {
+      if (result.rowsAffected[0] > 0) {
+       if(result.recordsets.length){
+        return result.recordsets[0];
+       }
+      }
+    }
+  } catch (error) {
+    console.dir(error);
+  } finally {
+    if (pool.connected) {
+      pool.close();
+    }
+  }
+};
 
 const executeStoreProcedure = async (dbConfig, procedureName, parameter = []) => {
   const pool = new mssql.ConnectionPool(dbConfig);
@@ -93,4 +117,4 @@ const dbConnectionChecker = async(dbConfig)=>{
     }
 }
 
-module.exports = { getData, executeQuery, executeStoreProcedure, dbConnectionChecker };
+module.exports = { getData, executeQuery, executeStoreProcedure, dbConnectionChecker,executeQueryWithReturnId };

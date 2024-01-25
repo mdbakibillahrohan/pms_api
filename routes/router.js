@@ -16,21 +16,27 @@ const reportRouter = require("./report_routes");
 const returnWashApprovalRouter = require("./return_challan/return_wash_approval_routes");
 const lineInputRouter = require("./line_input_routes");
 
+// E- tender routes lists...
+const tmsAuthRouter = require("./tms_authentication_routes");
+const tenderRoutes = require("./tender_routes");
 
 
-appRouter.use(authenticationRouter);
-appRouter.use(dashboardRouter);
-appRouter.use(lineInputRouter)
-appRouter.use(approvalRouter);
-appRouter.use(challanCheckingRouter);
-appRouter.use(uploadFilesRouter);
-appRouter.use(permissionRouter);
-appRouter.use(washDashboardRouter);
-appRouter.use(gateInOutDashboardRouter);
-appRouter.use(finishingDashboardRouter);
-appRouter.use(masterRouter);
-appRouter.use(finishingRouter);
-appRouter.use(washingRouter);
-appRouter.use(reportRouter);
-appRouter.use(returnWashApprovalRouter);
+
+// appRouter.use(authenticationRouter);
+// appRouter.use(dashboardRouter);
+// appRouter.use(lineInputRouter)
+// appRouter.use(approvalRouter);
+// appRouter.use(challanCheckingRouter);
+// appRouter.use(uploadFilesRouter);
+// appRouter.use(permissionRouter);
+// appRouter.use(washDashboardRouter);
+// appRouter.use(gateInOutDashboardRouter);
+// appRouter.use(finishingDashboardRouter);
+// appRouter.use(masterRouter);
+// appRouter.use(finishingRouter);
+// appRouter.use(washingRouter);
+// appRouter.use(reportRouter);
+// appRouter.use(returnWashApprovalRouter);
+appRouter.use(tmsAuthRouter);
+appRouter.use(tenderRoutes);
 module.exports = appRouter;

@@ -84,7 +84,19 @@ module.exports = {
     MASTER_GET_BUYER: 'master/get-all-buyer',
     MASTER_GET_STYLES: 'master/get-all-styles',
     MASTER_GET_UNIT_LIST: 'master/get-all-unit',
-    MASTER_GET_COLOR_LISTS:"master/get-all-colors"
+    MASTER_GET_COLOR_LISTS:"master/get-all-colors",
+
+
+
+
+    TMS_API_CONTEXT: "/tms/api/v1/",
+    TMS_LOGIN:"login",
+    TMS_REGISTRATION:"registration",
+
+    TMS_GET_LAST_TENDER_ID:'getlastEntryTenderId',
+    TMS_NEW_TENDER:"createNewTender",
+    TMS_GET_TENDER_LISTS:'getTenderLists'
+
   },
   
   TABLE: {
