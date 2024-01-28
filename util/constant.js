@@ -98,6 +98,7 @@ module.exports = {
     TMS_GET_TENDER_LISTS:'getTenderLists',
     TMS_GET_TENDER_LISTS_FOR_PUBLISH:'getTenderListsForPublish',
     TMS_NEW_TENDER_PUBLISH:'addNewTenderPublish',
+    TMS_TENDER_PUBLISH_LISTS:'publishTenderLists',
 
   },
   
