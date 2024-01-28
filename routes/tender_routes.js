@@ -23,6 +23,14 @@ const {
   controller: getTenderListsController,
   schema: getTenderListsSchema,
 } = require("../controllers/tender/get_tender_lists/get_tender_lists_controller");
+const {
+  controller: getTenderListsForPubliushController,
+  schema: getTenderListsForPublishSchema,
+} = require("../controllers/tender/get_tender_lists_for_publish/get_tender_lists_for_publish_controller");
+const {
+  controller: addNewTenderPublishController,
+  schema: addNewTenderPublishSchema,
+} = require("../controllers/tender/add_new_tender_publish/add_new_tender_publish_controller");
 
 const tender_routes = Router();
 
@@ -44,6 +52,18 @@ tender_routes.get(
   authenticationMiddleware,
   validator(getTenderListsSchema, 'query'),
   getTenderListsController
+);
+tender_routes.get(
+  API.TMS_API_CONTEXT + API.TMS_GET_TENDER_LISTS_FOR_PUBLISH,
+  authenticationMiddleware,
+  validator(getTenderListsForPublishSchema, 'query'),
+  getTenderListsForPubliushController
+);
+tender_routes.post(
+  API.TMS_API_CONTEXT + API.TMS_NEW_TENDER_PUBLISH,
+  authenticationMiddleware,
+  validator(addNewTenderPublishSchema, 'body'),
+  addNewTenderPublishController
 );
 
 

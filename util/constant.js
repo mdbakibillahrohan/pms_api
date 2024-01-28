@@ -95,7 +95,9 @@ module.exports = {
 
     TMS_GET_LAST_TENDER_ID:'getlastEntryTenderId',
     TMS_NEW_TENDER:"createNewTender",
-    TMS_GET_TENDER_LISTS:'getTenderLists'
+    TMS_GET_TENDER_LISTS:'getTenderLists',
+    TMS_GET_TENDER_LISTS_FOR_PUBLISH:'getTenderListsForPublish',
+    TMS_NEW_TENDER_PUBLISH:'addNewTenderPublish',
 
   },
   
