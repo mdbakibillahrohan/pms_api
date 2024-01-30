@@ -1,16 +1,16 @@
 const Joi = require("joi");
 const { MESSAGE } = require("../../util/constant");
-const loginServices = require("../../services/authentication_services/tms_login_services");
+const loginServices = require("../../services/authentication_services/tms_user_login_services");
 
 const schema = Joi.object({
-  email: Joi.string().min(1).max(150).required(),
+  EmailOrPhone: Joi.string().min(1).max(150).required(),
   password: Joi.string().min(1).max(20).required(),
 });
 
 const controller = async (req, res) => {
   try {
     const data = await loginServices(req.body);
-   // console.log("Data : ",data)
+    //console.log("Data : ",data)
     if (data !== null) {
       return res.status(MESSAGE.SUCCESS_GET.STATUS_CODE).json({
         message: "Successfully login",

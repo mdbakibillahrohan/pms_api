@@ -92,6 +92,8 @@ module.exports = {
     TMS_API_CONTEXT: "/tms/api/v1/",
     TMS_LOGIN:"login",
     TMS_REGISTRATION:"registration",
+    TMS_USER_LOGIN:"tmsUserLogin",
+    TMS_USER_REGISTRATION:"tmsUserRegistration",
 
     TMS_GET_LAST_TENDER_ID:'getlastEntryTenderId',
     TMS_NEW_TENDER:"createNewTender",
