@@ -92,12 +92,15 @@ module.exports = {
     TMS_API_CONTEXT: "/tms/api/v1/",
     TMS_LOGIN:"login",
     TMS_REGISTRATION:"registration",
+    TMS_USER_LOGIN:"tmsUserLogin",
+    TMS_USER_REGISTRATION:"tmsUserRegistration",
 
     TMS_GET_LAST_TENDER_ID:'getlastEntryTenderId',
     TMS_NEW_TENDER:"createNewTender",
     TMS_GET_TENDER_LISTS:'getTenderLists',
     TMS_GET_TENDER_LISTS_FOR_PUBLISH:'getTenderListsForPublish',
     TMS_NEW_TENDER_PUBLISH:'addNewTenderPublish',
+    TMS_TENDER_PUBLISH_LISTS:'publishTenderLists',
 
   },
   
