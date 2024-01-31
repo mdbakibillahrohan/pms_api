@@ -19,6 +19,7 @@ const lineInputRouter = require("./line_input_routes");
 // E- tender routes lists...
 const tmsAuthRouter = require("./tms_authentication_routes");
 const tenderRoutes = require("./tender_routes");
+const tender_public=require('./tender_public_routes')
 
 
 
@@ -38,5 +39,6 @@ const tenderRoutes = require("./tender_routes");
 // appRouter.use(reportRouter);
 // appRouter.use(returnWashApprovalRouter);
 appRouter.use(tmsAuthRouter);
+appRouter.use(tender_public);
 appRouter.use(tenderRoutes);
 module.exports = appRouter;

@@ -102,6 +102,9 @@ module.exports = {
     TMS_NEW_TENDER_PUBLISH:'addNewTenderPublish',
     TMS_TENDER_PUBLISH_LISTS:'publishTenderLists',
 
+    TMS_PUBLIC_LISTS:"getTenderListForUsers",
+    TMS_PUBLIC_LISTS_DETAILS:'getTenderListsDetails'
+
   },
   
   TABLE: {
