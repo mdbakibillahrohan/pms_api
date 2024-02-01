@@ -11,21 +11,23 @@ const tmsUsersLoginServices = async (payload) => {
     const userInfo = await getUserInfo(payload);
     //const isUserValid = checkValidity(userInfo, payload);
     // if (isUserValid) {
-    const { TenderUserId,CompanyName,CompanyEmail,CompanyPhone } = userInfo;
-    token = generateJwtToken(userInfo);
-    userData = {
-        TenderUserId,CompanyName,CompanyEmail,CompanyPhone, token
+    if(userInfo?.TenderUserId){
+        const { TenderUserId,CompanyName,CompanyEmail,CompanyPhone } = userInfo;
+        token = generateJwtToken(userInfo);
+        userData = {
+            TenderUserId,CompanyName,CompanyEmail,CompanyPhone, token
+        }
     }
     // }
     return userData;
 }
 
 const getUserInfo = async (payload) => {
-    const {EmailOrPhone,Password}=payload
+    const {EmailOrPhone,password}=payload
     const query = `Select * from 
     TenderUsers 
-    where LOWER(CompanyEmail)=LOWER(@emailOrPhone) or LOWER(CompanyPhone)=LOWER(@emailOrPhone)  and Password=@password and IsApproved=1`;
-    const hashPassword = ConvertPassString(Password);
+    where  (LOWER(CompanyEmail)=LOWER(@emailOrPhone) or LOWER(CompanyPhone)=LOWER(@emailOrPhone)) and Password=@password and IsApproved=1`;
+    const hashPassword = ConvertPassString(password);
     const parameters = [
         {
             name: "emailOrPhone",

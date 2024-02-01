@@ -103,7 +103,8 @@ module.exports = {
     TMS_TENDER_PUBLISH_LISTS:'publishTenderLists',
 
     TMS_PUBLIC_LISTS:"getTenderListForUsers",
-    TMS_PUBLIC_LISTS_DETAILS:'getTenderListsDetails'
+    TMS_PUBLIC_LISTS_DETAILS:'getTenderListsDetails',
+    TMS_TENDER_USER_DETAILS:'getTenderUserDetails',
 
   },
   

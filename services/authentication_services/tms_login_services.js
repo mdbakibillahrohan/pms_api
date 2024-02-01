@@ -22,7 +22,7 @@ const tmsLoginServices = async (payload) => {
 
 const getUserInfo = async (payload) => {
     const query = `select UserId,FirstName,LastName,Email,Phone,Password from Users 
-    where IsActive=1 and LOWER(Email)=LOWER(@email) and LOWER(Password)=LOWER(@password)`;
+    where IsDeleted=0 and LOWER(Email)=LOWER(@email) and LOWER(Password)=LOWER(@password)`;
     const hashPassword = ConvertPassString(payload.password);
     const parameters = [
         {

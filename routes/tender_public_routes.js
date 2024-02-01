@@ -16,6 +16,10 @@ const {
   controller: getTenderListsDetailsController,
   schema: getTenderDetailsSchema,
 } = require("../controllers/tender_public/get_tender_details/get_tender_lists_details_controller");
+const {
+  controller: getTenderUserDetailsController,
+  schema: getTenderUserDetailsSchema,
+} = require("../controllers/tender_public/get_tender_user_details/get_tender_user_details_controller");
 
 
 const tender_public_routes = Router();
@@ -32,6 +36,12 @@ tender_public_routes.get(
   //authenticationMiddleware,
   validator(getTenderDetailsSchema, 'query'),
   getTenderListsDetailsController
+);
+tender_public_routes.get(
+  API.TMS_API_CONTEXT + API.TMS_TENDER_USER_DETAILS,
+  authenticationMiddleware,
+  validator(getTenderUserDetailsSchema, 'query'),
+  getTenderUserDetailsController
 );
 
 

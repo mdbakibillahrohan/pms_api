@@ -49,7 +49,7 @@ const getTenderLists = async (payload)=>{
             TMS.TenderId=A.TenderId for json path
         )
         when D.TotalAmount is not null  then (
-            select TDM.ItemId,TDM.ItemName,TDM.ItemQuantity,BDTL.BidPrice as Price 
+            select TDM.ItemId,TDM.ItemName,TDM.ItemQuantity,BDTL.BidPrice as ItemRate,isnull(TDM.ItemQuantity*BDTL.BidPrice,0) as ItemValue 
             from BiddingDetails BDTL inner join TenderItems TDM on BDTL.ItemId=TDM.ItemId 
             where BDTL.BiddingId=D.BiddingId for json path
         )

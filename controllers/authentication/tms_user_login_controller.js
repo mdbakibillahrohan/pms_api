@@ -19,7 +19,7 @@ const controller = async (req, res) => {
     }
     return res
       .status(MESSAGE.SUCCESS_GET.STATUS_CODE)
-      .json({ message: "Authentication failed" });
+      .json({ message: "Authentication failed",data:[] });
   } catch (error) {
     console.log(error);
     return res
