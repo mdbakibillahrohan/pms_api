@@ -39,6 +39,10 @@ const {
   controller: getBiddingListsController,
   schema: getBiddingListsSchema,
 } = require("../controllers/tender/get_bidding_lists/get_bidding_lists_controller");
+const {
+  controller: getBiddingDetailsListsController,
+  schema: getBiddingDetailsListsSchema,
+} = require("../controllers/tender/get_bidding_lists_details/get_bidding_lists_details_controller");
 
 const tender_routes = Router();
 
@@ -84,6 +88,12 @@ tender_routes.get(
   authenticationMiddleware,
   validator(getBiddingListsSchema, 'query'),
   getBiddingListsController
+);
+tender_routes.get(
+  API.TMS_API_CONTEXT + API.TMS_GET_BIDDING_DETAILS_LISTS,
+  authenticationMiddleware,
+  validator(getBiddingDetailsListsSchema, 'query'),
+  getBiddingDetailsListsController
 );
 
 module.exports = tender_routes;
