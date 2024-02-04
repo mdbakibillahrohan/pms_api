@@ -160,5 +160,6 @@ module.exports = {
     NOTIFY_CHALLAN: "notify-challan",
     NOTIFY_RETURN_CHALLAN: "notify-return-challan",
     NOTIFY_RETURN_CHALLAN_GATE_PASSED: "notify-return-challan-gate-passed",
+    NOTIFY_TENDER_BID:'notify-tender-new-bid'
   }
 };

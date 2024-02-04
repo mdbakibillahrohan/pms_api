@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { MESSAGE } = require('../../../util/constant');
+const { MESSAGE,SOCKET } = require('../../../util/constant');
 const addNewTenderServices = require('../../../services/tender_public/create_new_bidding/create_new_bidding_services');
 
 const schema = Joi.object({
@@ -21,6 +21,7 @@ const controller = async (req, res) => {
         const data = await addNewTenderServices(req.body);
         //console.log(data)
         if (data.message==="success") {
+            req.io.emit(SOCKET.NOTIFY_TENDER_BID, data.data);
             return res.status(200).json({ message: "Successfully inserted", status_code: 201, data: data.data,IsEntry:true });
         }
         return res.status(200).json({ message: [],IsEntry:false});

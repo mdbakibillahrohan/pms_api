@@ -9,7 +9,7 @@ const {
 } = require('../../../util/settings');
 
 const create_new_bidding_services = async(payload)=>{
-    const data = await insertNewTender(payload);
+    const data = await insertNewBidding(payload);
     if(data){
         const {
             BiddingId
@@ -29,7 +29,7 @@ const create_new_bidding_services = async(payload)=>{
                 myLists=[...myLists,newObj]
             })
 
-            const result2=await insertTenderItemLists(myLists);
+            const result2=await insertNewBiddingDetails(myLists);
 
             if(data && result2){
                 return {message:"success"};
@@ -43,7 +43,7 @@ const create_new_bidding_services = async(payload)=>{
     
 }
 
-const insertNewTender = async(payload)=>{
+const insertNewBidding = async(payload)=>{
     const {
         TenderId, 
         TenderBidId,
@@ -81,10 +81,10 @@ const insertNewTender = async(payload)=>{
 }
 
 
-const insertTenderItemLists=async(lists)=>{
+const insertNewBiddingDetails=async(lists)=>{
     const newLists=[...lists];
 
-    console.log("Lists",lists)
+    //console.log("Lists",lists)
     const query=`DECLARE @json NVARCHAR(MAX) = '${JSON.stringify(newLists)}';
 
     CREATE TABLE #TempPosts
@@ -114,7 +114,7 @@ const insertTenderItemLists=async(lists)=>{
 
     const data = await executeQuery(dbConfig3, query,[]);
    
-    console.log(data,newLists)
+    //console.log(data,newLists)
     if(data){
         return {data};
     }
