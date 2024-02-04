@@ -23,7 +23,7 @@ const getTenderLists = async (payload)=>{
     const {
         TenderNo
     }=payload;
-    const query = `Select A.TenderId,B.TenderNo,B.TenderTitle,
+    const query = `Select A.TenderBidId,A.TenderId,B.TenderNo,B.TenderTitle,
 	(
         case when DATEDIFF(second,A.OpenDate,GETDATE())>1 and DATEDIFF(second,A.CloseDate,GETDATE())<1 then 1
         when DATEDIFF(second,A.OpenDate,GETDATE())<1 and DATEDIFF(second,A.CloseDate,GETDATE())<1 then 2

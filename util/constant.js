@@ -105,6 +105,7 @@ module.exports = {
     TMS_PUBLIC_LISTS:"getTenderListForUsers",
     TMS_PUBLIC_LISTS_DETAILS:'getTenderListsDetails',
     TMS_TENDER_USER_DETAILS:'getTenderUserDetails',
+    TMS_NEW_TENDER_BID:'newTenderBidding',
 
   },
   

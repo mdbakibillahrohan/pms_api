@@ -20,6 +20,10 @@ const {
   controller: getTenderUserDetailsController,
   schema: getTenderUserDetailsSchema,
 } = require("../controllers/tender_public/get_tender_user_details/get_tender_user_details_controller");
+const {
+  controller: addNewBiddingController,
+  schema: addNewBiddingSchema,
+} = require("../controllers/tender_public/create_new_bidding/create_new_bidding_controller");
 
 
 const tender_public_routes = Router();
@@ -42,6 +46,12 @@ tender_public_routes.get(
   authenticationMiddleware,
   validator(getTenderUserDetailsSchema, 'query'),
   getTenderUserDetailsController
+);
+tender_public_routes.post(
+  API.TMS_API_CONTEXT + API.TMS_NEW_TENDER_BID,
+  authenticationMiddleware,
+  validator(addNewBiddingSchema, 'body'),
+  addNewBiddingController
 );
 
 
