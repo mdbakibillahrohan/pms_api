@@ -35,6 +35,10 @@ const {
   controller: publishTenderListsController,
   schema: publishTenderListsSchema,
 } = require("../controllers/tender/get_publish_tender_lists/get_publish_tender_lists_controller");
+const {
+  controller: getBiddingListsController,
+  schema: getBiddingListsSchema,
+} = require("../controllers/tender/get_bidding_lists/get_bidding_lists_controller");
 
 const tender_routes = Router();
 
@@ -75,6 +79,11 @@ tender_routes.get(
   validator(publishTenderListsSchema, 'query'),
   publishTenderListsController
 );
-
+tender_routes.get(
+  API.TMS_API_CONTEXT + API.TMS_GET_BIDDING_LISTS,
+  authenticationMiddleware,
+  validator(getBiddingListsSchema, 'query'),
+  getBiddingListsController
+);
 
 module.exports = tender_routes;
