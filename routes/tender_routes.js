@@ -20,6 +20,10 @@ const {
   schema: getLastEntryTenderIdSchema,
 } = require("../controllers/tender/get_last_entry_tender_id/get_last_tender_id_controller");
 const {
+  controller: getGradeListsConrtroller,
+  schema: getGradeListsShema,
+} = require("../controllers/tender/get_grade_lists/get_grade_lists_controller");
+const {
   controller: getTenderListsController,
   schema: getTenderListsSchema,
 } = require("../controllers/tender/get_tender_lists/get_tender_lists_controller");
@@ -52,6 +56,13 @@ tender_routes.get(
   validator(getLastEntryTenderIdSchema, 'query'),
   getLastEntryTenderIdController
 );
+tender_routes.get(
+  API.TMS_API_CONTEXT + API.TMS_GRADE_LISTS,
+  authenticationMiddleware,
+  validator(getGradeListsShema, 'query'),
+  getGradeListsConrtroller
+);
+
 
 tender_routes.post(
   API.TMS_API_CONTEXT + API.TMS_NEW_TENDER,

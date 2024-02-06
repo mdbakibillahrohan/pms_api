@@ -95,6 +95,7 @@ module.exports = {
     TMS_USER_LOGIN:"tmsUserLogin",
     TMS_USER_REGISTRATION:"tmsUserRegistration",
 
+    TMS_GRADE_LISTS:'getTenderGradeLists',
     TMS_GET_LAST_TENDER_ID:'getlastEntryTenderId',
     TMS_NEW_TENDER:"createNewTender",
     TMS_GET_TENDER_LISTS:'getTenderLists',

@@ -1,16 +1,15 @@
 const Joi = require('joi');
 const { MESSAGE } = require('../../../util/constant');
-const getTenderListsServices = require('../../../services/tender_public/get_tender_user_details/get_tender_details_services');
+const getGradeListsServices = require('../../../services/tender/get_grade_lists/get_grade_lists_services');
 
 
 const schema = Joi.object({
-   CompanyEmail:Joi.string().required(),
-   TenderUserId:Joi.number().required()
+
 });
 
 const controller = async(req, res) => {
     try {
-        const data = await getTenderListsServices(req.body);
+        const data = await getGradeListsServices(req.query);
         if (data) {
             return res.status(MESSAGE.SUCCESS_GET.STATUS_CODE).json({ message: MESSAGE.SUCCESS_GET.CONTENT, status_code: MESSAGE.SUCCESS_GET.STATUS_CODE, data });
         }

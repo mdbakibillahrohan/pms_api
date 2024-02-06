@@ -19,10 +19,11 @@ const getTenderUserDetailsServices = async (payload)=>{
 
 const getTenderLists = async (payload)=>{
     const {
-        CompanyEmail
+        CompanyEmail,
+        TenderUserId
     }=payload;
     const query = `Select TenderUserId,CompanyName,CompanyEmail,CompanyPhone,CompanyAddress
-    from TenderUsers where CompanyEmail='${CompanyEmail}' and IsApproved=1`;
+    from TenderUsers where TenderUserId=${TenderUserId} and CompanyEmail='${CompanyEmail}' and IsApproved=1`;
     const data = await getData(dbConfig3, query);
     return data; 
 }

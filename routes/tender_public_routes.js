@@ -41,10 +41,10 @@ tender_public_routes.get(
   validator(getTenderDetailsSchema, 'query'),
   getTenderListsDetailsController
 );
-tender_public_routes.get(
+tender_public_routes.post(
   API.TMS_API_CONTEXT + API.TMS_TENDER_USER_DETAILS,
   authenticationMiddleware,
-  validator(getTenderUserDetailsSchema, 'query'),
+  validator(getTenderUserDetailsSchema, 'body'),
   getTenderUserDetailsController
 );
 tender_public_routes.post(

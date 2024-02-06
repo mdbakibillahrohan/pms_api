@@ -28,11 +28,13 @@ const getTenderLists = async (payload)=>{
         select 
         ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [key],
         A.TenderId,A.TenderNo,A.TenderTitle,A.TenderDescription,A.TotalAmount,
-        case 
-        when TBL.TenderStatusID is null and TBL.IsSale is null then 'Not Published'
-        when TBL.TenderStatusID=1 and TBL.IsSale=0 then 'On Going'
-        else 'Sold'
-        end as Status,
+        (
+        case when DATEDIFF(second,TBL.OpenDate,GETDATE())>1 and DATEDIFF(second,TBL.CloseDate,GETDATE())<1 and TBL.IsSale=0 then 'On Going'
+        when DATEDIFF(second,TBL.OpenDate,GETDATE())<1 and DATEDIFF(second,TBL.CloseDate,GETDATE())<1 and TBL.IsSale=0 then 'Open Soon'
+		when DATEDIFF(second,GETDATE(),TBL.OpenDate)<1 and DATEDIFF(second,GETDATE(),TBL.CloseDate)<1 and TBL.IsSale=1 then 'Sold'
+        else 'Not Publish'
+        end
+		) as Status,
         (
             Select 
             ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [key],

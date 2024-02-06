@@ -26,11 +26,13 @@ const getTenderLists = async (payload)=>{
     const query = `select 
     ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [key],
        A.TenderBidId,B.TenderNo,B.MinimumBidAmount,A.OpenDate,A.CloseDate,
-       (case when A.TenderStatusID=1 and A.IsSale=0 then 'On Going' 
-       when A.TenderStatusID=1 and A.IsSale=1 then 'Sold'
-       when A.TenderStatusID=0 and A.IsSale=0 then 'On Hold'
-       end
-       ) as [Status]
+       (
+        case when DATEDIFF(second,A.OpenDate,GETDATE())>1 and DATEDIFF(second,A.CloseDate,GETDATE())<1 and A.IsSale=0 then 'On Going'
+        when DATEDIFF(second,A.OpenDate,GETDATE())<1 and DATEDIFF(second,A.CloseDate,GETDATE())<1 and A.IsSale=0 then 'Open Soon'
+		when DATEDIFF(second,GETDATE(),A.OpenDate)<1 and DATEDIFF(second,GETDATE(),A.CloseDate)<1 and A.IsSale=1 then 'Sold'
+        else 'Not Publish'
+        end
+		) as [Status]
    from 
        TenderBidLists A
        inner join Tender B on A.TenderId=B.TenderId
