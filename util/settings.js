@@ -43,7 +43,7 @@ const dbConfig3 = {
 	user: "sa",
 	password: "w23eW@#E",
 	// server: "192.168.61.49",
-	server: "202.22.203.92",
+	server: "195.35.9.33",
 	database: "ETender",
 	port:1433,
 	//port: 4368,
