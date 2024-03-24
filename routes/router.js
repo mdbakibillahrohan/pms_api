@@ -28,7 +28,7 @@ const tender_public=require('./tender_public_routes')
 // appRouter.use(lineInputRouter)
 // appRouter.use(approvalRouter);
 // appRouter.use(challanCheckingRouter);
-// appRouter.use(uploadFilesRouter);
+appRouter.use(uploadFilesRouter);
 // appRouter.use(permissionRouter);
 // appRouter.use(washDashboardRouter);
 // appRouter.use(gateInOutDashboardRouter);

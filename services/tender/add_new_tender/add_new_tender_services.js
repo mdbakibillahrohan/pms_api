@@ -22,11 +22,15 @@ const create_new_tender_services = async(payload)=>{
                 const newObj={
                     TenderId:TenderId,
                     ItemName:dta.ItemName,
+                    ItemRemarks:dta.ItemRemarks,
                     UnitOfMeasurement:dta.UnitOfMeasurement,
-                    ItemRate:dta.ItemPrice,
+                    ItemGrade:dta.ItemGrade,
+                    ItemRate:dta.ItemPrice?dta.ItemPrice:0,
+                    TargetRate:dta.ItemTargetPrice,
                     ItemQuantity:dta.ItemQuantity,
                     ItemValue:dta.ItemTotalAmount,
-                    CreatedBy:payload.CreatedBy
+                    CreatedBy:payload.CreatedBy,
+                    LastBidDate:dta.LastBidDate?dta.LastBidDate:""
                 }
 
                 myLists=[...myLists,newObj]
@@ -51,14 +55,15 @@ const insertNewTender = async(payload)=>{
         TenderNo, 
         TenderTitle,
         TenderDetails,
-        TenderTotalAmount, 
+        TenderTotalAmount,
+        TenderAttachment, 
         MinimumBidAmount,
         CreatedBy
     } = payload;
 
-    const query = `insert into Tender (TenderNo,TenderTitle,TenderDescription,TotalAmount,MinimumBidAmount,CreatedBy) 
+    const query = `insert into Tender (TenderNo,TenderTitle,TenderDescription,TotalAmount,MinimumBidAmount,TenderAttachment,CreatedBy) 
     OUTPUT inserted.TenderId
-    values(@TenderNo,@TenderTitle,@TenderDescription,@TotalAmount,@MinimumBidAmount,@CreatedBy);`;
+    values(@TenderNo,@TenderTitle,@TenderDescription,@TotalAmount,@MinimumBidAmount,@TenderAttachment,@CreatedBy);`;
     const params = [
         {
             name: "TenderNo",
@@ -79,6 +84,10 @@ const insertNewTender = async(payload)=>{
         {
             name: "MinimumBidAmount",
             value: MinimumBidAmount
+        },
+        {
+            name: "TenderAttachment",
+            value: TenderAttachment
         },
         {
             name: "CreatedBy",
@@ -102,29 +111,37 @@ const insertTenderItemLists=async(lists)=>{
     CREATE TABLE #TempPosts
     (
         TenderId int,
-        ItemName NVARCHAR(200),
+        ItemName NVARCHAR(500),
+        ItemRemarks NVARCHAR(500),
+        TenderGradeId int,
         UnitOfMeasurement NVARCHAR(500),
         ItemRate decimal(18,0),
+        TargetRate decimal(18,0),
         ItemQuantity decimal(18,0),
         ItemValue decimal(18,0),
-        CreatedBy int
+        CreatedBy int,
+        LastBidDate datetime default null
     );
     
     -- Insert data into the temporary table using OPENJSON
-    INSERT INTO #TempPosts (TenderId, ItemName, UnitOfMeasurement, ItemRate, ItemQuantity,ItemValue,CreatedBy)
+    INSERT INTO #TempPosts (TenderId, ItemName,ItemRemarks,TenderGradeId, UnitOfMeasurement, ItemRate,TargetRate, ItemQuantity,ItemValue,CreatedBy,LastBidDate)
     SELECT 
         JSON_VALUE(value, '$.TenderId') AS TenderId,
         JSON_VALUE(value, '$.ItemName') AS ItemName,
+        JSON_VALUE(value, '$.ItemRemarks') AS ItemRemarks,
+        JSON_VALUE(value, '$.ItemGrade') AS TenderGradeId,
         JSON_VALUE(value, '$.UnitOfMeasurement') AS UnitOfMeasurement,
         JSON_VALUE(value, '$.ItemRate') AS ItemRate,
+        JSON_VALUE(value, '$.TargetRate') AS TargetRate,
         JSON_VALUE(value, '$.ItemQuantity') AS ItemQuantity,
         JSON_VALUE(value, '$.ItemValue') AS ItemValue,
-        JSON_VALUE(value, '$.CreatedBy') AS CreatedBy
+        JSON_VALUE(value, '$.CreatedBy') AS CreatedBy,
+        JSON_VALUE(value, '$.LastBidDate') AS LastBidDate
     FROM OPENJSON(@json);
     
     -- Insert data from the temporary table into your target table
-    INSERT INTO TenderItems (TenderId, ItemName, UnitOfMeasurement, ItemRate,ItemQuantity,ItemValue,CreatedBy)
-    SELECT TenderId, ItemName, UnitOfMeasurement, ItemRate,ItemQuantity,ItemValue,CreatedBy
+    INSERT INTO TenderItems (TenderId,ItemName,ItemRemarks,TenderGradeId, UnitOfMeasurement, ItemRate,TargetRate,ItemQuantity,ItemValue,CreatedBy,LastBidDate)
+    SELECT TenderId,ItemName,ItemRemarks, TenderGradeId,UnitOfMeasurement, ItemRate,TargetRate,ItemQuantity,ItemValue,CreatedBy,LastBidDate
     FROM #TempPosts;
     
     -- Drop the temporary table
@@ -132,7 +149,7 @@ const insertTenderItemLists=async(lists)=>{
 
     const data = await executeQuery(dbConfig3, query,[]);
    
-    console.log(data,newLists)
+    //console.log(data)
     if(data){
         return {data};
     }

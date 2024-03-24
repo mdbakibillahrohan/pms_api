@@ -1,5 +1,8 @@
 const Joi = require('joi');
-const { MESSAGE } = require('../../../util/constant');
+const { 
+    MESSAGE,
+    SOCKET 
+} = require('../../../util/constant');
 const addNewTenderServices = require('../../../services/tender/add_new_tender/add_new_tender_services');
 
 const schema = Joi.object({
@@ -8,14 +11,19 @@ const schema = Joi.object({
     TenderTotalAmount: Joi.number().required(),
     MinimumBidAmount:Joi.number().required(),
     TenderDetails: Joi.string().required(),
+    TenderAttachment:Joi.string().required(),
     CreatedBy:Joi.number().required(),
     Details:Joi.array().items({
         ItemName:Joi.string().required(),
+        ItemRemarks:Joi.string().required(),
         UnitOfMeasurement:Joi.string().required(),
-        ItemPrice:Joi.number().required(),
+        ItemGrade:Joi.number().allow(null).allow('').optional(),
+        ItemPrice:Joi.number().allow(null).allow('').optional(),
+        ItemTargetPrice:Joi.number().required(),
         ItemQuantity:Joi.number().required(),
         ItemTotalAmount:Joi.number().required(),
-        CreatedBy:Joi.number().required()
+        CreatedBy:Joi.number().required(),
+        LastBidDate:Joi.string().allow(null).allow('').optional()
     })
 });
 

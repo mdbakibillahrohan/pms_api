@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const os = require('os');
 const { MESSAGE } = require('../../../util/constant');
 const getTenderListsServices = require('../../../services/tender/get_publish_tender_lists/get_publish_tender_lists_services');
 

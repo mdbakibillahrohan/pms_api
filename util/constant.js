@@ -98,18 +98,33 @@ module.exports = {
     TMS_GRADE_LISTS:'getTenderGradeLists',
     TMS_GET_LAST_TENDER_ID:'getlastEntryTenderId',
     TMS_NEW_TENDER:"createNewTender",
+    TMS_ON_GOING_UPDATE_TENDER:"updateOnGoingTender",
+    TMS_NOT_PUBLISHED_UPDATE_TENDER:"updateNotPublishedTender",
+    TMS_GET_TENDER_DETAILS:"getTenderDetails",
+    TMS_TENDER_ITEM_LISTS:'getAllTenderItems',
+    TMS_TENDER_ITEM_LISTS_PRICE_DATES:'getItemsPriceDate',
     TMS_GET_TENDER_LISTS:'getTenderLists',
     TMS_GET_TENDER_LISTS_FOR_PUBLISH:'getTenderListsForPublish',
     TMS_NEW_TENDER_PUBLISH:'addNewTenderPublish',
     TMS_TENDER_PUBLISH_LISTS:'publishTenderLists',
+    TM_GET_PUBLISH_TENDER_WITH_ID:'publishTender/getById',
 
     TMS_GET_BIDDING_LISTS:'getBiddingLists',
+    TMS_GET_BIDDING_LISTS_DETAILS:'getBiddingListsDetails',
     TMS_GET_BIDDING_DETAILS_LISTS:'getBiddingDetailsLists',
 
     TMS_PUBLIC_LISTS:"getTenderListForUsers",
     TMS_PUBLIC_LISTS_DETAILS:'getTenderListsDetails',
     TMS_TENDER_USER_DETAILS:'getTenderUserDetails',
     TMS_NEW_TENDER_BID:'newTenderBidding',
+
+    TMS_ADD_NEW_TIMER:'timer/addNew',
+
+
+    TMS_ADD_NEW_USER_ATTACHMENT:'public/add-new-user/attachment',
+
+    TMS_ATTACHMENT_LISTS:'public/attachemt/lists',
+    TMS_ATTACHMENT_LISTS_WITH_USERID:'public/attachemt/lists/userid',
 
   },
   
@@ -163,7 +178,10 @@ module.exports = {
   SOCKET: {
     NOTIFY_CHALLAN: "notify-challan",
     NOTIFY_RETURN_CHALLAN: "notify-return-challan",
+    NOTIFY_ADD_NEW_TENDER:'notify-add-new-tender',
     NOTIFY_RETURN_CHALLAN_GATE_PASSED: "notify-return-challan-gate-passed",
-    NOTIFY_TENDER_BID:'notify-tender-new-bid'
+    NOTIFY_TENDER_BID:'notify-tender-new-bid',
+    NOTIFY_NEW_TENDER_PUBLISH:'notify-new-tender-publish',
+    NOTIFY_ADD_NEW_TIMER:"notify-add-new-timer"
   }
 };

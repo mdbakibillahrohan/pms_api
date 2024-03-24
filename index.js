@@ -2,12 +2,19 @@
 require("dotenv").config();
 const ip = require('ip');
 const express = require("express");
+const https=require('https');
+const path=require('path');
+const fs=require('fs');
 const cors = require('cors');
 const morgan = require('morgan');
 const {dbConnectionChecker} = require('./util/dao');
 const {dbConfig, dbConfig2} = require('./util/settings');
 const app = express();
 const server = require('http').createServer(app);
+// const server = https.createServer({
+//   key:fs.readFileSync('./cert/key.pem'),
+//   cert:fs.readFileSync('./cert/cert.pem')
+// },app);
 const router = require("./routes/router");
 const chalk = require("chalk");
 const io = require('socket.io')(server,{

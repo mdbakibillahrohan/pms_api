@@ -18,12 +18,13 @@ const create_new_bidding_services = async(payload)=>{
         if(BiddingId && payload.Details.length){
             let myLists=[];
 
+            //console.log("Data: ",payload.Details)
             payload.Details.forEach((dta)=>{
                 const newObj={
                     BiddingId:BiddingId,
                     TenderUserId:dta.TenderUserId,
                     ItemId:dta.ItemId,
-                    BidPrice:dta.BidPrice
+                    BidPrice:parseFloat(dta.BidPrice).toFixed(2)
                 }
 
                 myLists=[...myLists,newObj]
@@ -92,7 +93,7 @@ const insertNewBiddingDetails=async(lists)=>{
         BiddingId int,
         TenderUserId int,
         ItemId int,
-        BidPrice decimal(18,0),
+        BidPrice decimal(18,2),
     );
     
     -- Insert data into the temporary table using OPENJSON

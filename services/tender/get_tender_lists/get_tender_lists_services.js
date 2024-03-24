@@ -29,16 +29,34 @@ const getTenderLists = async (payload)=>{
         ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [key],
         A.TenderId,A.TenderNo,A.TenderTitle,A.TenderDescription,A.TotalAmount,
         (
-        case when DATEDIFF(second,TBL.OpenDate,GETDATE())>1 and DATEDIFF(second,TBL.CloseDate,GETDATE())<1 and TBL.IsSale=0 then 'On Going'
-        when DATEDIFF(second,TBL.OpenDate,GETDATE())<1 and DATEDIFF(second,TBL.CloseDate,GETDATE())<1 and TBL.IsSale=0 then 'Open Soon'
-		when DATEDIFF(second,GETDATE(),TBL.OpenDate)<1 and DATEDIFF(second,GETDATE(),TBL.CloseDate)<1 and TBL.IsSale=1 then 'Sold'
+        case when DATEDIFF(second,TBL.OpenDate,GETDATE())>1 and DATEDIFF(second,
+		DATEADD(MINUTE,isnull((select sum(K.Minutes) from TimerLogs K where K.TenderBidId=TBL.TenderBidId),0),TBL.CloseDate)
+		,GETDATE())<1 and TBL.IsSale=0 then 'On Going'
+        when DATEDIFF(second,TBL.OpenDate,GETDATE())<1 and DATEDIFF(second,
+		DATEADD(MINUTE,isnull((select sum(K.Minutes) from TimerLogs K where K.TenderBidId=TBL.TenderBidId),0),TBL.CloseDate)
+		,GETDATE())<1 and TBL.IsSale=0 then 'Open Soon'
+		when DATEDIFF(second,GETDATE(),TBL.OpenDate)<1 and DATEDIFF(second,GETDATE(),
+		DATEADD(MINUTE,isnull((select sum(K.Minutes) from TimerLogs K where K.TenderBidId=TBL.TenderBidId),0),TBL.CloseDate))<1 and TBL.IsSale=0 then 'TimeOver'
         else 'Not Publish'
         end
-		) as Status,
+		) as [Status],
+		(
+        case when DATEDIFF(second,TBL.OpenDate,GETDATE())>1 and DATEDIFF(second,
+		DATEADD(MINUTE,isnull((select sum(K.Minutes) from TimerLogs K where K.TenderBidId=TBL.TenderBidId),0),TBL.CloseDate)
+		,GETDATE())<1 and TBL.IsSale=0 then 1
+        when DATEDIFF(second,TBL.OpenDate,GETDATE())<1 and DATEDIFF(second,
+		DATEADD(MINUTE,isnull((select sum(K.Minutes) from TimerLogs K where K.TenderBidId=TBL.TenderBidId),0),TBL.CloseDate)
+		,GETDATE())<1 and TBL.IsSale=0 then 2
+		when DATEDIFF(second,GETDATE(),TBL.OpenDate)<1 and DATEDIFF(second,GETDATE(),
+		DATEADD(MINUTE,ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=TBL.TenderBidId),0),
+		TBL.CloseDate))<1 and TBL.IsSale=0 then 3
+        else 5
+        end
+		) as Mode,
         (
             Select 
             ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [key],
-            BB.ItemId,BB.ItemName,BB.UnitOfMeasurement,BB.ItemQuantity,BB.ItemRate,BB.ItemValue
+            BB.ItemId,BB.ItemName+' '+ItemRemarks as ItemName,BB.UnitOfMeasurement,BB.ItemQuantity,BB.TargetRate as ItemRate,BB.ItemValue
             from Tender AA 
             inner join TenderItems BB on AA.TenderId=BB.TenderId
             where AA.TenderId=A.TenderId and BB.IsDeleted=0 for json path

@@ -6,6 +6,7 @@ const { API } = require('../util/constant');
 const uploadFilesRouter = Router();
 
 const UPLOADED_DESTINATION = "public/uploaded";
+const UPLOADED_DESTINATION_DOCUMENTS = "public/uploaded/documents";
 
 const storage = multer.diskStorage({
     destination: (req, file, cb)=>{
@@ -17,9 +18,22 @@ const storage = multer.diskStorage({
             fs.mkdirSync("./public/uploaded");
         }
         const ext = path.extname(file.originalname);
-        const fileName = file.originalname.replace(ext, "")
-                                .split(" ")
-                                .join("-")+ Date.now()+ext;
+        const fileName = file.originalname;
+        cb(null, fileName);
+    }
+    
+})
+const storage2 = multer.diskStorage({
+    destination: (req, file, cb)=>{
+        cb(null, UPLOADED_DESTINATION_DOCUMENTS)
+    },
+    filename: (req, file, cb)=>{
+        if(!fs.existsSync(UPLOADED_DESTINATION_DOCUMENTS)){
+            fs.mkdirSync("./public");
+            fs.mkdirSync("./public/uploaded/documents");
+        }
+        const ext = path.extname(file.originalname);
+        const fileName = file.originalname;
         cb(null, fileName);
     }
     
@@ -28,11 +42,30 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
     limits: {
-        fileSize: 1000000
+        fileSize: 100000000
     },
     fileFilter: (req, file, cb)=>{
         if(file.mimetype==="image/jpg" || 
             file.mimetype==="image/png" || 
+            file.mimetype==="application/pdf" ||
+            file.mimetype==="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+            file.mimetype ==="image/jpeg"){
+            cb(null, true);
+        }else{
+            cb(new Error("The image must be jpg or png or jpeg"));
+        }
+    }
+});
+const upload2 = multer({
+    storage: storage2,
+    limits: {
+        fileSize: 100000000
+    },
+    fileFilter: (req, file, cb)=>{
+        if(file.mimetype==="image/jpg" || 
+            file.mimetype==="image/png" || 
+            file.mimetype==="application/pdf" ||
+            file.mimetype==="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
             file.mimetype ==="image/jpeg"){
             cb(null, true);
         }else{
@@ -41,7 +74,14 @@ const upload = multer({
     }
 });
 
-uploadFilesRouter.post(API.API_CONTEXT+"upload/image", upload.single("image"), (req,res)=>{
+uploadFilesRouter.post(API.TMS_API_CONTEXT+"upload/image", upload.single("file"), (req,res)=>{
+    const path = req.file.destination.replace("public/", "/") +"/"+ req.file.filename
+    res.json({
+        message: "Successfully uploaded",
+        path: path
+    });
+})
+uploadFilesRouter.post(API.TMS_API_CONTEXT+"upload/image/documents", upload2.single("file"), (req,res)=>{
     const path = req.file.destination.replace("public/", "/") +"/"+ req.file.filename
     res.json({
         message: "Successfully uploaded",
