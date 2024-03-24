@@ -14,8 +14,8 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb)=>{
         if(!fs.existsSync(UPLOADED_DESTINATION)){
-            fs.mkdirSync("./public");
-            fs.mkdirSync("./public/uploaded");
+            fs.mkdirSync("public");
+            fs.mkdirSync("public/uploaded");
         }
         const ext = path.extname(file.originalname);
         const fileName = file.originalname;
@@ -29,8 +29,8 @@ const storage2 = multer.diskStorage({
     },
     filename: (req, file, cb)=>{
         if(!fs.existsSync(UPLOADED_DESTINATION_DOCUMENTS)){
-            fs.mkdirSync("./public");
-            fs.mkdirSync("./public/uploaded/documents");
+            fs.mkdirSync("public");
+            fs.mkdirSync("public/uploaded/documents");
         }
         const ext = path.extname(file.originalname);
         const fileName = file.originalname;
