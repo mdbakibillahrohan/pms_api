@@ -1,20 +1,20 @@
 const express = require("express");
 const appRouter = express.Router();
 const authenticationRouter = require("./authentication_routes");
-const dashboardRouter=require('./dashboard');
-const approvalRouter = require("./approval_routes");
-const challanCheckingRouter = require('./checking_routes');
+// const dashboardRouter=require('./dashboard');
+// const approvalRouter = require("./approval_routes");
+// const challanCheckingRouter = require('./checking_routes');
 const uploadFilesRouter = require('./upload_files_routes');
-const permissionRouter = require("./permission_routes");
-const washDashboardRouter = require("./wash_dashboard_routes");
-const gateInOutDashboardRouter = require("./gate_in_out_dashboard_routes");
-const finishingDashboardRouter = require("./finishing_dashboard_routes");
-const masterRouter = require("./master_routes");
-const finishingRouter = require("./finishing_routes");
-const washingRouter = require("./washing_routes");
-const reportRouter = require("./report_routes");
-const returnWashApprovalRouter = require("./return_challan/return_wash_approval_routes");
-const lineInputRouter = require("./line_input_routes");
+// const permissionRouter = require("./permission_routes");
+// const washDashboardRouter = require("./wash_dashboard_routes");
+// const gateInOutDashboardRouter = require("./gate_in_out_dashboard_routes");
+// const finishingDashboardRouter = require("./finishing_dashboard_routes");
+// const masterRouter = require("./master_routes");
+// const finishingRouter = require("./finishing_routes");
+// const washingRouter = require("./washing_routes");
+// const reportRouter = require("./report_routes");
+// const returnWashApprovalRouter = require("./return_challan/return_wash_approval_routes");
+// const lineInputRouter = require("./line_input_routes");
 
 // E- tender routes lists...
 const tmsAuthRouter = require("./tms_authentication_routes");
