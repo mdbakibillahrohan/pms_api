@@ -8,7 +8,7 @@ const fs=require('fs');
 const cors = require('cors');
 const morgan = require('morgan');
 const {dbConnectionChecker} = require('./util/dao');
-const {dbConfig, dbConfig2} = require('./util/settings');
+const {dbConfig, dbConfig2,dbConfig3} = require('./util/settings');
 const app = express();
 const server = require('http').createServer(app);
 // const server = https.createServer({
@@ -49,8 +49,8 @@ server.listen(port,async () => {
     const spaces = getSpaceForPrintingPath(endpoint.method, 15);
     console.log(getMethodColor(endpoint.method.toUpperCase()) + spaces + chalk.blueBright(cleanedPath));
   });
-  await dbConnectionChecker(dbConfig);
-  await dbConnectionChecker(dbConfig2);
+  // await dbConnectionChecker(dbConfig);
+  await dbConnectionChecker(dbConfig3);
   const ipAddress = ip.address();
   console.log(`\x1b[33m Server is running on http://localhost:${port} \x1b[0m`);
   console.log(`\x1b[33m Server is running on http://${ipAddress}:${port} \x1b[0m`);
