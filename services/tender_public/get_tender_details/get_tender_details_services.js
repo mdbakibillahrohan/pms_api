@@ -49,6 +49,7 @@ const getTenderLists = async (payload)=>{
 				else 'N/A'
 				end
 			) as GradeName,
+			A.UnitOfMeasurement as Unit,
 			A.ItemQuantity,
 			isnull(
 				(
@@ -75,7 +76,7 @@ const getTenderLists = async (payload)=>{
     from BiddingDetails BD 
     where BD.ItemId=A.ItemId
 	),0)=isnull(B.BidPrice,0)
-	Group By A.ItemId,A.ItemName,A.ItemRemarks,A.TargetRate,TG.TenderGradeId,A.TenderGradeId,TG.GradeName,
+	Group By A.ItemId,A.ItemName,A.ItemRemarks,A.UnitOfMeasurement,A.TargetRate,TG.TenderGradeId,A.TenderGradeId,TG.GradeName,
 	A.ItemQuantity,B.BidPrice
 		for json path
 	) details
