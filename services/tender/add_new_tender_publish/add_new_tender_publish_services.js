@@ -38,7 +38,8 @@ const create_new_tender_publish_services = async(payload)=>{
 const insertNewTenderPublish = async(payload)=>{
     const {
         TenderBidId,
-        TenderId, 
+        TenderId,
+        Description, 
         OpenDate,
         CloseDate,
         CreatedBy
@@ -47,13 +48,17 @@ const insertNewTenderPublish = async(payload)=>{
 
     let data;
     if(TenderBidId===10001){
-        const query = `insert into TenderBidLists (TenderId,OpenDate,CloseDate,CreatedBy) 
+        const query = `insert into TenderBidLists (TenderId,Description,OpenDate,CloseDate,CreatedBy) 
         OUTPUT inserted.TenderBidId
-        values(@TenderId,@OpenDate,@CloseDate,@CreatedBy);`;
+        values(@TenderId,@Description,@OpenDate,@CloseDate,@CreatedBy);`;
         const params = [
             {
                 name: "TenderId",
                 value: TenderId
+            },
+            {
+                name: "Description",
+                value: Description
             },
             {
                 name: "OpenDate",
@@ -76,7 +81,7 @@ const insertNewTenderPublish = async(payload)=>{
    
     if(data){
         const TenderData=await getTenderNo(TenderId);
-        console.log("TD Data",TenderData)
+        //console.log("TD Data",TenderData)
         return {TenderData};
     }
     return {message:"Error while inserting or updating."};

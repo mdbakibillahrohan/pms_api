@@ -6,6 +6,7 @@ const schema = Joi.object({
     TenderBidId:Joi.number().required(),
     TenderId: Joi.number().required(),
     OpenDate:Joi.date().required(),
+    Description:Joi.string().required(),
     CloseDate:Joi.date().required(),
     CreatedBy:Joi.number().required(),
 });
