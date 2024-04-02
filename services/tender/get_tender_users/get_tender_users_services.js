@@ -29,7 +29,7 @@ const getTenderUserLists = async (payload)=>{
     if(FilterType==1){
         partialQuery='where A.IsApproved=1';
     }else if(FilterType==2){
-        partialQuery='where A.IsApproved=0';
+        partialQuery='where A.IsApproved=0 and (A.IsDeleted=0 or A.IsDeleted is null) and (A.IsRejected=0 or A.IsRejected is null)';
     }else if(FilterType==3){
         partialQuery='where A.IsDeleted=1';
     }else if(FilterType==4){
