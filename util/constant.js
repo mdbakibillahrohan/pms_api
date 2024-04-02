@@ -113,6 +113,8 @@ module.exports = {
     TMS_GET_BIDDING_LISTS_DETAILS:'getBiddingListsDetails',
     TMS_GET_BIDDING_DETAILS_LISTS:'getBiddingDetailsLists',
 
+    TMS_GET_TENDER_USER_LISTS:'getTenderUserLists',
+
     TMS_PUBLIC_LISTS:"getTenderListForUsers",
     TMS_PUBLIC_LISTS_DETAILS:'getTenderListsDetails',
     TMS_TENDER_USER_DETAILS:'getTenderUserDetails',
@@ -182,6 +184,8 @@ module.exports = {
     NOTIFY_RETURN_CHALLAN_GATE_PASSED: "notify-return-challan-gate-passed",
     NOTIFY_TENDER_BID:'notify-tender-new-bid',
     NOTIFY_NEW_TENDER_PUBLISH:'notify-new-tender-publish',
-    NOTIFY_ADD_NEW_TIMER:"notify-add-new-timer"
+    NOTIFY_ADD_NEW_TIMER:"notify-add-new-timer",
+    NOTIFY_ADD_NEW_USER:"notify-add-new-user",
+
   }
 };

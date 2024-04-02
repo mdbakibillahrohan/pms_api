@@ -79,6 +79,10 @@ const {
   controller: addNewTimerLogController,
   schema: addNewTimerLogSchema,
 } = require("../controllers/tender/add_new_timer/add_new_timer_controller");
+const {
+  controller: getTenderUsersController,
+  schema: getTenderUsersSchema,
+} = require("../controllers/tender/get_tender_users/get_tender_users_controller");
 
 const tender_routes = Router();
 
@@ -185,6 +189,12 @@ tender_routes.post(
   //authenticationMiddleware,
   validator(addNewTimerLogSchema, 'body'),
   addNewTimerLogController
+);
+tender_routes.get(
+  API.TMS_API_CONTEXT + API.TMS_GET_TENDER_USER_LISTS,
+  //authenticationMiddleware,
+  validator(getTenderUsersSchema, 'query'),
+  getTenderUsersController
 );
 
 module.exports = tender_routes;
