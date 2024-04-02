@@ -28,10 +28,12 @@ const getTenderUserLists = async (payload)=>{
 
     if(FilterType==1){
         partialQuery='where A.IsApproved=1';
-    }else if(FilterType==0){
+    }else if(FilterType==2){
         partialQuery='where A.IsApproved=0';
     }else if(FilterType==3){
         partialQuery='where A.IsDeleted=1';
+    }else if(FilterType==4){
+        partialQuery='where A.IsRejected=1';
     }else if(FilterType==5){
         partialQuery='';
     }
@@ -41,10 +43,12 @@ const getTenderUserLists = async (payload)=>{
           TenderUserId,
           CompanyName,
           CompanyEmail,
-          (case when IsApproved=1 then 1
-          else 0
-          end
-          ) as [Status],
+          (case when IsApproved=1 and (IsDeleted=0 or IsDeleted is null) and (IsRejected=0 or IsRejected is null) then 1
+            when IsRejected=1 then 4
+            when IsDeleted=1 then 3
+            else 0
+            end
+            ) as [Status],
           (select
           B.TenderUserId as [key],
           B.CompanyAddress,
@@ -75,11 +79,13 @@ const getCount = async(payload)=>{
 
     if(FilterType==1){
         partialQuery='where IsApproved=1';
-    }else if(FilterType==0){
+    }else if(FilterType==2){
         partialQuery='where IsApproved=0';
         //console.log("Calleddd")
     }else if(FilterType==3){
         partialQuery='where IsDeleted=1';
+    }else if(FilterType==4){
+        partialQuery='where IsRejected=1';
     }else if(FilterType==5){
         partialQuery='';
     }

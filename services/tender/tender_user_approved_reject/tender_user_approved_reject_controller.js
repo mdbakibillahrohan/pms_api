@@ -26,7 +26,15 @@ const updateTender = async(payload)=>{
       Status
     } = payload;
 
-    const query = `update TenderUsers set IsDeleted=0,IsApproved=${Status==0?1:0},ApprovedBy=${ApprovedBy},ApprovedAt=getDate() where TenderUserId='${TenderUserId}'`;
+    let partialQuery='';
+
+    if(Status==1){
+        partialQuery=`,IsRejected=1,RejectedBy=${ApprovedBy},RejectedAt=getDate()`;
+    }else if(Status==0){
+        partialQuery=`,IsApproved=1,ApprovedBy=${ApprovedBy},ApprovedAt=getDate()`;
+    }
+
+    const query = `update TenderUsers set IsDeleted=0 ${partialQuery} where TenderUserId='${TenderUserId}'`;
     const data = await executeQuery(dbConfig3, query, []);
 
     if(data){
