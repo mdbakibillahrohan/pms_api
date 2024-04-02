@@ -83,6 +83,14 @@ const {
   controller: getTenderUsersController,
   schema: getTenderUsersSchema,
 } = require("../controllers/tender/get_tender_users/get_tender_users_controller");
+const {
+  controller: updateTenderUserStatusController,
+  schema: updateTenderUserStatusSchema,
+} = require("../controllers/tender/tender_user_approved_reject/tender_user_approved_rejected_controller");
+const {
+  controller: deleteTenderUserController,
+  schema: deleteTenderUserSchema,
+} = require("../controllers/tender/tender_user_delete/tender_user_delete_controller");
 
 const tender_routes = Router();
 
@@ -195,6 +203,18 @@ tender_routes.get(
   //authenticationMiddleware,
   validator(getTenderUsersSchema, 'query'),
   getTenderUsersController
+);
+tender_routes.post(
+  API.TMS_API_CONTEXT + API.TMS_UPDATE_TENDER_USER,
+  //authenticationMiddleware,
+  validator(updateTenderUserStatusSchema, 'body'),
+  updateTenderUserStatusController
+);
+tender_routes.post(
+  API.TMS_API_CONTEXT + API.TMS_DELETE_TENDER_USER,
+  //authenticationMiddleware,
+  validator(deleteTenderUserSchema, 'body'),
+  deleteTenderUserController
 );
 
 module.exports = tender_routes;

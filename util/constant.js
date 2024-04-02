@@ -114,6 +114,8 @@ module.exports = {
     TMS_GET_BIDDING_DETAILS_LISTS:'getBiddingDetailsLists',
 
     TMS_GET_TENDER_USER_LISTS:'getTenderUserLists',
+    TMS_UPDATE_TENDER_USER:'updateTenderUserStatus',
+    TMS_DELETE_TENDER_USER:'deleteTenderUser',
 
     TMS_PUBLIC_LISTS:"getTenderListForUsers",
     TMS_PUBLIC_LISTS_DETAILS:'getTenderListsDetails',
