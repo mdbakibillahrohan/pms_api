@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { MESSAGE } = require('../../util/constant');
+const { MESSAGE ,SOCKET} = require('../../util/constant');
 const newRegistrationServices = require('../../services/authentication_services/tms_registration_services');
 
 const schema = Joi.object({

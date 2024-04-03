@@ -187,7 +187,7 @@ module.exports = {
     NOTIFY_TENDER_BID:'notify-tender-new-bid',
     NOTIFY_NEW_TENDER_PUBLISH:'notify-new-tender-publish',
     NOTIFY_ADD_NEW_TIMER:"notify-add-new-timer",
-    NOTIFY_ADD_NEW_USER:"notify-add-new-user",
+    NOTIFY_ADD_NEW_USER_REGISTRATION:"notify-add-new-user-registration",
 
   }
 };

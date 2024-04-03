@@ -24,7 +24,7 @@ const checkDuplicateEntry=async(payload)=>{
     }=payload;
 
     const query=`Select * from 
-    TenderUsers where CompanyEmail='${CompanyEmail}' and CompanyPhone='${CompanyPhone}'`;
+    TenderUsers where CompanyEmail='${CompanyEmail}' or CompanyPhone='${CompanyPhone}'`;
 
     const data = await getData(dbConfig3, query);
 

@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { MESSAGE } = require('../../util/constant');
+const { MESSAGE,SOCKET } = require('../../util/constant');
 const newRegistrationServices = require('../../services/authentication_services/tms_user_registration_services');
 
 const schema = Joi.object({
@@ -15,6 +15,7 @@ const controller = async (req, res) => {
         //req.body.userInfo = req.userInfo;
         const data = await newRegistrationServices(req.body);
         if (data.message==="success") {
+            req.io.emit(SOCKET.NOTIFY_ADD_NEW_USER_REGISTRATION, {data:true});
             return res.status(200).json({ message: "Successfully inserted", status_code: 201, data: data.data,IsEntry:true });
         }
         return res.status(200).json({ message: data.message,IsEntry:data.IsEntry});

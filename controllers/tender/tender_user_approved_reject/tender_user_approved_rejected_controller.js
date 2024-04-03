@@ -18,7 +18,7 @@ const controller = async (req, res) => {
         if (data.message==="success") {
             //const {TenderNo}=req.body;
             //req.io.emit(SOCKET.NOTIFY_ADD_NEW_TENDER, TenderNo);
-            return res.status(200).json({ message: "Successfully Updated", status_code: 201, data: data.data,IsEntry:true });
+            return res.status(200).json({ message: "Successfully Updated.", status_code: 201, data: data.data,IsEntry:true });
         }
         return res.status(200).json({ message: [],IsEntry:false});
     } catch (error) {
