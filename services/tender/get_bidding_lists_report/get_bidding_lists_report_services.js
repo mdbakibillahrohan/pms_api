@@ -49,7 +49,7 @@ const getTenderDetails = async (payload)=>{
             D.CompanyPhone,
             D.CompanyEmail,
             (
-				SELECT TOP 1 BidPrice FROM BiddingDetails WHERE ItemId=C.ItemId AND TenderUserId=C.TenderUserId AND BidPrice>0 ORDER BY CreatedAt DESC
+				SELECT TOP 1 BidPrice FROM BiddingDetails WHERE ItemId=C.ItemId AND TenderUserId=C.TenderUserId ORDER BY CreatedAt DESC
 			) AS BidPrice,
             (
                 SELECT MAX(BD.BidPrice)

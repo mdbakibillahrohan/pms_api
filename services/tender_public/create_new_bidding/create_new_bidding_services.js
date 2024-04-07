@@ -22,6 +22,7 @@ const create_new_bidding_services = async(payload)=>{
             payload.Details.forEach((dta)=>{
                 const newObj={
                     BiddingId:BiddingId,
+                    TenderId:dta.TenderId,
                     TenderUserId:dta.TenderUserId,
                     ItemId:dta.ItemId,
                     BidPrice:parseFloat(dta.BidPrice).toFixed(2)
@@ -90,6 +91,7 @@ const insertNewBiddingDetails=async(lists)=>{
 
     CREATE TABLE #TempPosts
     (
+        TenderId int,
         BiddingId int,
         TenderUserId int,
         ItemId int,
@@ -97,8 +99,9 @@ const insertNewBiddingDetails=async(lists)=>{
     );
     
     -- Insert data into the temporary table using OPENJSON
-    INSERT INTO #TempPosts (BiddingId, TenderUserId, ItemId, BidPrice)
+    INSERT INTO #TempPosts (TenderId,BiddingId, TenderUserId, ItemId, BidPrice)
     SELECT 
+        JSON_VALUE(value, '$.TenderId') AS TenderId,
         JSON_VALUE(value, '$.BiddingId') AS BiddingId,
         JSON_VALUE(value, '$.TenderUserId') AS TenderUserId,
         JSON_VALUE(value, '$.ItemId') AS ItemId,
@@ -106,8 +109,8 @@ const insertNewBiddingDetails=async(lists)=>{
     FROM OPENJSON(@json);
     
     -- Insert data from the temporary table into your target table
-    INSERT INTO BiddingDetails (BiddingId, TenderUserId, ItemId, BidPrice)
-    SELECT BiddingId, TenderUserId, ItemId, BidPrice
+    INSERT INTO BiddingDetails (TenderId,BiddingId, TenderUserId, ItemId, BidPrice)
+    SELECT TenderId,BiddingId, TenderUserId, ItemId, BidPrice
     FROM #TempPosts;
     
     -- Drop the temporary table

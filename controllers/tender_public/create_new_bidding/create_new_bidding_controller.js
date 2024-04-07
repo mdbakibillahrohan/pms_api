@@ -9,6 +9,7 @@ const schema = Joi.object({
     TenderUserId: Joi.number().required(),
     TotalAmount:Joi.number().required(),
     Details:Joi.array().items({
+        TenderId:Joi.number().required(),
         TenderUserId:Joi.number().required(),
         ItemId:Joi.number().required(),
         BidPrice:Joi.number().required()

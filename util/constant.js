@@ -121,6 +121,7 @@ module.exports = {
     TMS_PUBLIC_LISTS_DETAILS:'getTenderListsDetails',
     TMS_TENDER_USER_DETAILS:'getTenderUserDetails',
     TMS_NEW_TENDER_BID:'newTenderBidding',
+    TMS_GET_BIDDING_DETAILS_WITH_ID:'getTenderBiddingDetailsWithId',
 
     TMS_ADD_NEW_TIMER:'timer/addNew',
 

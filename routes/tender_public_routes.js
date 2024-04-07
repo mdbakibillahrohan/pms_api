@@ -36,6 +36,10 @@ const {
   controller: addNewUserAttachmentController,
   schema: addNewAttachmentSchema,
 } = require("../controllers/tender_public/add_tender_user_attachment/add_tender_user_attachment_controller");
+const {
+  controller: getBiddingDetailsWithIdController,
+  schema: getBiddingDetailsWithIdSchema,
+} = require("../controllers/tender_public/get_bidding_details_with_id/get_biddig_details_with_id_controller");
 
 
 const tender_public_routes = Router();
@@ -82,6 +86,12 @@ tender_public_routes.post(
   //authenticationMiddleware,
   validator(addNewAttachmentSchema, 'body'),
   addNewUserAttachmentController
+);
+tender_public_routes.get(
+  API.TMS_API_CONTEXT + API.TMS_GET_BIDDING_DETAILS_WITH_ID,
+  //authenticationMiddleware,
+  validator(getBiddingDetailsWithIdSchema, 'query'),
+  getBiddingDetailsWithIdController
 );
 
 
