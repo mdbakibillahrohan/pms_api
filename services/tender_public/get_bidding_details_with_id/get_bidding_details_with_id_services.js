@@ -20,14 +20,28 @@ const getTenderDetailsWithUserIdServices = async (payload)=>{
 const getTenderLists = async (payload)=>{
     const {
         TenderNo,
-        UserId,
-        ItemLen
+        UserId
     }=payload;
-    const query = `select TOP ${ItemLen} A.ItemId,A.BidPrice from BiddingDetails A
+
+    const query1=`select isnull(count(A.ItemId),0) as TotalItem from TenderItems A
     inner join Tender B on A.TenderId=B.TenderId
-    where A.TenderUserId=${UserId} and B.TenderNo='${TenderNo}' order by A.CreatedAt desc`;
-    const data = await getData(dbConfig3, query);
-    return data; 
+    where B.TenderNo='${TenderNo}'`;
+
+    const countLen = await getData(dbConfig3, query1);
+
+    //console.log(countLen)
+
+    if(countLen.length){
+        let len=countLen[0].TotalItem;
+        //console.log("Total Item",len)
+        const query = `select TOP ${len} A.ItemId,A.BidPrice from BiddingDetails A
+        inner join Tender B on A.TenderId=B.TenderId
+        where A.TenderUserId=${UserId} and B.TenderNo='${TenderNo}' order by A.CreatedAt desc`;
+        const data = await getData(dbConfig3, query);
+        return data; 
+    }else{
+        return [];
+    }
 }
 
 module.exports = getTenderDetailsWithUserIdServices;
