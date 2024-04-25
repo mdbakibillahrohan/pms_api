@@ -51,6 +51,7 @@ const getTenderUserLists = async (payload)=>{
             ) as [Status],
           (select
           B.TenderUserId as [key],
+          B.CompanyPhone,
           B.CompanyAddress,
           (
           case when B.ApprovedBy is not null then C.FirstName
