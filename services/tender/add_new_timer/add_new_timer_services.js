@@ -31,14 +31,40 @@ const create_new_timer_for_tender = async(payload)=>{
         CreatedBy
     }
 
-    const data = await insertNewTimer(payloadData);
-    if(data){
-        return {message:"success",data:data};
+    const times=await checkTimer(payloadData);
+
+
+    if(times){
+        let time=times[0]?.Times;
+
+        if(time<=10){
+            const data = await insertNewTimer(payloadData);
+            if(data){
+                return {message:"success",data:data};
+            }else{
+                return {message:"success",data:[]};
+            }
+        }else{
+            return {message:"success",data:[]};
+        }
     }else{
-        return 0;
+        return {message:"success",data:[]};
     }
+    
 }
 
+const checkTimer=async(payload)=>{
+    const {
+        TenderBidId
+    } = payload;
+
+    const query = `select DATEDIFF(second,GETDATE(),DATEADD(MINUTE,ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=${TenderBidId}),0),CloseDate))
+    as Times from TenderBidLists where TenderBidId=${TenderBidId}`;
+
+    const data = await getData(dbConfig3, query, []);
+
+    return data;
+}
 const insertNewTimer = async(payload)=>{
     const {
         TenderBidId,
