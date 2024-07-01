@@ -4,7 +4,8 @@ const getTenderListsServices = require('../../../services/tender_public/get_tend
 
 
 const schema = Joi.object({
-   TenderNo:Joi.string().required()
+   TenderNo:Joi.string().required(),
+   UserId:Joi.number().required()
 });
 
 const controller = async(req, res) => {

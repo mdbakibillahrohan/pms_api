@@ -95,6 +95,18 @@ const {
   controller: getTenderUserListsAllController,
   schema: getTenderUserListsAllSchema,
 } = require("../controllers/tender/get_tender_user_lists/get_tender_user_lists_controller");
+const {
+  controller: get_approver_type_lists_controller,
+  schema: get_approver_type_lists_schema,
+} = require("../controllers/tender/get_approver_type_lists/get_approver_type_lists_controller");
+const {
+  controller: get_erp_user_lists_controller,
+  schema: get_erp_user_lists_schema,
+} = require("../controllers/tender/get_erp_user_lists/get_erp_user_lists_controller");
+const {
+  controller: get_approver_type_lists_by_id_controller,
+  schema: get_approver_type_lists_by_id_schema,
+} = require("../controllers/tender/get_approver_lists_by_type/get_approver_lists_by_type_controller");
 
 const tender_routes = Router();
 
@@ -225,6 +237,36 @@ tender_routes.get(
   //authenticationMiddleware,
   validator(getTenderUserListsAllSchema, 'body'),
   getTenderUserListsAllController
+);
+tender_routes.get(
+  API.TMS_API_CONTEXT + API.TMS_GET_APPROVER_TYPE_LISTS,
+  //authenticationMiddleware,
+  validator(get_approver_type_lists_schema, 'query'),
+  get_approver_type_lists_controller
+);
+// tender_routes.get(
+//   API.TMS_API_CONTEXT + API.TMS_GET_APPROVER_TYPE_LISTS,
+//   //authenticationMiddleware,
+//   validator(get_approver_type_lists_schema, 'query'),
+//   get_approver_type_lists_controller
+// );
+// tender_routes.get(
+//   API.TMS_API_CONTEXT + API.TMS_GET_ERP_USER_LISTS,
+//   //authenticationMiddleware,
+//   validator(get_erp_user_lists_schema, 'query'),
+//   get_erp_user_lists_controller
+// );
+tender_routes.get(
+  API.TMS_API_CONTEXT + API.TMS_GET_ERP_USER_LISTS,
+  //authenticationMiddleware,
+  validator(get_erp_user_lists_schema, 'query'),
+  get_erp_user_lists_controller
+);
+tender_routes.get(
+  API.TMS_API_CONTEXT + API.TMS_GET_APPROVER_LISTS_BY_TYPE_ID,
+  //authenticationMiddleware,
+  validator(get_approver_type_lists_by_id_schema, 'query'),
+  get_approver_type_lists_by_id_controller
 );
 
 module.exports = tender_routes;

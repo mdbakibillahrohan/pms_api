@@ -123,6 +123,9 @@ module.exports = {
     TMS_TENDER_USER_DETAILS:'getTenderUserDetails',
     TMS_NEW_TENDER_BID:'newTenderBidding',
     TMS_GET_BIDDING_DETAILS_WITH_ID:'getTenderBiddingDetailsWithId',
+    TMS_GET_APPROVER_TYPE_LISTS:'get_approver_type_lists',
+    TMS_GET_ERP_USER_LISTS:'get_erp_user_lists',
+    TMS_GET_APPROVER_LISTS_BY_TYPE_ID:'get_approver_lists_by_type_id',
 
     TMS_ADD_NEW_TIMER:'timer/addNew',
 

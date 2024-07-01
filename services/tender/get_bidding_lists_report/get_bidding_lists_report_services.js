@@ -86,6 +86,7 @@ const getTenderDetails = async (payload)=>{
         INNER JOIN TenderUsers D ON C.TenderUserId = D.TenderUserId
         WHERE B.TenderNo = '${TenderNo}'
         GROUP BY A.ItemId, C.TenderUserId, C.ItemId,A.ItemName, A.ItemRemarks, A.ItemId, E.GradeName, A.ItemRate, A.LastBidDate, A.UnitOfMeasurement, A.ItemQuantity, C.TenderUserId, D.CompanyName, D.CompanyPhone, D.CompanyEmail
+        order by A.ItemId asc
         FOR JSON PATH
     ) AS lists
 FROM TenderBidLists A

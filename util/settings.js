@@ -26,13 +26,13 @@ const dbConfig2 = {
 };
 
 // const dbConfig3 = {
-// 	user: "softadmin",
-// 	password: "w23eW@#E",
+// 	user: "sa",
+// 	password: "n3wdb$3rv3r@hgr0up",
 // 	// server: "192.168.61.49",
-// 	server: "192.168.0.13",
+// 	server: "192.168.3.10",
 // 	database: "ETender",
 // 	// port:1433,
-// 	port: 4368,
+// 	//port: 4368,
 // 	//database: "ERPUSERDB",
 //     options: {
 //         encrypt: true, // for azure

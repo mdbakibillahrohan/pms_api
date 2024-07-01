@@ -21,7 +21,8 @@ const getTenderDetailsServices = async (payload)=>{
 
 const getTenderLists = async (payload)=>{
     const {
-        TenderNo
+        TenderNo,
+		UserId
     }=payload;
     const query = `select A.TenderBidId,A.TenderId,B.TenderNo,B.TenderTitle,B.TenderAttachment,
 	(
@@ -80,9 +81,10 @@ const getTenderLists = async (payload)=>{
 	A.ItemQuantity,B.BidPrice
 		for json path
 	) details
-from TenderBidLists A
-inner join Tender B on A.TenderId=B.TenderId
-where B.TenderNo='${TenderNo}'`;
+	from TenderBidLists A
+	inner join Tender B on A.TenderId=B.TenderId
+	inner join TenderUserMap C on A.TenderBidId=C.TenderBidId
+	where B.TenderNo='${TenderNo}' and C.TenderUserId in (${UserId})`;
     const data = await getData(dbConfig3, query);
     return data; 
 }

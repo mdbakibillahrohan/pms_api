@@ -15,7 +15,8 @@ const getTenderListsForUsersServices = async (payload)=>{
 const getTenderLists = async (payload)=>{
     const {
         Take,
-        Skip
+        Skip,
+        UserId
     }=payload;
     const query = `with CTE as (select A.TenderId,B.TenderNo,B.TenderTitle,A.OpenDate,
         DATEADD(MINUTE,ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=A.TenderBidId),0),A.CloseDate) CloseDate
@@ -46,8 +47,9 @@ const getTenderLists = async (payload)=>{
             from TenderBidLists A
             inner join Tender B on A.TenderId=B.TenderId
             inner join TenderItems C on B.TenderId=C.TenderId
+			inner join TenderUserMap E on A.TenderBidId=E.TenderBidId
             left join Bidding D on A.TenderBidId=D.TenderBidId
-            where A.IsDeleted=0 and DATEDIFF(second,DATEADD(MINUTE,ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=A.TenderBidId),0),A.CloseDate),GETDATE())<1
+            where A.IsDeleted=0 and DATEDIFF(second,DATEADD(MINUTE,ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=A.TenderBidId),0),A.CloseDate),GETDATE())<1 and E.TenderUserId in(${UserId})
             group by B.TenderNo,A.TenderBidId,A.TenderId,B.TenderTitle,B.TotalAmount,A.OpenDate,A.CloseDate,D.BiddingId order by B.TenderNo desc
             OFFSET  ${Skip} ROWS 
             FETCH NEXT 2000 ROWS ONLY
