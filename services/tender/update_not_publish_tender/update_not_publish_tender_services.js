@@ -95,6 +95,7 @@ const updateTender = async(payload)=>{
         TenderTitle,
         TenderDetails,
         TenderTotalAmount,
+        CategoryId,
         TenderAttachment, 
         MinimumBidAmount,
         UpdatedBy
@@ -103,7 +104,7 @@ const updateTender = async(payload)=>{
     //console.log("PP",payload)
 
     const query = `update Tender set TenderTitle=N'${TenderTitle}',TenderDescription=N'${TenderDetails}',
-    TotalAmount=${TenderTotalAmount},MinimumBidAmount=${MinimumBidAmount},TenderAttachment='${TenderAttachment}',
+    TotalAmount=${TenderTotalAmount},MinimumBidAmount=${MinimumBidAmount},TenderAttachment='${TenderAttachment}',CategoryId=${CategoryId},
     UpdatedBy=${UpdatedBy},UpdatedAt=getDate() where TenderNo='${TenderNo}'`;
     //console.log("Query",query)
     const data = await executeQuery(dbConfig3, query, []);

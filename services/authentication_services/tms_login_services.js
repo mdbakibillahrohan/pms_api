@@ -11,17 +11,17 @@ const tmsLoginServices = async (payload) => {
     const userInfo = await getUserInfo(payload);
     //const isUserValid = checkValidity(userInfo, payload);
     // if (isUserValid) {
-    const { UserId,FirstName,LastName,Email } = userInfo;
+    const { UserId,FirstName,LastName,Email,IsAudit,IsMarketing,IsAdmin } = userInfo;
     token = generateJwtToken(userInfo);
     userData = {
-        UserId,FirstName,LastName,Email, token
+        UserId,FirstName,LastName,Email, token,IsAudit,IsMarketing,IsAdmin
     }
     // }
     return userData;
 }
 
 const getUserInfo = async (payload) => {
-    const query = `select UserId,FirstName,LastName,Email,Phone,Password from Users 
+    const query = `select UserId,FirstName,LastName,Email,Phone,Password,isnull(IsAudit,0) as IsAudit,isnull(IsMarketing,0) as IsMarketing,isnull(IsSuperAdmin,0) As IsAdmin from Users 
     where IsDeleted=0 and LOWER(Email)=LOWER(@email) and LOWER(Password)=LOWER(@password)`;
     const hashPassword = ConvertPassString(payload.password);
     const parameters = [

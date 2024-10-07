@@ -10,8 +10,8 @@ const {
 const getBiddingListsReportServices = async (payload)=>{
     const data = await getTenderDetails(payload);
     //const count=await getCount(payload);
-    //console.log(data.length)
-    if(data.length){
+    console.log("Data---",data)
+    if(data?.length){
         return {data: JSON.parse(data[0].data)};
     }else{
         return {data:[]};;

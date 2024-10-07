@@ -43,7 +43,8 @@ const insertNewTenderPublish = async(payload)=>{
         Users, 
         OpenDate,
         CloseDate,
-        CreatedBy
+        CreatedBy,
+        IsUpdate
     } = payload;
 
 
@@ -75,7 +76,7 @@ const insertNewTenderPublish = async(payload)=>{
             }
         ];
         data = await executeQueryWithReturnId(dbConfig3, query, params);
-        console.log("data",data);
+        //console.log("data",data);
 
         if(data){
             const {
@@ -90,13 +91,14 @@ const insertNewTenderPublish = async(payload)=>{
                             TenderBidId:TenderBidId,
                             TenderId:TenderId,
                             TenderUserId:d?.TenderUserId,
-                            CreatedBy:CreatedBy
+                            CreatedBy:CreatedBy,
+                            Status:d?.Status
                         }
 
                         lists=[...lists,object];
                     })
 
-                    const result2=await insertTenderUsers(lists);
+                    const result2=await insertTenderUsers(lists,IsUpdate);
 
                     if(data && result2){
                         return {message:"success"};
@@ -110,6 +112,29 @@ const insertNewTenderPublish = async(payload)=>{
     }else{
         const query = `update TenderBidLists set OpenDate='${OpenDate}',CloseDate='${CloseDate}',UpdatedBy=${CreatedBy},UpdatedAt=getDate() where TenderBidId=${TenderBidId}`;
         data = await executeQuery(dbConfig3, query, []);
+
+        if(Users?.length){
+            let lists=[];
+            Users.forEach((d)=>{
+                const object={
+                    TenderBidId:TenderBidId,
+                    TenderId:TenderId,
+                    TenderUserId:d?.TenderUserId,
+                    CreatedBy:CreatedBy,
+                    Status:d?.Status
+                }
+
+                lists=[...lists,object];
+            })
+
+            const result2=await insertTenderUsers(lists,IsUpdate);
+
+            if(data && result2){
+                return {message:"success"};
+            }else{
+                return 0;
+            }
+        }
     }
    
     if(data){
@@ -154,42 +179,84 @@ const getTenderNo=async(TenderId)=>{
     }
 }
 
-const insertTenderUsers=async(lists)=>{
+const insertTenderUsers=async(lists,IsUpdate)=>{
     const newLists=[...lists];
 
-    const query=`DECLARE @json NVARCHAR(MAX) = '${JSON.stringify(newLists)}';
+    //console.log("Lists",lists)
+    //console.log("Upsaree",IsUpdate)
+    if(IsUpdate){
+        //console.log("Lists",lists)
+        lists.forEach(async(d)=>{
+            if(d.Status===2){
+                //console.log("Newww..")
+                const query = `insert into TenderUserMap (TenderBidId,TenderId,TenderUserId,CreatedBy)
+                values(@TenderBidId,@TenderId,@TenderUserId,@CreatedBy);`;
+                const params = [
+                    {
+                        name: "TenderBidId",
+                        value: d?.TenderBidId
+                    },
+                    {
+                        name: "TenderId",
+                        value: d?.TenderId
+                    },
+                    {
+                        name: "TenderUserId",
+                        value: d?.TenderUserId
+                    },
+                    {
+                        name: "CreatedBy",
+                        value: d?.CreatedBy
+                    }
+                ];
+                await executeQuery(dbConfig3, query, params);
+            }
+            else if(d?.Status==3){
+                //console.log("Delete")
+                const query = `update TenderUserMap set IsActive=0 where TenderUserId=${d?.TenderUserId} and TenderBidId=${d?.TenderBidId}`;
+                data = await executeQuery(dbConfig3, query, []);
+            }
 
-    CREATE TABLE #TempPosts
-    (
-        TenderBidId int,
-        TenderId int,
-        TenderUserId int,
-        CreatedBy int
-    );
-    
-    -- Insert data into the temporary table using OPENJSON
-    INSERT INTO #TempPosts (TenderBidId,TenderId,TenderUserId, CreatedBy)
-    SELECT 
-        JSON_VALUE(value, '$.TenderBidId') AS TenderBidId,
-        JSON_VALUE(value, '$.TenderId') AS TenderId,
-        JSON_VALUE(value, '$.TenderUserId') AS TenderUserId,
-        JSON_VALUE(value, '$.CreatedBy') AS CreatedBy
-    FROM OPENJSON(@json);
-    
-    -- Insert data from the temporary table into your target table
-    INSERT INTO TenderUserMap (TenderBidId,TenderId,TenderUserId, CreatedBy)
-    SELECT TenderBidId,TenderId,TenderUserId,CreatedBy
-    FROM #TempPosts;
-    
-    -- Drop the temporary table
-    DROP TABLE #TempPosts`;
+            
+        })
+        
+    }else{
+        const query=`DECLARE @json NVARCHAR(MAX) = '${JSON.stringify(newLists)}';
 
-    const data = await executeQuery(dbConfig3, query,[]);
-   
-    //console.log(data)
-    if(data){
-        return {data};
+        CREATE TABLE #TempPosts
+        (
+            TenderBidId int,
+            TenderId int,
+            TenderUserId int,
+            CreatedBy int
+        );
+        
+        -- Insert data into the temporary table using OPENJSON
+        INSERT INTO #TempPosts (TenderBidId,TenderId,TenderUserId, CreatedBy)
+        SELECT 
+            JSON_VALUE(value, '$.TenderBidId') AS TenderBidId,
+            JSON_VALUE(value, '$.TenderId') AS TenderId,
+            JSON_VALUE(value, '$.TenderUserId') AS TenderUserId,
+            JSON_VALUE(value, '$.CreatedBy') AS CreatedBy
+        FROM OPENJSON(@json);
+        
+        -- Insert data from the temporary table into your target table
+        INSERT INTO TenderUserMap (TenderBidId,TenderId,TenderUserId, CreatedBy)
+        SELECT TenderBidId,TenderId,TenderUserId,CreatedBy
+        FROM #TempPosts;
+        
+        -- Drop the temporary table
+        DROP TABLE #TempPosts`;
+
+        const data = await executeQuery(dbConfig3, query,[]);
+    
+        //console.log(data)
+        if(data){
+            return {data};
+        }
     }
+
+    return {data:"Success"}
 
 }
 

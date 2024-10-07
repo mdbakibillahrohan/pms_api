@@ -55,15 +55,16 @@ const insertNewTender = async(payload)=>{
         TenderNo, 
         TenderTitle,
         TenderDetails,
+        CategoryId,
         TenderTotalAmount,
         TenderAttachment, 
         MinimumBidAmount,
         CreatedBy
     } = payload;
 
-    const query = `insert into Tender (TenderNo,TenderTitle,TenderDescription,TotalAmount,MinimumBidAmount,TenderAttachment,CreatedBy) 
+    const query = `insert into Tender (TenderNo,TenderTitle,TenderDescription,TotalAmount,MinimumBidAmount,TenderAttachment,CategoryId,CreatedBy) 
     OUTPUT inserted.TenderId
-    values(@TenderNo,@TenderTitle,@TenderDescription,@TotalAmount,@MinimumBidAmount,@TenderAttachment,@CreatedBy);`;
+    values(@TenderNo,@TenderTitle,@TenderDescription,@TotalAmount,@MinimumBidAmount,@TenderAttachment,@CategoryId,@CreatedBy);`;
     const params = [
         {
             name: "TenderNo",
@@ -88,6 +89,10 @@ const insertNewTender = async(payload)=>{
         {
             name: "TenderAttachment",
             value: TenderAttachment
+        },
+        {
+            name: "CategoryId",
+            value: CategoryId
         },
         {
             name: "CreatedBy",

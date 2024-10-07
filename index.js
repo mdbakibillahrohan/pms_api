@@ -45,6 +45,7 @@ server.listen(port,async () => {
   console.log("Method" + '            ' + "Path");
   console.log("------" + '            ' + "-----");
   endpoints.forEach((endpoint) => {
+    //console.log(endpoint)
     const cleanedPath = endpoint.path.slice(12);
     const spaces = getSpaceForPrintingPath(endpoint.method, 15);
     console.log(getMethodColor(endpoint.method.toUpperCase()) + spaces + chalk.blueBright(cleanedPath));

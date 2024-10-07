@@ -7,8 +7,10 @@ const schema = Joi.object({
     TenderId: Joi.number().required(),
     OpenDate:Joi.date().required(),
     Description:Joi.string().required(),
+    IsUpdate:Joi.number().required(),
     Users:Joi.array().items({
-        TenderUserId:Joi.number().required()
+        TenderUserId:Joi.number().required(),
+        Status:Joi.number().max(3).required()
     }),
     CloseDate:Joi.date().required(),
     CreatedBy:Joi.number().required(),

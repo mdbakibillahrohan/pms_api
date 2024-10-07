@@ -42,6 +42,7 @@ const executeQuery = async (dbConfig, query, parameter = []) => {
     });
     const result = await request.query(query);
     if (result !== null) {
+  
       if (result.rowsAffected[0] > 0) {
         return true;
       }
@@ -85,10 +86,12 @@ const executeStoreProcedure = async (dbConfig, procedureName, parameter = []) =>
     await pool.connect();
     const request = pool.request();
     parameter.forEach((element) => {
-      request.input(element.name, element.value);
+      request.input(element.name,element.value);
     });
     const result = request.execute(procedureName);
+    
     if (result !== null) {
+     // console.log("Result:: ",await result);
       if ((await result).rowsAffected[0] > 0) {
         return (await result).recordset;
       }

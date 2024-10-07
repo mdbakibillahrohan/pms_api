@@ -7,6 +7,7 @@ const schema = Joi.object({
     TenderNo: Joi.string().required(),
     TenderTitle: Joi.string().required(),
     TenderTotalAmount: Joi.number().required(),
+    CategoryId:Joi.number().required(),
     MinimumBidAmount:Joi.number().required(),
     TenderDetails: Joi.string().required(),
     TenderAttachment:Joi.string().required(),

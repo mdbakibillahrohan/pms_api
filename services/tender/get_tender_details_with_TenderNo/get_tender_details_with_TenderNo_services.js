@@ -46,9 +46,9 @@ const getTenderLists = async (payload)=>{
     const {
         TenderNo
     }=payload;
-    const query = `select 
+    const query = `  select 
     ROW_NUMBER() OVER (ORDER BY (SELECT 1)) AS [key],
-    A.TenderId,A.TenderNo,A.TenderTitle,A.TenderDescription,A.TotalAmount,A.TenderAttachment,
+    A.TenderId,A.TenderNo,A.TenderTitle,A.TenderDescription,A.TotalAmount,A.TenderAttachment,TC.TenderCatId as TenderCatId,TC.CategoryName,
     (
     case when DATEDIFF(second,TBL.OpenDate,GETDATE())>1 and DATEDIFF(second,TBL.CloseDate,GETDATE())<1 and TBL.IsSale=0 then 'On Going'
     when DATEDIFF(second,TBL.OpenDate,GETDATE())<1 and DATEDIFF(second,TBL.CloseDate,GETDATE())<1 and TBL.IsSale=0 then 'Open Soon'
@@ -70,6 +70,7 @@ const getTenderLists = async (payload)=>{
         where AA.TenderId=A.TenderId and BB.IsDeleted=0 for json path
     ) as details
     from Tender A
+	inner join TenderCategory  TC on A.CategoryId=TC.TenderCatId
     left join TenderBidLists TBL on A.TenderId=TBL.TenderId
     where A.TenderNo='${TenderNo}' and A.IsDeleted=0`;
     const data = await getData(dbConfig3, query);

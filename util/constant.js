@@ -95,6 +95,18 @@ module.exports = {
     TMS_USER_LOGIN:"tmsUserLogin",
     TMS_USER_REGISTRATION:"tmsUserRegistration",
 
+    TMS_ADD_NEW_CATEGORY:"category/add_update",
+    TMS_DELETE_CATEGORY:'category/delete',
+    TMS_FETCH_CATEGORY:'category/fetch',
+    TMS_FETCH_CATEGORY_BY_ID:'category/fetch_by_id',
+
+    TMS_USER_CAT_MAP:'user_cat_map/create_or_update',
+    TMS_USER_CAT_LISTS:'user_cat_map/fetch_lists',
+
+    TMS_AUDIT_APPROVAL_TENDER_DETAILS:'audit_approval/fetch_details',
+    TMS_AUDIT_APPROVAL_TENDER_LISTS:'audit_approval/fetch_all',
+    TMS_AUDIT_APPROVAL_CHECK_UPDATE:"audit_approval/check_update",
+
     TMS_GRADE_LISTS:'getTenderGradeLists',
     TMS_GET_LAST_TENDER_ID:'getlastEntryTenderId',
     TMS_NEW_TENDER:"createNewTender",
@@ -117,6 +129,7 @@ module.exports = {
     TMS_GET_TENDER_USER_LISTS_ALL:'getTenderUserListsAll',
     TMS_UPDATE_TENDER_USER:'updateTenderUserStatus',
     TMS_DELETE_TENDER_USER:'deleteTenderUser',
+    TMS_USER_PASSWORD_RESET:'tender_user_passsword_reset',
 
     TMS_PUBLIC_LISTS:"getTenderListForUsers",
     TMS_PUBLIC_LISTS_DETAILS:'getTenderListsDetails',

@@ -12,6 +12,7 @@ const schema = Joi.object({
     MinimumBidAmount:Joi.number().required(),
     TenderDetails: Joi.string().required(),
     TenderAttachment:Joi.string().required(),
+    CategoryId:Joi.number().required(),
     CreatedBy:Joi.number().required(),
     Details:Joi.array().items({
         ItemName:Joi.string().required(),

@@ -11,6 +11,7 @@ const {
   controller: tms_registration_controller,
   schema: tms_registration_controller_schema,
 } = require("../controllers/authentication/tms_registration_controller");
+
 const {
   controller: addNewTenderController,
   schema: addNewTenderSchema,
@@ -92,6 +93,10 @@ const {
   schema: deleteTenderUserSchema,
 } = require("../controllers/tender/tender_user_delete/tender_user_delete_controller");
 const {
+  controller: userPassswordResetConrtroller,
+  schema: userPasswordResetSchema,
+} = require("../controllers/tender/tender_user_password_reset/tender_user_password_reset_controller");
+const {
   controller: getTenderUserListsAllController,
   schema: getTenderUserListsAllSchema,
 } = require("../controllers/tender/get_tender_user_lists/get_tender_user_lists_controller");
@@ -109,6 +114,7 @@ const {
 } = require("../controllers/tender/get_approver_lists_by_type/get_approver_lists_by_type_controller");
 
 const tender_routes = Router();
+
 
 tender_routes.get(
   API.TMS_API_CONTEXT + API.TMS_GET_LAST_TENDER_ID,
@@ -135,6 +141,9 @@ tender_routes.post(
   validator(getTenderItemSearchSchema, 'body'),
   getTenderItemsSearchController
 );
+
+
+
 
 tender_routes.post(
   API.TMS_API_CONTEXT + API.TMS_NEW_TENDER,
@@ -231,6 +240,12 @@ tender_routes.post(
   //authenticationMiddleware,
   validator(deleteTenderUserSchema, 'body'),
   deleteTenderUserController
+);
+tender_routes.post(
+  API.TMS_API_CONTEXT + API.TMS_USER_PASSWORD_RESET,
+  //authenticationMiddleware,
+  validator(userPasswordResetSchema, 'body'),
+  userPassswordResetConrtroller
 );
 tender_routes.get(
   API.TMS_API_CONTEXT + API.TMS_GET_TENDER_USER_LISTS_ALL,

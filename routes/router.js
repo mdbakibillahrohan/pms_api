@@ -18,6 +18,7 @@ const uploadFilesRouter = require('./upload_files_routes');
 
 // E- tender routes lists...
 const tmsAuthRouter = require("./tms_authentication_routes");
+const tender_routes_main=require('./tender/index')
 const tenderRoutes = require("./tender_routes");
 const tender_public=require('./tender_public_routes')
 
@@ -40,5 +41,6 @@ appRouter.use(uploadFilesRouter);
 // appRouter.use(returnWashApprovalRouter);
 appRouter.use(tmsAuthRouter);
 appRouter.use(tender_public);
+appRouter.use(tender_routes_main);
 appRouter.use(tenderRoutes);
 module.exports = appRouter;
