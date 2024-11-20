@@ -10,6 +10,7 @@ const schema=Joi.object({
     Items:Joi.array().items({
         ItemId:Joi.number().required(),
         ItemName:Joi.string().optional(),
+        TenderGrade:Joi.string().optional(),
         ItemQuantity:Joi.number().optional(),
         AuditQuantity:Joi.number().required(),
         AuditRemarks:Joi.string().optional()

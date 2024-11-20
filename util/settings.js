@@ -25,36 +25,36 @@ const dbConfig2 = {
     }
 };
 
-const dbConfig3 = {
-	user: "sa",
-	password: "n3wdb$3rv3r@hgr0up",
-	// server: "192.168.61.49",
-	server: "192.168.3.10",
-	database: "ETender",
-	// port:1433,
-	//port: 4368,
-	//database: "ERPUSERDB",
-    options: {
-        encrypt: true, // for azure
-        trustServerCertificate: true // change to true for local dev / self-signed certs
-    }
-};
 // const dbConfig3 = {
 // 	user: "sa",
-// 	password: "w23eW@#E",
+// 	password: "n3wdb$3rv3r@hgr0up",
 // 	// server: "192.168.61.49",
-// 	server: "103.147.182.50",
+// 	server: "192.168.3.10",
 // 	database: "ETender",
-// 	port:1433,
+// 	// port:1433,
 // 	//port: 4368,
 // 	//database: "ERPUSERDB",
 //     options: {
-//         encrypt: true, // for azure,
-// 		connectionTimeout: 100000,
-//         requestTimeout: 100000,
+//         encrypt: true, // for azure
 //         trustServerCertificate: true // change to true for local dev / self-signed certs
 //     }
 // };
+const dbConfig3 = {
+	user: "sa",
+	password: "w23eW@#E",
+	// server: "192.168.61.49",
+	server: "103.147.182.50",
+	database: "ETender",
+	port:1433,
+	//port: 4368,
+	//database: "ERPUSERDB",
+    options: {
+        encrypt: true, // for azure,
+		connectionTimeout: 100000,
+        requestTimeout: 100000,
+        trustServerCertificate: true // change to true for local dev / self-signed certs
+    }
+};
 
 
 const approvalSequence = [];

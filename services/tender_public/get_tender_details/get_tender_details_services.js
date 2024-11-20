@@ -34,25 +34,29 @@ const getTenderLists = async (payload)=>{
 		const str=get_cat_id_in_string(lists);
 
 		if(str){
-			const query = `select A.TenderBidId,A.TenderId,B.TenderNo,B.TenderTitle,B.TenderAttachment,
+			const query = `select AA.TenderBidId,AA.TenderId,B.TenderNo,B.TenderTitle,B.TenderAttachment,
 			(
-				case when DATEDIFF(second,A.OpenDate,GETDATE())>1 and DATEDIFF(second,DATEADD(MINUTE,ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=A.TenderBidId),0),A.CloseDate),GETDATE())<1 then 1
-				when DATEDIFF(second,A.OpenDate,GETDATE())<1 and DATEDIFF(second,DATEADD(MINUTE,ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=A.TenderBidId),0),A.CloseDate),GETDATE())<1 then 2
+				case when DATEDIFF(second,AA.OpenDate,GETDATE())>1 and DATEDIFF(second,DATEADD(MINUTE,ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=AA.TenderBidId),0),AA.CloseDate),GETDATE())<1 then 1
+				when DATEDIFF(second,AA.OpenDate,GETDATE())<1 and DATEDIFF(second,DATEADD(MINUTE,ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=AA.TenderBidId),0),AA.CloseDate),GETDATE())<1 then 2
 				else 3
 				end
 			) as TimeStatus,
 			(
-				case when DATEDIFF(second,A.OpenDate,GETDATE())>1 and DATEDIFF(second,DATEADD(MINUTE,ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=A.TenderBidId),0),A.CloseDate),GETDATE())<1 then DATEDIFF(second,GETDATE(),DATEADD(MINUTE,ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=A.TenderBidId),0),A.CloseDate))
-				when DATEDIFF(second,A.OpenDate,GETDATE())<1 and DATEDIFF(second,DATEADD(MINUTE,ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=A.TenderBidId),0),A.CloseDate),GETDATE())<1 then DATEDIFF(second,GETDATE(),A.OpenDate)
+				case when DATEDIFF(second,AA.OpenDate,GETDATE())>1 and DATEDIFF(second,DATEADD(MINUTE,ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=AA.TenderBidId),0),AA.CloseDate),GETDATE())<1 then DATEDIFF(second,GETDATE(),DATEADD(MINUTE,ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=AA.TenderBidId),0),AA.CloseDate))
+				when DATEDIFF(second,AA.OpenDate,GETDATE())<1 and DATEDIFF(second,DATEADD(MINUTE,ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=AA.TenderBidId),0),AA.CloseDate),GETDATE())<1 then DATEDIFF(second,GETDATE(),AA.OpenDate)
 				else '000'
 				end
 			) as Times,
 			(
-				ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=A.TenderBidId),0) 
+				ISNULL((SELECT SUM(K.Minutes) FROM TimerLogs K WHERE K.TenderBidId=AA.TenderBidId),0) 
 			) as ExtraTimes,
 			(
 				Select 
 					A.ItemId,
+					(
+						case when AA.HasLastPriceFixed >0 then 1
+						else 0 end
+					)as HasLastPriceFixed ,
 					A.ItemName+' '+A.ItemRemarks as ItemName,
 					(
 						case when TG.TenderGradeId is not null then TG.GradeName
@@ -91,8 +95,8 @@ const getTenderLists = async (payload)=>{
 			A.AuditQuantity,B.BidPrice
 				for json path
 			) details
-			from TenderBidLists A
-			inner join Tender B on A.TenderId=B.TenderId
+			from TenderBidLists AA
+			inner join Tender B on AA.TenderId=B.TenderId
 			inner join TenderCategory C on B.CategoryId=C.TenderCatId
 			where B.TenderNo='${TenderNo}' and C.TenderCatId in (${str})`;
 			const data = await getData(dbConfig3, query);

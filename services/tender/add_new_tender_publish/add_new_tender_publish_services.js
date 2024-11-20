@@ -40,7 +40,8 @@ const insertNewTenderPublish = async(payload)=>{
         TenderBidId,
         TenderId,
         Description,
-        Users, 
+        Users,
+        ReOpen,
         OpenDate,
         CloseDate,
         CreatedBy,
@@ -50,9 +51,9 @@ const insertNewTenderPublish = async(payload)=>{
 
     let data;
     if(TenderBidId===10001){
-        const query = `insert into TenderBidLists (TenderId,Description,OpenDate,CloseDate,CreatedBy) 
+        const query = `insert into TenderBidLists (TenderId,Description,OpenDate,CloseDate,HasLastPriceFixed,CreatedBy) 
         OUTPUT inserted.TenderBidId
-        values(@TenderId,@Description,@OpenDate,@CloseDate,@CreatedBy);`;
+        values(@TenderId,@Description,@OpenDate,@CloseDate,@HasLastPriceFixed,@CreatedBy);`;
         const params = [
             {
                 name: "TenderId",
@@ -69,6 +70,10 @@ const insertNewTenderPublish = async(payload)=>{
             {
                 name: "CloseDate",
                 value: CloseDate
+            },
+            {
+                name: "HasLastPriceFixed",
+                value: ReOpen
             },
             {
                 name: "CreatedBy",
@@ -110,7 +115,7 @@ const insertNewTenderPublish = async(payload)=>{
         }
 
     }else{
-        const query = `update TenderBidLists set OpenDate='${OpenDate}',CloseDate='${CloseDate}',UpdatedBy=${CreatedBy},UpdatedAt=getDate() where TenderBidId=${TenderBidId}`;
+        const query = `update TenderBidLists set OpenDate='${OpenDate}',CloseDate='${CloseDate}',UpdatedBy=${CreatedBy},HasLastPriceFixed=${ReOpen},UpdatedAt=getDate() where TenderBidId=${TenderBidId}`;
         data = await executeQuery(dbConfig3, query, []);
 
         if(Users?.length){

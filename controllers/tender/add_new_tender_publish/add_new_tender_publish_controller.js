@@ -8,6 +8,7 @@ const schema = Joi.object({
     OpenDate:Joi.date().required(),
     Description:Joi.string().required(),
     IsUpdate:Joi.number().required(),
+    ReOpen:Joi.number().valid(0, 1).optional(),
     Users:Joi.array().items({
         TenderUserId:Joi.number().required(),
         Status:Joi.number().max(3).required()
